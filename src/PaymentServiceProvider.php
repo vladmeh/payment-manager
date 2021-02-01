@@ -9,8 +9,8 @@ class PaymentServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/config.php',
-            'package'
+            __DIR__.'/../config/payment.php',
+            'payment'
         );
     }
 
@@ -18,8 +18,8 @@ class PaymentServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('package.php'),
-            ], 'package-config');
+                __DIR__.'/../config/payment.php' => config_path('payment.php'),
+            ], 'payment');
 
 //            $this->publishes([
 //                __DIR__ . '/../database/migrations' => database_path('migrations'),
