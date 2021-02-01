@@ -1,0 +1,39 @@
+{
+    "name": "vladmeh/payment-manager",
+    "version": "1.0.0",
+    "description": "Payment system manager",
+    "license": "MIT",
+    "keywords": ["laravel", "Payment system"],
+    "homepage": "https://github.com/vladmeh/payment-manager",
+    "authors": [
+        {
+            "name": "Mikhaylov.V",
+            "email": "mihailov.v@fhclub.ru"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0",
+        "orchestra/testbench": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vladmeh\\PaymentManager\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Vladmeh\\PaymentManager\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Vladmeh\\PaymentManager\\PaymentServiceProvider"
+            ]
+        }
+    }
+}
