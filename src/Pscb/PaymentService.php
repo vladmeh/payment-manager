@@ -7,16 +7,16 @@ namespace Vladmeh\PaymentManager\Pscb;
 class PaymentService
 {
     /**
-     * Создание платежа (запрос на создание платежа в ПСКБ)
+     * Создание данных для запроса создания платежа в ПСКБ
      *
      * @param PaymentOrder $order
      * @param PaymentCustomer $customer
      * @param array $requestParameters
-     * @return PaymentRequest
+     * @return PaymentRequestData
      */
-    public function createPayment(PaymentOrder $order, PaymentCustomer $customer, array $requestParameters = []): PaymentRequest
+    public function createDataPayment(PaymentOrder $order, PaymentCustomer $customer, array $requestParameters = []): PaymentRequestData
     {
-        return PaymentRequest::make($order->getAmount(), $order->getOrderId(), $requestParameters)
+        return PaymentRequestData::make($order->getAmount(), $order->getOrderId(), $requestParameters)
             ->setCustomerAccount($customer->getAccount())
             ->setCustomerEmail($customer->getEmail())
             ->setCustomerPhone($customer->getPhone())

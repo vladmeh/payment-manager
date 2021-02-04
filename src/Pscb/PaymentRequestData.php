@@ -10,12 +10,12 @@ use Illuminate\Support\Str;
 
 /**
  * Class PaymentRequest
- * Запрос на создание платежа в платежной системе ПСКБ
+ * Объект с данными для запроса создания платежа в платежной системе ПСКБ
  * @link https://docs.pscb.ru/oos/api.html#api-magazina-sozdanie-platezha-zapros
  *
  * @package Vladmeh\PaymentManager\Pscb
  */
-final class PaymentRequest implements Arrayable
+final class PaymentRequestData implements Arrayable
 {
 
     /**
@@ -208,9 +208,9 @@ final class PaymentRequest implements Arrayable
      * @param int $amount
      * @param string $orderId
      * @param array $params
-     * @return PaymentRequest
+     * @return PaymentRequestData
      */
-    public static function make(int $amount, string $orderId, array $params = []): PaymentRequest
+    public static function make(int $amount, string $orderId, array $params = []): PaymentRequestData
     {
         return new static($amount, $orderId, $params);
     }
@@ -218,7 +218,7 @@ final class PaymentRequest implements Arrayable
     /**
      * Случайная строка для соблюдения уникальности каждого запроса к API.
      *
-     * @return PaymentRequest
+     * @return PaymentRequestData
      */
     public function setNonce(): self
     {
@@ -228,7 +228,7 @@ final class PaymentRequest implements Arrayable
 
     /**
      * @param string $showOrderId
-     * @return PaymentRequest
+     * @return PaymentRequestData
      */
     public function setShowOrderId(string $showOrderId): self
     {
@@ -238,7 +238,7 @@ final class PaymentRequest implements Arrayable
 
     /**
      * @param string $details
-     * @return PaymentRequest
+     * @return PaymentRequestData
      */
     public function setDetails(string $details): self
     {
@@ -248,7 +248,7 @@ final class PaymentRequest implements Arrayable
 
     /**
      * @param string $paymentMethod
-     * @return PaymentRequest
+     * @return PaymentRequestData
      */
     public function setPaymentMethod(string $paymentMethod): self
     {
@@ -258,7 +258,7 @@ final class PaymentRequest implements Arrayable
 
     /**
      * @param string $successUrl
-     * @return PaymentRequest
+     * @return PaymentRequestData
      */
     public function setSuccessUrl(string $successUrl): self
     {
@@ -268,7 +268,7 @@ final class PaymentRequest implements Arrayable
 
     /**
      * @param string $failUrl
-     * @return PaymentRequest
+     * @return PaymentRequestData
      */
     public function setFailUrl(string $failUrl): self
     {
@@ -278,7 +278,7 @@ final class PaymentRequest implements Arrayable
 
     /**
      * @param string $displayLanguage
-     * @return PaymentRequest
+     * @return PaymentRequestData
      */
     public function setDisplayLanguage(string $displayLanguage): self
     {
@@ -288,7 +288,7 @@ final class PaymentRequest implements Arrayable
 
     /**
      * @param array $data
-     * @return PaymentRequest
+     * @return PaymentRequestData
      */
     public function setData(array $data): self
     {
@@ -298,7 +298,7 @@ final class PaymentRequest implements Arrayable
 
     /**
      * @param string $customerAccount
-     * @return PaymentRequest
+     * @return PaymentRequestData
      */
     public function setCustomerAccount(string $customerAccount): self
     {
@@ -308,7 +308,7 @@ final class PaymentRequest implements Arrayable
 
     /**
      * @param string $customerComment
-     * @return PaymentRequest
+     * @return PaymentRequestData
      */
     public function setCustomerComment(string $customerComment): self
     {
@@ -318,7 +318,7 @@ final class PaymentRequest implements Arrayable
 
     /**
      * @param string $customerEmail
-     * @return PaymentRequest
+     * @return PaymentRequestData
      */
     public function setCustomerEmail(string $customerEmail): self
     {
@@ -328,7 +328,7 @@ final class PaymentRequest implements Arrayable
 
     /**
      * @param string $customerPhone
-     * @return PaymentRequest
+     * @return PaymentRequestData
      */
     public function setCustomerPhone(string $customerPhone): self
     {

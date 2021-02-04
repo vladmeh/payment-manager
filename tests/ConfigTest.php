@@ -14,6 +14,5 @@ class ConfigTest extends TestCase
         $this->assertArrayHasKey('pscb', $config);
 
         $this->assertIsArray(config('payment.pscb'));
-        print_r(config('payment.pscb'));
     }
 }

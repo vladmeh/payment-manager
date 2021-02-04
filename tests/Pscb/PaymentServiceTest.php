@@ -62,7 +62,7 @@ class PaymentServiceTest extends TestCase
      */
     public function createPayment(): void
     {
-        $paymentRequest = $this->paymentService->createPayment($this->order, $this->customer);
+        $paymentRequest = $this->paymentService->createDataPayment($this->order, $this->customer);
         $message = $paymentRequest->toArray();
 
         $this->assertIsArray($message);
@@ -94,7 +94,7 @@ class PaymentServiceTest extends TestCase
         $data = ['debug' => true, 'hold' => false];
         $params = compact('successUrl', 'failUrl', 'data');
 
-        $paymentRequest = $this->paymentService->createPayment($this->order, $this->customer, $params);
+        $paymentRequest = $this->paymentService->createDataPayment($this->order, $this->customer, $params);
         $message = $paymentRequest->toArray();
 
         $this->assertIsArray($message);
