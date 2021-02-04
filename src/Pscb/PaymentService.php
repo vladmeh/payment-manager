@@ -17,7 +17,6 @@ class PaymentService
     public function createPayment(PaymentOrder $order, PaymentCustomer $customer, array $requestParameters = []): PaymentRequest
     {
         return PaymentRequest::make($order->getAmount(), $order->getOrderId(), $requestParameters)
-            ->setNonce()
             ->setCustomerAccount($customer->getAccount())
             ->setCustomerEmail($customer->getEmail())
             ->setCustomerPhone($customer->getPhone())

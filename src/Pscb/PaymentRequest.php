@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace Vladmeh\PaymentManager\Pscb;
@@ -14,7 +15,7 @@ use Illuminate\Support\Str;
  *
  * @package Vladmeh\PaymentManager\Pscb
  */
-class PaymentRequest implements Arrayable
+final class PaymentRequest implements Arrayable
 {
 
     /**
