@@ -6,16 +6,17 @@ namespace Vladmeh\PaymentManager\Pscb;
 
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Str;
 
 /**
- * Class PaymentRequest
- * Объект с данными для запроса создания платежа в платежной системе ПСКБ
+ * Class PaymentRequestData
+ * Объект с данными для запроса создания платежа в системе ПСКБ
  * @link https://docs.pscb.ru/oos/api.html#api-magazina-sozdanie-platezha-zapros
  *
  * @package Vladmeh\PaymentManager\Pscb
  */
-final class PaymentRequestData implements Arrayable
+final class PaymentRequestData implements Arrayable, Jsonable
 {
 
     /**
@@ -203,6 +204,12 @@ final class PaymentRequestData implements Arrayable
     {
         return array_filter(get_object_vars($this));
     }
+
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray(), $options);
+    }
+
 
     /**
      * @param int $amount

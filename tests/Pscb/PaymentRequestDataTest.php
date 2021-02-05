@@ -97,4 +97,28 @@ class PaymentRequestDataTest extends TestCase
         $this->assertArrayHasKey('data', $message);
         $this->assertArrayHasKey('debug', $message['data']);
     }
+
+    /**
+     * @test
+     */
+    public function it_can_be_get_data_to_json(): void
+    {
+        $paymentRequest = PaymentRequestData::make(200, '123')
+            ->setShowOrderId('123')
+            ->setDetails('details')
+            ->setPaymentMethod('ac')
+            ->setCustomerAccount('1234567890')
+            ->setCustomerComment('Customer comment')
+            ->setCustomerEmail('customer@email.test')
+            ->setCustomerPhone('+7(123)456-78-90')
+            ->setSuccessUrl('http://test.example.com/success')
+            ->setFailUrl('http://test.example.com/fail')
+            ->setDisplayLanguage('RU')
+            ->setNonce()
+            ->setData(['debug' => true, 'hold' => false]);
+
+        $json = $paymentRequest->toJson();
+
+        $this->assertJson($json);
+    }
 }
