@@ -23,7 +23,6 @@ class PaymentServiceTest extends TestCase
         $this->paymentService = new PaymentService();
 
         $this->order = new class implements PaymentOrder {
-
             public function getAmount(): int
             {
                 return 200;
@@ -36,7 +35,6 @@ class PaymentServiceTest extends TestCase
         };
 
         $this->customer = new class implements PaymentCustomer {
-
             public function getAccount(): string
             {
                 return '1234567890';
@@ -59,19 +57,19 @@ class PaymentServiceTest extends TestCase
         };
 
         $this->response_message = [
-            "payments" => [
+            'payments' => [
                 [
-                    "orderId" => "1585687620",
-                    "showOrderId" => "1585687620",
-                    "paymentId" => "245215353",
-                    "account" => "9046100317",
-                    "amount" => 12900.00,
-                    "state" => "exp",
-                    "marketPlace" => 212036621,
-                    "paymentMethod" => "ac",
-                    "stateDate" => "2020-04-01T00:52:57.268+03:00"
+                    'orderId' => '1585687620',
+                    'showOrderId' => '1585687620',
+                    'paymentId' => '245215353',
+                    'account' => '9046100317',
+                    'amount' => 12900.00,
+                    'state' => 'exp',
+                    'marketPlace' => 212036621,
+                    'paymentMethod' => 'ac',
+                    'stateDate' => '2020-04-01T00:52:57.268+03:00',
                 ],
-            ]
+            ],
         ];
     }
 
@@ -182,8 +180,8 @@ class PaymentServiceTest extends TestCase
      */
     public function testCheckPayment(): void
     {
-        $orderId = "1612343963";
-        $marketPlace = "293284740";
+        $orderId = '1612343963';
+        $marketPlace = '293284740';
 
         $response = $this->paymentService->checkPayment($orderId, $marketPlace, true, true);
         print_r($response);

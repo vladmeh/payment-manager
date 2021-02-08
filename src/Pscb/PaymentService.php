@@ -1,9 +1,6 @@
 <?php
 
-
 namespace Vladmeh\PaymentManager\Pscb;
-
-
 
 use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
@@ -11,7 +8,7 @@ use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 class PaymentService
 {
     /**
-     * Создание данных для запроса создания платежа в ПСКБ
+     * Создание данных для запроса создания платежа в ПСКБ.
      *
      * @param PaymentOrder $order
      * @param PaymentCustomer $customer
@@ -42,12 +39,12 @@ class PaymentService
         $messageText = json_encode(compact('orderId', 'marketPlace', 'requestCardData', 'requestFiscalData'));
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, config('payment.pscb.merchantApiUrl') . 'checkPayment');
+        curl_setopt($ch, CURLOPT_URL, config('payment.pscb.merchantApiUrl').'checkPayment');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $messageText);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('signature: ' . $this->signature($messageText)));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['signature: '.$this->signature($messageText)]);
         $out = curl_exec($ch);
         curl_close($ch);
 
@@ -60,13 +57,13 @@ class PaymentService
      * @param string $messageText JSON UTF8
      * @return string
      */
-    public final function signature(string $messageText): string
+    final public function signature(string $messageText): string
     {
-        return hash('sha256', $messageText . config('payment.pscb.secretKey'));
+        return hash('sha256', $messageText.config('payment.pscb.secretKey'));
     }
 
     /**
-     * Формирование URL запроса создания платежа
+     * Формирование URL запроса создания платежа.
      *
      * @param PaymentRequestData $requestData Объект с данными для запроса создания платежа
      * @param string|null $marketPlace Идентификатор Магазина
@@ -79,11 +76,11 @@ class PaymentService
 
         $params = [
             'marketPlace' => $marketPlace ?? config('payment.pscb.marketPlace'),
-            "message" => base64_encode($message),
-            "signature" => $this->signature($message)
+            'message' => base64_encode($message),
+            'signature' => $this->signature($message),
         ];
 
-        return url($request_url) . '?' . http_build_query($params);
+        return url($request_url).'?'.http_build_query($params);
     }
 
     /**
@@ -98,8 +95,9 @@ class PaymentService
             $merchant_key = config('payment.pscb.secretKey');
         }
 
-        $key_md5_binary = hash("md5", $merchant_key, true);
-        return openssl_decrypt($encrypted, "AES-128-ECB", $key_md5_binary, OPENSSL_RAW_DATA);
+        $key_md5_binary = hash('md5', $merchant_key, true);
+
+        return openssl_decrypt($encrypted, 'AES-128-ECB', $key_md5_binary, OPENSSL_RAW_DATA);
     }
 
     /**
@@ -114,7 +112,8 @@ class PaymentService
             $merchant_key = config('payment.pscb.secretKey');
         }
 
-        $key_md5_binary = hash("md5", $merchant_key, true);
-        return openssl_encrypt($message, "AES-128-ECB", $key_md5_binary, OPENSSL_RAW_DATA);
+        $key_md5_binary = hash('md5', $merchant_key, true);
+
+        return openssl_encrypt($message, 'AES-128-ECB', $key_md5_binary, OPENSSL_RAW_DATA);
     }
 }
