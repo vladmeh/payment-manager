@@ -1,8 +1,7 @@
 <?php
 
 return [
-    'system' => env('PAYMENT_SYSTEM', ''),
-    'subProject' => env('PAYMENT_SUB_PROJECT', ''),
+    'system' => env('PAYMENT_SYSTEM', 'pscb'),
 
     /*
      * Настройки для ПСКБ
