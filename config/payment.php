@@ -53,5 +53,5 @@ return [
          * String; maxlength: 1024
          */
         'failUrl' => env('PSCB_FAIL_URL', ''),
-    ]
+    ],
 ];

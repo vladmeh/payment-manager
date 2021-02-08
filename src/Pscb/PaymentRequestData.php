@@ -1,9 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-
 namespace Vladmeh\PaymentManager\Pscb;
-
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -11,17 +10,14 @@ use Illuminate\Support\Str;
 
 /**
  * Class PaymentRequestData
- * Объект с данными для запроса создания платежа в системе ПСКБ
+ * Объект с данными для запроса создания платежа в системе ПСКБ.
  * @link https://docs.pscb.ru/oos/api.html#api-magazina-sozdanie-platezha-zapros
- *
- * @package Vladmeh\PaymentManager\Pscb
  */
 final class PaymentRequestData implements Arrayable, Jsonable
 {
-
     /**
      * Сумма платежа в рублях. Разделитель целой и дробной части – точка.
-     * min: 1.00
+     * min: 1.00.
      *
      * @var int
      */
@@ -29,7 +25,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * Уникальный идентификатор платежа на стороне Мерчанта.
-     * minlength: 4, maxlength: 20
+     * minlength: 4, maxlength: 20.
      *
      * @var string
      */
@@ -38,7 +34,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
     /**
      * Идентификатор платежа, отображаемый Плательщику.
      * Если не передан или пустой, значение заимствуется из orderId.
-     * minlength: 4, maxlength: 20
+     * minlength: 4, maxlength: 20.
      *
      * @var string
      */
@@ -46,7 +42,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * Детали платежа. Используется для передачи любых дополнительных параметров.
-     * maxlength: 2048
+     * maxlength: 2048.
      *
      * @var string
      */
@@ -73,7 +69,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
      * Уникальный идентификатор Плательщика.
      * Если включена опция сохранения данных карты, используется для создания связки
      * “плательщик - карта” в рамках конкретного Магазина.
-     * minlength: 4, maxlength: 20
+     * minlength: 4, maxlength: 20.
      *
      * @var string
      */
@@ -81,7 +77,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * Комментарий Плательщика.
-     * maxlength: 255
+     * maxlength: 255.
      *
      * @var string
      */
@@ -89,7 +85,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * Контактный e-mail Плательщика.
-     * maxlength: 512
+     * maxlength: 512.
      *
      * @var string
      */
@@ -97,7 +93,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * Контактный телефон Плательщика в международном формате.
-     * maxlength: 32
+     * maxlength: 32.
      *
      * @var string
      */
@@ -132,7 +128,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
      * допустимые значения параметра:
      * '' - язык выберется автоматически
      * 'RU' - русский
-     * 'EN' - английский
+     * 'EN' - английский.
      *
      * @var string
      */
@@ -193,7 +189,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
      */
     public function setParams(array $arguments)
     {
-        if (!empty($arguments)) {
+        if (! empty($arguments)) {
             foreach ($arguments as $param => $argument) {
                 property_exists($this, $param) && $this->{$param} = $argument;
             }
@@ -209,7 +205,6 @@ final class PaymentRequestData implements Arrayable, Jsonable
     {
         return json_encode($this->toArray(), $options);
     }
-
 
     /**
      * @param int $amount
@@ -229,7 +224,8 @@ final class PaymentRequestData implements Arrayable, Jsonable
      */
     public function setNonce(): self
     {
-        $this->nonce = sha1(time() . Str::random(8));
+        $this->nonce = sha1(time().Str::random(8));
+
         return $this;
     }
 
@@ -240,6 +236,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
     public function setShowOrderId(string $showOrderId): self
     {
         $this->showOrderId = $showOrderId;
+
         return $this;
     }
 
@@ -250,6 +247,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
     public function setDetails(string $details): self
     {
         $this->details = $details;
+
         return $this;
     }
 
@@ -260,6 +258,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
     public function setPaymentMethod(string $paymentMethod): self
     {
         $this->paymentMethod = $paymentMethod;
+
         return $this;
     }
 
@@ -270,6 +269,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
     public function setSuccessUrl(string $successUrl): self
     {
         $this->successUrl = $successUrl;
+
         return $this;
     }
 
@@ -280,6 +280,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
     public function setFailUrl(string $failUrl): self
     {
         $this->failUrl = $failUrl;
+
         return $this;
     }
 
@@ -290,6 +291,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
     public function setDisplayLanguage(string $displayLanguage): self
     {
         $this->displayLanguage = $displayLanguage;
+
         return $this;
     }
 
@@ -300,6 +302,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
     public function setData(array $data): self
     {
         $this->data = $data;
+
         return $this;
     }
 
@@ -310,6 +313,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
     public function setCustomerAccount(string $customerAccount): self
     {
         $this->customerAccount = $customerAccount;
+
         return $this;
     }
 
@@ -320,6 +324,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
     public function setCustomerComment(string $customerComment): self
     {
         $this->customerComment = $customerComment;
+
         return $this;
     }
 
@@ -330,6 +335,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
     public function setCustomerEmail(string $customerEmail): self
     {
         $this->customerEmail = $customerEmail;
+
         return $this;
     }
 
@@ -340,6 +346,7 @@ final class PaymentRequestData implements Arrayable, Jsonable
     public function setCustomerPhone(string $customerPhone): self
     {
         $this->customerPhone = $customerPhone;
+
         return $this;
     }
 }

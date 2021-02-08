@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Vladmeh\PaymentManager\Contracts;
-
 
 interface PaymentCustomer
 {
