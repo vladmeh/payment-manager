@@ -4,16 +4,18 @@ language: php
 php:
   - 7.2
   - 7.3
+  - 7.4
 
 cache:
   directories:
     - $HOME/.composer/cache
 
-before_install:
-  - travis_retry composer self-update
-  - composer config discard-changes true
+#before_install:
+#  - travis_retry composer self-update
+#  - composer config discard-changes true
 
 before_script:
+  - travis_retry composer self-update
   - travis_retry composer update --no-progress --prefer-dist
 
 script:
