@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Vladmeh\PaymentManager\Pscb;
+namespace Vladmeh\PaymentManager\Contracts;
 
 
 interface PaymentCustomer

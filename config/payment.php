@@ -23,7 +23,7 @@ return [
         'secretKey' => env('PSCB_MERCHANT_KEY', '111111'),
 
         /*
-         * Адрес запроса
+         * Адрес запроса плетежей
          * для тестирования используйте https://oosdemo.pscb.ru/pay/
          */
         'requestUrl' => env('PSCB_REQUEST_URL', 'https://oosdemo.pscb.ru/pay/'),

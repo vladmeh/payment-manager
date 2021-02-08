@@ -2,8 +2,8 @@
 
 namespace Vladmeh\PaymentManager\Tests\Pscb;
 
-use Vladmeh\PaymentManager\Pscb\PaymentCustomer;
-use Vladmeh\PaymentManager\Pscb\PaymentOrder;
+use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
+use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
@@ -14,6 +14,8 @@ class PaymentServiceTest extends TestCase
     private $order;
 
     private $customer;
+
+    private $response_message;
 
     protected function setUp(): void
     {
@@ -55,12 +57,28 @@ class PaymentServiceTest extends TestCase
                 return 'Comment';
             }
         };
+
+        $this->response_message = [
+            "payments" => [
+                [
+                    "orderId" => "1585687620",
+                    "showOrderId" => "1585687620",
+                    "paymentId" => "245215353",
+                    "account" => "9046100317",
+                    "amount" => 12900.00,
+                    "state" => "exp",
+                    "marketPlace" => 212036621,
+                    "paymentMethod" => "ac",
+                    "stateDate" => "2020-04-01T00:52:57.268+03:00"
+                ],
+            ]
+        ];
     }
 
     /**
      * @test
      */
-    public function createPayment(): void
+    public function testCreatePayment(): void
     {
         $paymentRequest = $this->paymentService->createDataPayment($this->order, $this->customer);
         $message = $paymentRequest->toArray();
@@ -109,5 +127,67 @@ class PaymentServiceTest extends TestCase
 
         $this->assertEquals($successUrl, $message['successUrl']);
         $this->assertEquals($failUrl, $message['failUrl']);
+    }
+
+    /**
+     * @test
+     */
+    public function testSignature(): void
+    {
+        $requestData = $this->paymentService->createDataPayment($this->order, $this->customer);
+        $message = $requestData->toJson();
+
+        $signature = $this->paymentService->signature($message);
+        print_r($signature);
+        $this->assertIsString($signature);
+    }
+
+    /**
+     * @test
+     */
+    public function testPayRequestUrl(): void
+    {
+        $requestData = $this->paymentService->createDataPayment($this->order, $this->customer);
+        $payRequestUrl = $this->paymentService->payRequestUrl($requestData);
+
+        print_r($payRequestUrl);
+        $this->assertIsString($payRequestUrl);
+    }
+
+    /**
+     * @test
+     */
+    public function testDecrypt(): void
+    {
+        $encrypt_message = $this->paymentService->encrypt(json_encode($this->response_message));
+        $decrypt_message = $this->paymentService->decrypt($encrypt_message);
+
+        $this->assertJson($decrypt_message);
+        $this->assertEquals($this->response_message, json_decode($decrypt_message, true));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_decrypt_false_encrypted_message(): void
+    {
+        $encrypt_message = $this->paymentService->encrypt(json_encode($this->response_message), 'invalid');
+        $decrypt_message = $this->paymentService->decrypt($encrypt_message);
+
+        $this->assertFalse($decrypt_message);
+    }
+
+    /**
+     * @test
+     */
+    public function testCheckPayment(): void
+    {
+        $orderId = "1612343963";
+        $marketPlace = "293284740";
+
+        $response = $this->paymentService->checkPayment($orderId, $marketPlace, true, true);
+        print_r($response);
+
+        $this->assertJson($response);
     }
 }

@@ -18,5 +18,6 @@
     <php>
         <env name="DB_CONNECTION" value="testing"/>
         <env name="PSCB_SUCCESS_URL" value="http://testing"/>
+        <env name="PSCB_MERCHANT_ID" value="0000000000"/>
     </php>
 </phpunit>
