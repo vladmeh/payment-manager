@@ -134,9 +134,8 @@ class PaymentServiceTest extends TestCase
     {
         $requestData = $this->paymentService->createDataPayment($this->order, $this->customer);
         $message = $requestData->toJson();
-
         $signature = $this->paymentService->signature($message);
-        print_r($signature);
+
         $this->assertIsString($signature);
     }
 
@@ -148,7 +147,6 @@ class PaymentServiceTest extends TestCase
         $requestData = $this->paymentService->createDataPayment($this->order, $this->customer);
         $payRequestUrl = $this->paymentService->payRequestUrl($requestData);
 
-        print_r($payRequestUrl);
         $this->assertIsString($payRequestUrl);
     }
 
@@ -182,9 +180,7 @@ class PaymentServiceTest extends TestCase
     {
         $orderId = '1612343963';
         $marketPlace = '293284740';
-
         $response = $this->paymentService->checkPayment($orderId, $marketPlace, true, true);
-        print_r($response);
 
         $this->assertJson($response);
     }
