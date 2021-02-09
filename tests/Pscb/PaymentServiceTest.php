@@ -2,6 +2,7 @@
 
 namespace Vladmeh\PaymentManager\Tests\Pscb;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
@@ -119,6 +120,7 @@ class PaymentServiceTest extends TestCase
 
     /**
      * @test
+     * @throws GuzzleException
      */
     public function testCheckPayment(): void
     {
@@ -131,6 +133,7 @@ class PaymentServiceTest extends TestCase
 
     /**
      * @test
+     * @throws GuzzleException
      */
     public function testGetPayments(): void
     {

@@ -1,9 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Vladmeh\PaymentManager\Pscb;
 
 use DateTime;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Carbon;
+use Psr\Http\Message\StreamInterface;
 use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 
@@ -32,56 +37,38 @@ class PaymentService
      * @param bool $requestCardData Флаг запроса расширенной информации о платеже банковской картой.
      * @param bool $requestFiscalData Флаг запроса информации о чеках, связанных с платежом.
      *
-     * @return bool|string
+     * @return string
+     * @throws GuzzleException
      */
-    public function checkPayment(string $orderId, string $marketPlace = null, bool $requestCardData = false, bool $requestFiscalData = false)
+    public function checkPayment(string $orderId, string $marketPlace = null, bool $requestCardData = false, bool $requestFiscalData = false): string
     {
         $marketPlace = $marketPlace ?? config('payment.pscb.marketPlace');
 
-        $messageText = json_encode(compact('orderId', 'marketPlace', 'requestCardData', 'requestFiscalData'));
+        $messageData = compact('orderId', 'marketPlace', 'requestCardData', 'requestFiscalData');
+        $messageText = json_encode($messageData);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, config('payment.pscb.merchantApiUrl').'checkPayment');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $messageText);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['signature: '.$this->signature($messageText)]);
-        $out = curl_exec($ch);
-        curl_close($ch);
-
-        return $out;
+        return $this->response('checkPayment', $messageText);
     }
 
     /**
-     * @param string|null $marketPlace Уникальный идентификатор Магазина в Системе. Если не передан, значение параметра будет взято из настроек сервиса
-     * @param DateTime|null $dateFrom Нижняя граница выборки (включительно). По умолчанию месяц.
-     * @param DateTime|null $dateTo Верхняя граница выборки (исключительно).
-     * @param string $merchant ID Мерчанта. Если параметр передан, будет запрошен список платежей по всем Магазинам Мерчанта.
-     * @param string $selectMode Тип выборки. Возможные значения: paid – завершённые платежи (значение по умолчанию), created – созданные платежи.
-     *
-     * @return bool|string
+     * @param string $messageText
+     * @param string $uri
+     * @return StreamInterface
+     * @throws GuzzleException
      */
-    public function getPayments(string $marketPlace = null, DateTime $dateFrom = null, DateTime $dateTo = null, string $merchant = '', string $selectMode = 'paid')
+    private function response(string $uri, string $messageText): string
     {
-        $marketPlace = $marketPlace ?? config('payment.pscb.marketPlace');
-        $dateFrom = $dateFrom ?? Carbon::now()->subMonth();
+        $client = new Client(['base_uri' => config('payment.pscb.merchantApiUrl')]);
 
-        $message = compact('marketPlace', 'dateFrom', 'dateTo', 'merchant', 'selectMode');
+        $response = $client->request('POST', $uri, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'signature' => $this->signature($messageText)
+            ],
+            'body' => $messageText
+        ]);
 
-        $messageText = json_encode(array_filter($message));
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, config('payment.pscb.merchantApiUrl').'getPayments');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $messageText);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['signature: '.$this->signature($messageText)]);
-        $out = curl_exec($ch);
-        curl_close($ch);
-
-        return $out;
+        return $response->getBody()->getContents();
     }
 
     /**
@@ -92,7 +79,28 @@ class PaymentService
      */
     final public function signature(string $messageText): string
     {
-        return hash('sha256', $messageText.config('payment.pscb.secretKey'));
+        return hash('sha256', $messageText . config('payment.pscb.secretKey'));
+    }
+
+    /**
+     * @param string|null $marketPlace Уникальный идентификатор Магазина в Системе. Если не передан, значение параметра будет взято из настроек сервиса
+     * @param DateTime|null $dateFrom Нижняя граница выборки (включительно). По умолчанию месяц.
+     * @param DateTime|null $dateTo Верхняя граница выборки (исключительно).
+     * @param string $merchant ID Мерчанта. Если параметр передан, будет запрошен список платежей по всем Магазинам Мерчанта.
+     * @param string $selectMode Тип выборки. Возможные значения: paid – завершённые платежи (значение по умолчанию), created – созданные платежи.
+     *
+     * @return string JSON UTF8
+     * @throws GuzzleException
+     */
+    public function getPayments(string $marketPlace = null, DateTime $dateFrom = null, DateTime $dateTo = null, string $merchant = '', string $selectMode = 'paid'): string
+    {
+        $marketPlace = $marketPlace ?? config('payment.pscb.marketPlace');
+        $dateFrom = $dateFrom ?? Carbon::now()->subMonth();
+
+        $messageData = compact('marketPlace', 'dateFrom', 'dateTo', 'merchant', 'selectMode');
+        $messageText = json_encode(array_filter($messageData));
+
+        return $this->response('getPayments', $messageText);
     }
 
     /**
@@ -113,7 +121,7 @@ class PaymentService
             'signature' => $this->signature($message),
         ];
 
-        return url($request_url).'?'.http_build_query($params);
+        return url($request_url) . '?' . http_build_query($params);
     }
 
     /**
@@ -122,7 +130,7 @@ class PaymentService
      * @param null $merchant_key string секретный ключ мерчанта; текстовая строка
      * @return mixed расшифрованное сообщение; массив байтов, одновременно - строка в кодировке UTF-8
      */
-    public function decrypt($encrypted, $merchant_key = null)
+    final public function decrypt($encrypted, $merchant_key = null)
     {
         if (null == $merchant_key) {
             $merchant_key = config('payment.pscb.secretKey');
@@ -139,7 +147,7 @@ class PaymentService
      * @param null $merchant_key string секретный ключ мерчанта; текстовая строка
      * @return mixed зашифрованное сообщение; массив байтов
      */
-    public function encrypt(string $message, $merchant_key = null)
+    final public function encrypt(string $message, $merchant_key = null)
     {
         if (null == $merchant_key) {
             $merchant_key = config('payment.pscb.secretKey');
