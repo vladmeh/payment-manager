@@ -63,9 +63,9 @@ class PaymentService
         $response = $client->request('POST', $uri, [
             'headers' => [
                 'Content-Type' => 'application/json',
-                'signature' => $this->signature($messageText)
+                'signature' => $this->signature($messageText),
             ],
-            'body' => $messageText
+            'body' => $messageText,
         ]);
 
         return $response->getBody()->getContents();
