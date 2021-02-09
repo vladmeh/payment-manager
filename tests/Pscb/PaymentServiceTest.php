@@ -2,7 +2,6 @@
 
 namespace Vladmeh\PaymentManager\Tests\Pscb;
 
-use Illuminate\Support\Carbon;
 use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
@@ -17,62 +16,6 @@ class PaymentServiceTest extends TestCase
     private $customer;
 
     private $response_message;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->paymentService = new PaymentService();
-
-        $this->order = new class implements PaymentOrder {
-            public function getAmount(): int
-            {
-                return 200;
-            }
-
-            public function getOrderId(): string
-            {
-                return '123';
-            }
-        };
-
-        $this->customer = new class implements PaymentCustomer {
-            public function getAccount(): string
-            {
-                return '1234567890';
-            }
-
-            public function getEmail(): string
-            {
-                return 'customer@mail.test';
-            }
-
-            public function getPhone(): string
-            {
-                return '+7(123)456-78-90';
-            }
-
-            public function getComment(): string
-            {
-                return 'Comment';
-            }
-        };
-
-        $this->response_message = [
-            'payments' => [
-                [
-                    'orderId' => '1585687620',
-                    'showOrderId' => '1585687620',
-                    'paymentId' => '245215353',
-                    'account' => '9046100317',
-                    'amount' => 12900.00,
-                    'state' => 'exp',
-                    'marketPlace' => 212036621,
-                    'paymentMethod' => 'ac',
-                    'stateDate' => '2020-04-01T00:52:57.268+03:00',
-                ],
-            ],
-        ];
-    }
 
     /**
      * @test
@@ -179,11 +122,11 @@ class PaymentServiceTest extends TestCase
      */
     public function testCheckPayment(): void
     {
-         $orderId = 'INVOICE-229396278';
-         $marketPlace = '47607';
-         $response = $this->paymentService->checkPayment($orderId, $marketPlace, true, true);
+        $orderId = 'INVOICE-229396278';
+        $marketPlace = '47607';
+        $response = $this->paymentService->checkPayment($orderId, $marketPlace, true, true);
 
-         $this->assertJson($response);
+        $this->assertJson($response);
     }
 
     /**
@@ -195,5 +138,61 @@ class PaymentServiceTest extends TestCase
         $response = $this->paymentService->getPayments($marketPlace);
 
         $this->assertJson($response);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->paymentService = new PaymentService();
+
+        $this->order = new class implements PaymentOrder {
+            public function getAmount(): int
+            {
+                return 200;
+            }
+
+            public function getOrderId(): string
+            {
+                return '123';
+            }
+        };
+
+        $this->customer = new class implements PaymentCustomer {
+            public function getAccount(): string
+            {
+                return '1234567890';
+            }
+
+            public function getEmail(): string
+            {
+                return 'customer@mail.test';
+            }
+
+            public function getPhone(): string
+            {
+                return '+7(123)456-78-90';
+            }
+
+            public function getComment(): string
+            {
+                return 'Comment';
+            }
+        };
+
+        $this->response_message = [
+            'payments' => [
+                [
+                    'orderId' => '1585687620',
+                    'showOrderId' => '1585687620',
+                    'paymentId' => '245215353',
+                    'account' => '9046100317',
+                    'amount' => 12900.00,
+                    'state' => 'exp',
+                    'marketPlace' => 212036621,
+                    'paymentMethod' => 'ac',
+                    'stateDate' => '2020-04-01T00:52:57.268+03:00',
+                ],
+            ],
+        ];
     }
 }
