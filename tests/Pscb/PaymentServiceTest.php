@@ -2,6 +2,7 @@
 
 namespace Vladmeh\PaymentManager\Tests\Pscb;
 
+use Illuminate\Support\Carbon;
 use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
@@ -178,11 +179,21 @@ class PaymentServiceTest extends TestCase
      */
     public function testCheckPayment(): void
     {
-        // $orderId = '1612343963';
-        // $marketPlace = '293284740';
-        // $response = $this->paymentService->checkPayment($orderId, $marketPlace, true, true);
-        //
-        // $this->assertJson($response);
-        $this->assertTrue(true);
+         $orderId = 'INVOICE-229396278';
+         $marketPlace = '47607';
+         $response = $this->paymentService->checkPayment($orderId, $marketPlace, true, true);
+
+         $this->assertJson($response);
+    }
+
+    /**
+     * @test
+     */
+    public function testGetPayments(): void
+    {
+        $marketPlace = '47607';
+        $response = $this->paymentService->getPayments($marketPlace);
+
+        $this->assertJson($response);
     }
 }

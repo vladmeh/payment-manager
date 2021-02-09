@@ -2,6 +2,8 @@
 
 namespace Vladmeh\PaymentManager\Pscb;
 
+use DateTime;
+use Illuminate\Support\Carbon;
 use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 
@@ -40,6 +42,37 @@ class PaymentService
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, config('payment.pscb.merchantApiUrl').'checkPayment');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $messageText);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['signature: '.$this->signature($messageText)]);
+        $out = curl_exec($ch);
+        curl_close($ch);
+
+        return $out;
+    }
+
+    /**
+     * @param string|null $marketPlace Уникальный идентификатор Магазина в Системе. Если не передан, значение параметра будет взято из настроек сервиса
+     * @param DateTime|null $dateFrom Нижняя граница выборки (включительно). По умолчанию месяц.
+     * @param DateTime|null $dateTo Верхняя граница выборки (исключительно).
+     * @param string $merchant ID Мерчанта. Если параметр передан, будет запрошен список платежей по всем Магазинам Мерчанта.
+     * @param string $selectMode Тип выборки. Возможные значения: paid – завершённые платежи (значение по умолчанию), created – созданные платежи.
+     *
+     * @return bool|string
+     */
+    public function getPayments(string $marketPlace = null, DateTime $dateFrom = null, DateTime $dateTo = null, string $merchant = '', string $selectMode = 'paid')
+    {
+        $marketPlace = $marketPlace ?? config('payment.pscb.marketPlace');
+        $dateFrom = $dateFrom ?? Carbon::now()->subMonth();
+
+        $message = compact('marketPlace', 'dateFrom', 'dateTo', 'merchant', 'selectMode');
+
+        $messageText = json_encode(array_filter($message));
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, config('payment.pscb.merchantApiUrl').'getPayments');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $messageText);
