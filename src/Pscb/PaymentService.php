@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Vladmeh\PaymentManager\Pscb;
 
 use DateTime;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Carbon;
-use Psr\Http\Message\StreamInterface;
+use Illuminate\Support\Facades\Http;
 use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 
@@ -38,7 +37,6 @@ class PaymentService
      * @param bool $requestFiscalData Флаг запроса информации о чеках, связанных с платежом.
      *
      * @return string
-     * @throws GuzzleException
      */
     public function checkPayment(string $orderId, string $marketPlace = null, bool $requestCardData = false, bool $requestFiscalData = false): string
     {
@@ -47,28 +45,22 @@ class PaymentService
         $messageData = compact('orderId', 'marketPlace', 'requestCardData', 'requestFiscalData');
         $messageText = json_encode($messageData);
 
-        return $this->response('checkPayment', $messageText);
+        return $this->response('checkPayment', $messageText)->body();
     }
 
     /**
      * @param string $messageText
      * @param string $uri
-     * @return StreamInterface
-     * @throws GuzzleException
+     * @return Response
      */
-    private function response(string $uri, string $messageText): string
+    private function response(string $uri, string $messageText): Response
     {
-        $client = new Client(['base_uri' => config('payment.pscb.merchantApiUrl')]);
-
-        $response = $client->request('POST', $uri, [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'signature' => $this->signature($messageText),
-            ],
-            'body' => $messageText,
-        ]);
-
-        return $response->getBody()->getContents();
+        return Http::baseUrl(config('payment.pscb.merchantApiUrl'))
+            ->withHeaders([
+                'signature' => $this->signature($messageText)
+            ])
+            ->withBody($messageText, 'application/json')
+            ->post($uri);
     }
 
     /**
@@ -90,9 +82,12 @@ class PaymentService
      * @param string $selectMode Тип выборки. Возможные значения: paid – завершённые платежи (значение по умолчанию), created – созданные платежи.
      *
      * @return string JSON UTF8
-     * @throws GuzzleException
      */
-    public function getPayments(string $marketPlace = null, DateTime $dateFrom = null, DateTime $dateTo = null, string $merchant = '', string $selectMode = 'paid'): string
+    public function getPayments(string $marketPlace = null,
+                                DateTime $dateFrom = null,
+                                DateTime $dateTo = null,
+                                string $merchant = '',
+                                string $selectMode = 'paid'): string
     {
         $marketPlace = $marketPlace ?? config('payment.pscb.marketPlace');
         $dateFrom = $dateFrom ?? Carbon::now()->subMonth();
@@ -100,7 +95,7 @@ class PaymentService
         $messageData = compact('marketPlace', 'dateFrom', 'dateTo', 'merchant', 'selectMode');
         $messageText = json_encode(array_filter($messageData));
 
-        return $this->response('getPayments', $messageText);
+        return $this->response('getPayments', $messageText)->body();
     }
 
     /**

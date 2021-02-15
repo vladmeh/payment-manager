@@ -120,7 +120,6 @@ class PaymentServiceTest extends TestCase
 
     /**
      * @test
-     * @throws GuzzleException
      */
     public function testCheckPayment(): void
     {
