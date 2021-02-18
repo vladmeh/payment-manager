@@ -41,6 +41,7 @@ class PaymentService
     public function checkPaymentOrderCallable(string $orderId, callable $callable, ...$arguments)
     {
         $response = $this->checkPaymentOrder($orderId, ...$arguments);
+
         return call_user_func($callable, $response);
     }
 
