@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
  * Объект с данными для запроса создания платежа в системе ПСКБ.
  * @link https://docs.pscb.ru/oos/api.html#api-magazina-sozdanie-platezha-zapros
  */
-final class PaymentRequestData implements Arrayable, Jsonable
+class PaymentRequestData implements Arrayable, Jsonable
 {
     /**
      * Сумма платежа в рублях. Разделитель целой и дробной части – точка.

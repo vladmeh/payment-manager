@@ -39,7 +39,7 @@ or add the following to your requirement part within the composer.json:
 ```json
 {
     "require": {
-        "vladmeh/payment-manager": "^1.*"
+        "vladmeh/payment-manager": "^2.*"
     }
 }
 ```
@@ -85,7 +85,7 @@ PSCB_FAIL_URL=https://youmarket.com/fail
 Если вам нужны расширенные свойства конфигурации, запустите:
 
 ```bash
-$ php artisan vendor:publish --tag=payment
+$ php artisan vendor:publish --tag=payment-config
 ```
 
 Эта команда создаст файл конфигурации ```\config\payment.php```

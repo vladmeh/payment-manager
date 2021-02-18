@@ -9,21 +9,34 @@ class PaymentServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/payment.php',
+            __DIR__ . '/../config/payment.php',
             'payment'
         );
     }
 
     public function boot()
     {
+        $this->registerMigrations();
+        $this->registerPublishing();
+    }
+
+    private function registerMigrations()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        }
+    }
+
+    private function registerPublishing()
+    {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/payment.php' => config_path('payment.php'),
-            ], 'payment');
+                __DIR__ . '/../config/payment.php' => config_path('payment.php'),
+            ], 'payment-config');
 
-//            $this->publishes([
-//                __DIR__ . '/../database/migrations' => database_path('migrations'),
-//            ], 'package-migrations');
+            $this->publishes([
+                __DIR__ . '/../database/migrations' => database_path('migrations'),
+            ], 'payment-migrations');
         }
     }
 }

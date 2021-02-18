@@ -32,28 +32,43 @@ class PaymentService
 
     /**
      * @param string $orderId Уникальный идентификатор платежа на стороне Мерчанта (магазина), для которого запрашивается действие.
+     * @param callable $callable Функция обратного вызова, позволяющая динамически обрабатывать полученный ответ
+     * @param mixed ...$arguments
+     * @see checkPaymentOrder()
+     *
+     * @return mixed
+     */
+    public function checkPaymentOrderCallable(string $orderId, callable $callable, ...$arguments)
+    {
+        $response = $this->checkPaymentOrder($orderId, ...$arguments);
+        return call_user_func($callable, $response);
+    }
+
+    /**
+     * @param string $orderId Уникальный идентификатор платежа на стороне Мерчанта (магазина), для которого запрашивается действие.
      * @param string|null $marketPlace Идентификатор Магазина, которому принадлежит orderId.
      * @param bool $requestCardData Флаг запроса расширенной информации о платеже банковской картой.
      * @param bool $requestFiscalData Флаг запроса информации о чеках, связанных с платежом.
      *
-     * @return string
+     * @return Response
      */
-    public function checkPayment(string $orderId, string $marketPlace = null, bool $requestCardData = false, bool $requestFiscalData = false): string
+    public function checkPaymentOrder(string $orderId, string $marketPlace = null, bool $requestCardData = false, bool $requestFiscalData = false): Response
     {
         $marketPlace = $marketPlace ?? config('payment.pscb.marketPlace');
 
         $messageData = compact('orderId', 'marketPlace', 'requestCardData', 'requestFiscalData');
         $messageText = json_encode($messageData);
 
-        return $this->response('checkPayment', $messageText)->body();
+        return $this->request('checkPayment', $messageText);
     }
 
     /**
      * @param string $messageText
      * @param string $uri
+     *
      * @return Response
      */
-    private function response(string $uri, string $messageText): Response
+    private function request(string $uri, string $messageText): Response
     {
         return Http::baseUrl(config('payment.pscb.merchantApiUrl'))
             ->withHeaders([
@@ -81,13 +96,13 @@ class PaymentService
      * @param string $merchant ID Мерчанта. Если параметр передан, будет запрошен список платежей по всем Магазинам Мерчанта.
      * @param string $selectMode Тип выборки. Возможные значения: paid – завершённые платежи (значение по умолчанию), created – созданные платежи.
      *
-     * @return string JSON UTF8
+     * @return Response
      */
     public function getPayments(string $marketPlace = null,
                                 DateTime $dateFrom = null,
                                 DateTime $dateTo = null,
                                 string $merchant = '',
-                                string $selectMode = 'paid'): string
+                                string $selectMode = 'paid'): Response
     {
         $marketPlace = $marketPlace ?? config('payment.pscb.marketPlace');
         $dateFrom = $dateFrom ?? Carbon::now()->subMonth();
@@ -95,7 +110,7 @@ class PaymentService
         $messageData = compact('marketPlace', 'dateFrom', 'dateTo', 'merchant', 'selectMode');
         $messageText = json_encode(array_filter($messageData));
 
-        return $this->response('getPayments', $messageText)->body();
+        return $this->request('getPayments', $messageText);
     }
 
     /**

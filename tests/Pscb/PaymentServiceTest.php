@@ -2,7 +2,7 @@
 
 namespace Vladmeh\PaymentManager\Tests\Pscb;
 
-use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\Client\Response;
 use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
@@ -121,25 +121,47 @@ class PaymentServiceTest extends TestCase
     /**
      * @test
      */
-    public function testCheckPayment(): void
+    public function testCheckPaymentOrder(): void
     {
         $orderId = 'INVOICE-229396278';
         $marketPlace = '47607';
-        $response = $this->paymentService->checkPayment($orderId, $marketPlace, true, true);
+        $response = $this->paymentService->checkPaymentOrder($orderId, $marketPlace, true, true);
 
-        $this->assertJson($response);
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertJson($response->body());
     }
 
     /**
      * @test
-     * @throws GuzzleException
+     */
+    public function testCheckPaymentOrderCallable(): void
+    {
+        $orderId = 'INVOICE-229396278';
+        $marketPlace = '47607';
+
+        $response = $this->paymentService->checkPaymentOrderCallable($orderId, function (Response $response) {
+            $json = $response->body();
+            $array = $response->json();
+
+            $this->assertJson($json);
+            $this->assertIsArray($array);
+
+            return $response;
+        }, $marketPlace, true, true);
+
+        $this->assertInstanceOf(Response::class, $response);
+    }
+
+    /**
+     * @test
      */
     public function testGetPayments(): void
     {
         $marketPlace = '47607';
         $response = $this->paymentService->getPayments($marketPlace);
 
-        $this->assertJson($response);
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertJson($response->body());
     }
 
     protected function setUp(): void
