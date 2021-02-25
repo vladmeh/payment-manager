@@ -10,11 +10,11 @@
             <directory suffix=".php">tests/</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+    <coverage processUncoveredFiles="true">
+        <include>
             <directory suffix=".php">src/</directory>
-        </whitelist>
-    </filter>
+        </include>
+    </coverage>
     <php>
         <env name="DB_CONNECTION" value="testing"/>
         <env name="PSCB_SUCCESS_URL" value="http://testing"/>

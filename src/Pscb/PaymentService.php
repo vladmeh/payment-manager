@@ -7,12 +7,19 @@ namespace Vladmeh\PaymentManager\Pscb;
 use DateTime;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Http;
 use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 
 class PaymentService
 {
+    /** @var PaymentRequest */
+    private $paymentRequest;
+
+    public function __construct(PaymentRequest $paymentRequest)
+    {
+        $this->paymentRequest = $paymentRequest;
+    }
+
     /**
      * Создание данных для запроса создания платежа в ПСКБ.
      *
@@ -32,17 +39,17 @@ class PaymentService
 
     /**
      * @param string $orderId Уникальный идентификатор платежа на стороне Мерчанта (магазина), для которого запрашивается действие.
-     * @param callable $callable Функция обратного вызова, позволяющая динамически обрабатывать полученный ответ
+     * @param \Closure $callback Функция обратного вызова, позволяющая динамически обрабатывать полученный ответ
      * @param mixed ...$arguments
+     * @return mixed
      * @see checkPaymentOrder()
      *
-     * @return mixed
      */
-    public function checkPaymentOrderCallable(string $orderId, callable $callable, ...$arguments)
+    public function checkPaymentOrderCallable(string $orderId, \Closure $callback, ...$arguments)
     {
         $response = $this->checkPaymentOrder($orderId, ...$arguments);
 
-        return call_user_func($callable, $response);
+        return $callback($response);
     }
 
     /**
@@ -71,12 +78,8 @@ class PaymentService
      */
     private function request(string $uri, string $messageText): Response
     {
-        return Http::baseUrl(config('payment.pscb.merchantApiUrl'))
-            ->withHeaders([
-                'signature' => $this->signature($messageText)
-            ])
-            ->withBody($messageText, 'application/json')
-            ->post($uri);
+        $signature = $this->signature($messageText);
+        return $this->paymentRequest->request($uri, $messageText, $signature);
     }
 
     /**

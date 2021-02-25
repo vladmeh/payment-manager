@@ -5,6 +5,7 @@ namespace Vladmeh\PaymentManager\Tests\Pscb;
 use Illuminate\Http\Client\Response;
 use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
+use Vladmeh\PaymentManager\Pscb\PaymentRequest;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
@@ -167,7 +168,7 @@ class PaymentServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->paymentService = new PaymentService();
+        $this->paymentService = new PaymentService(new PaymentRequest);
 
         $this->order = new class implements PaymentOrder {
             public function getAmount(): int
