@@ -21,7 +21,7 @@ class OrderTest extends TestCase
 
         $this->assertDatabaseHas('orders', ['amount' => 100, 'details' => 'Тестовая услуга']);
         $this->assertEquals(100, $order->amount);
-        $this->assertEquals("Тестовая услуга", $order->details);
+        $this->assertEquals('Тестовая услуга', $order->details);
     }
 
     /**

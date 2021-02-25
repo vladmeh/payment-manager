@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Vladmeh\PaymentManager\Support;
-
 
 trait StatusTrait
 {
@@ -15,6 +13,7 @@ trait StatusTrait
         if (array_key_exists($state, self::STATUS)) {
             return self::STATUS[$state];
         }
+
         return $state;
     }
 }

@@ -14,14 +14,14 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->uuid('uuid')->primary()->comment("Уникальный идентификатор заказа");
-            $table->string('showOrderId')->comment("Идентификатор заказа, отображаемый клиенту в ПС");
-            $table->decimal('amount')->comment("Сумма заказа в рублях");
-            $table->timestamp('created_at')->comment("Дата создания заказа");
-            $table->string('state')->comment("Статус заказа");
+            $table->uuid('uuid')->primary()->comment('Уникальный идентификатор заказа');
+            $table->string('showOrderId')->comment('Идентификатор заказа, отображаемый клиенту в ПС');
+            $table->decimal('amount')->comment('Сумма заказа в рублях');
+            $table->timestamp('created_at')->comment('Дата создания заказа');
+            $table->string('state')->comment('Статус заказа');
 
-            $table->text('details')->nullable()->default('')->comment("Детали заказа");
-            $table->timestamp('updated_at')->nullable()->comment("Дата обновления записи заказа");
+            $table->text('details')->nullable()->default('')->comment('Детали заказа');
+            $table->timestamp('updated_at')->nullable()->comment('Дата обновления записи заказа');
         });
     }
 

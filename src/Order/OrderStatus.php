@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Vladmeh\PaymentManager\Order;
-
 
 use Vladmeh\PaymentManager\Support\StatusTrait;
 
@@ -13,7 +11,7 @@ class OrderStatus
     /**
      * Создан новый заказ,
      * еще не отправлен на обработку в платежную систему,
-     * платежная система о заказе ничего не знает
+     * платежная система о заказе ничего не знает.
      */
     const CREATE = 'создан';
 
@@ -47,21 +45,21 @@ class OrderStatus
     /**
      * Заказ в ПС не найден
      * По запросу к платежной системе получет ответ
-     * со статусом STATUS_FAILURE, errorCode = UNKNOWN_PAYMENT
+     * со статусом STATUS_FAILURE, errorCode = UNKNOWN_PAYMENT.
      */
     const NOT_FOUND = 'не найден в ПС';
 
     /**
      * Ошибка запроса к ПС
      * По запросу к платежной системе получет ответ
-     * со статусом STATUS_FAILURE, errorCode != UNKNOWN_PAYMENT
+     * со статусом STATUS_FAILURE, errorCode != UNKNOWN_PAYMENT.
      */
     const ERROR = 'error';
 
     /**
      * Заказ закрыт.
      * Заказ оплачен в ПС и разнесен по базам, на товары в заказе
-     * получены договора (контракты)
+     * получены договора (контракты).
      */
     const CLOSE = 'закрыт';
 
@@ -75,5 +73,4 @@ class OrderStatus
         'error' => self::ERROR,
         'canceled' => self::CANCELED
     ];
-
 }

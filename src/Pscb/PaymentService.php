@@ -41,9 +41,9 @@ class PaymentService
      * @param string $orderId Уникальный идентификатор платежа на стороне Мерчанта (магазина), для которого запрашивается действие.
      * @param \Closure $callback Функция обратного вызова, позволяющая динамически обрабатывать полученный ответ
      * @param mixed ...$arguments
-     * @return mixed
      * @see checkPaymentOrder()
      *
+     * @return mixed
      */
     public function checkPaymentOrderCallable(string $orderId, \Closure $callback, ...$arguments)
     {
@@ -79,6 +79,7 @@ class PaymentService
     private function request(string $uri, string $messageText): Response
     {
         $signature = $this->signature($messageText);
+
         return $this->paymentRequest->request($uri, $messageText, $signature);
     }
 

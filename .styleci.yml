@@ -2,3 +2,4 @@ preset: laravel
 disabled:
   - trailing_comma_in_multiline_array
   - concat_without_spaces
+  - phpdoc_summary
