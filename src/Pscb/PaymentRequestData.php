@@ -180,7 +180,7 @@ class PaymentRequestData implements Arrayable, Jsonable
         config('payment.pscb.paymentMethod') && $this->paymentMethod = config('payment.pscb.paymentMethod');
         config('payment.pscb.successUrl') && $this->successUrl = config('payment.pscb.successUrl');
         config('payment.pscb.failUrl') && $this->failUrl = config('payment.pscb.failUrl');
-        config('payment.pscb.displayLanguage') && $this->displayLanguage = config('payment.pscb.displayLang');
+        config('payment.pscb.displayLanguage') && $this->displayLanguage = config('payment.pscb.displayLanguage');
     }
 
     /**
