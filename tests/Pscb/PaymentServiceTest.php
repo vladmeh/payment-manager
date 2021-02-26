@@ -4,8 +4,6 @@ namespace Vladmeh\PaymentManager\Tests\Pscb;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Response;
-use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
-use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 use Vladmeh\PaymentManager\Models\Customer;
 use Vladmeh\PaymentManager\Models\Order;
 use Vladmeh\PaymentManager\Pscb\PaymentRequest;

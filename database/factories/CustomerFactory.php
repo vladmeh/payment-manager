@@ -8,6 +8,7 @@ use Vladmeh\PaymentManager\Models\Customer;
 /** @var Factory $factory */
 $factory->define(Customer::class, function (Faker $faker) {
     $phone = $faker->e164PhoneNumber;
+
     return [
         'account' => Str::substr($phone, 2),
         'email' => $faker->email,
