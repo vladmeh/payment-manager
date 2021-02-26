@@ -2,15 +2,20 @@
 
 namespace Vladmeh\PaymentManager\Tests\Pscb;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Response;
 use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
+use Vladmeh\PaymentManager\Models\Customer;
+use Vladmeh\PaymentManager\Models\Order;
 use Vladmeh\PaymentManager\Pscb\PaymentRequest;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
 class PaymentServiceTest extends TestCase
 {
+    use RefreshDatabase;
+
     private $paymentService;
 
     private $order;
@@ -170,39 +175,17 @@ class PaymentServiceTest extends TestCase
         parent::setUp();
         $this->paymentService = new PaymentService(new PaymentRequest);
 
-        $this->order = new class implements PaymentOrder {
-            public function getAmount(): int
-            {
-                return 200;
-            }
+        $this->order = factory(Order::class)->create([
+            'amount' => 200,
+            'details' => 'Тестовая услуга'
+        ]);
 
-            public function getOrderId(): string
-            {
-                return '123';
-            }
-        };
-
-        $this->customer = new class implements PaymentCustomer {
-            public function getAccount(): string
-            {
-                return '1234567890';
-            }
-
-            public function getEmail(): string
-            {
-                return 'customer@mail.test';
-            }
-
-            public function getPhone(): string
-            {
-                return '+7(123)456-78-90';
-            }
-
-            public function getComment(): string
-            {
-                return 'Comment';
-            }
-        };
+        $this->customer = factory(Customer::class)->create([
+            'account' => '1234567890',
+            'email' => 'customer@mail.test',
+            'phone' => '+7(123)456-78-90',
+            'comment' => 'Comment'
+        ]);
 
         $this->response_message = [
             'payments' => [
