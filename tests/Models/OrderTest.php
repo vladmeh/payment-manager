@@ -69,9 +69,9 @@ class OrderTest extends TestCase
     {
         $order = factory(Order::class)->create();
         $dataOrderItem = [
-            'quantity' => 1,
-            'name' => 'Тестовая услуга',
-            'price' => 100
+            'text' => 'Тестовая услуга',
+            'price' => 100,
+            'quantity' => 2,
         ];
         $order->orderItems()->create($dataOrderItem);
 

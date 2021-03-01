@@ -7,9 +7,8 @@ use Vladmeh\PaymentManager\Models\OrderItem;
 /** @var Factory $factory */
 $factory->define(OrderItem::class, function (Faker $faker) {
     return [
-        'quantity' => $faker->numberBetween(1, 3),
+        'text' => $faker->sentence(4),
         'price' => $faker->numerify('###00'),
-
-        'name' => $faker->sentence(4),
+        'quantity' => $faker->numberBetween(1, 3),
     ];
 });

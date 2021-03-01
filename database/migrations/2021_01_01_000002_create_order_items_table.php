@@ -16,9 +16,9 @@ class CreateOrderItemsTable extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
 
-            $table->integer('quantity')->default(0)->comment('Количество товара');
-            $table->decimal('price')->comment('Цена за единицу товара');
-            $table->string('name')->comment('Наименование товара');
+            $table->string('text')->comment('Наименование позиции.');
+            $table->decimal('price')->comment('Цена позиции (с учётом НДС).');
+            $table->integer('quantity')->default(1)->comment('Количество позиций.');
 
             $table->foreignUuid('order_id')
                 ->nullable()
