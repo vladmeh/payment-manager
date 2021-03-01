@@ -5,6 +5,7 @@ namespace Vladmeh\PaymentManager\Tests\Models;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 use Vladmeh\PaymentManager\Models\Order;
+use Vladmeh\PaymentManager\Models\OrderItem;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
 class OrderTest extends TestCase
@@ -46,5 +47,35 @@ class OrderTest extends TestCase
             ->create();
 
         $this->assertEquals($order->uuid, $order->getOrderId());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_added_order_item_model(): void
+    {
+        $order = factory(Order::class)->create();
+        $orderItem = factory(OrderItem::class)->create();
+        $order->orderItems()->save($orderItem);
+
+        $this->assertInstanceOf(OrderItem::class, $order->orderItems->first());
+        $this->assertEquals($order->uuid, $order->orderItems->first()->order_id);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_added_order_item_from_attributes(): void
+    {
+        $order = factory(Order::class)->create();
+        $dataOrderItem = [
+            'quantity' => 1,
+            'name' => 'Тестовая услуга',
+            'price' => 100
+        ];
+        $order->orderItems()->create($dataOrderItem);
+
+        $this->assertInstanceOf(OrderItem::class, $order->orderItems->first());
+        $this->assertEquals($order->uuid, $order->orderItems->first()->order_id);
     }
 }
