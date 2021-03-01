@@ -15,7 +15,6 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('uuid')->primary()->comment('Уникальный идентификатор заказа');
-            $table->string('showOrderId')->comment('Идентификатор заказа, отображаемый клиенту в ПС');
             $table->decimal('amount')->comment('Сумма заказа в рублях');
             $table->timestamp('created_at')->comment('Дата создания заказа');
             $table->string('state')->comment('Статус заказа');

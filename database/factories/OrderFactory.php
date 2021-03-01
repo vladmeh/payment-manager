@@ -8,7 +8,6 @@ use Vladmeh\PaymentManager\Models\Order;
 $factory->define(Order::class, function (Faker $faker) {
     return [
         'uuid' => $faker->uuid,
-        'showOrderId' => date_timestamp_get(date_create()),
         'amount' => random_int(1, 1000),
         'state' => $faker->word,
         'details' => $faker->paragraph

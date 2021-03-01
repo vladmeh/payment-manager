@@ -20,6 +20,5 @@ class Order extends Model implements PaymentOrder
     {
         $this->attributes['created_at'] = $value;
         $this->attributes['uuid'] = Uuid::uuid6();
-        $this->attributes['showOrderId'] = date_timestamp_get(date_create());
     }
 }
