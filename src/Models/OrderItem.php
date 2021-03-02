@@ -15,6 +15,10 @@ class OrderItem extends Model
 
     protected $appends = ['amount'];
 
+    protected $attributes = [
+        'quantity' => 1
+    ];
+
     public function getAmountAttribute()
     {
         return $this->price * $this->quantity;

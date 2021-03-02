@@ -3,7 +3,6 @@
 namespace Vladmeh\PaymentManager\Tests\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 use Vladmeh\PaymentManager\Models\Order;
 use Vladmeh\PaymentManager\Models\OrderItem;
 use Vladmeh\PaymentManager\Tests\TestCase;
@@ -20,7 +19,7 @@ class OrderTest extends TestCase
         $order = factory(Order::class)
             ->create(['amount' => 100, 'details' => 'Тестовая услуга', 'state' => 'create']);
 
-        $this->assertInstanceOf(PaymentOrder::class, $order);
+        $this->assertDatabaseCount('orders', 1);
         $this->assertDatabaseHas('orders', ['amount' => 100, 'details' => 'Тестовая услуга']);
         $this->assertEquals(100, $order->amount);
         $this->assertEquals('Тестовая услуга', $order->details);
@@ -58,7 +57,8 @@ class OrderTest extends TestCase
         $orderItem = factory(OrderItem::class)->create();
         $order->orderItems()->save($orderItem);
 
-        $this->assertInstanceOf(OrderItem::class, $order->orderItems->first());
+        $this->assertDatabaseCount('orders', 1);
+        $this->assertDatabaseCount('order_items', 1);
         $this->assertEquals($order->uuid, $order->orderItems->first()->order_id);
     }
 
@@ -75,7 +75,8 @@ class OrderTest extends TestCase
         ];
         $order->orderItems()->create($dataOrderItem);
 
-        $this->assertInstanceOf(OrderItem::class, $order->orderItems->first());
+        $this->assertDatabaseCount('orders', 1);
+        $this->assertDatabaseCount('order_items', 1);
         $this->assertEquals($order->uuid, $order->orderItems->first()->order_id);
     }
 }
