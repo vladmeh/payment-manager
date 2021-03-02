@@ -3,7 +3,7 @@
 namespace Vladmeh\PaymentManager;
 
 use Illuminate\Support\ServiceProvider;
-use Vladmeh\PaymentManager\Pscb\PaymentRequest;
+use Vladmeh\PaymentManager\Pscb\PaymentHandler;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
 
 class PaymentServiceProvider extends ServiceProvider
@@ -16,7 +16,7 @@ class PaymentServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(PaymentService::class, function ($app) {
-            return new PaymentService($app->make(PaymentRequest::class));
+            return new PaymentService($app->make(PaymentHandler::class));
         });
     }
 

@@ -12,12 +12,12 @@ use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 
 class PaymentService
 {
-    /** @var PaymentRequest */
-    private $paymentRequest;
+    /** @var PaymentHandler */
+    private $paymentHandler;
 
-    public function __construct(PaymentRequest $paymentRequest)
+    public function __construct(PaymentHandler $paymentHandler)
     {
-        $this->paymentRequest = $paymentRequest;
+        $this->paymentHandler = $paymentHandler;
     }
 
     /**
@@ -41,9 +41,9 @@ class PaymentService
      * @param string $orderId Уникальный идентификатор платежа на стороне Мерчанта (магазина), для которого запрашивается действие.
      * @param \Closure $callback Функция обратного вызова, позволяющая динамически обрабатывать полученный ответ
      * @param mixed ...$arguments
+     * @return mixed
      * @see checkPaymentOrder()
      *
-     * @return mixed
      */
     public function checkPaymentOrderCallable(string $orderId, \Closure $callback, ...$arguments)
     {
@@ -72,15 +72,15 @@ class PaymentService
 
     /**
      * @param string $messageText
-     * @param string $uri
+     * @param string $url
      *
      * @return Response
      */
-    private function request(string $uri, string $messageText): Response
+    private function request(string $url, string $messageText): Response
     {
         $signature = $this->signature($messageText);
 
-        return $this->paymentRequest->request($uri, $messageText, $signature);
+        return $this->paymentHandler->send($url, $messageText, $signature);
     }
 
     /**

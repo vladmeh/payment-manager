@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Response;
 use Vladmeh\PaymentManager\Models\Customer;
 use Vladmeh\PaymentManager\Models\Order;
-use Vladmeh\PaymentManager\Pscb\PaymentRequest;
+use Vladmeh\PaymentManager\Pscb\PaymentHandler;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
@@ -59,8 +59,8 @@ class PaymentServiceTest extends TestCase
         $data = ['debug' => true, 'hold' => false];
         $params = compact('successUrl', 'failUrl', 'data');
 
-        $paymentRequest = $this->paymentService->createDataPayment($this->order, $this->customer, $params);
-        $message = $paymentRequest->toArray();
+        $requestData = $this->paymentService->createDataPayment($this->order, $this->customer, $params);
+        $message = $requestData->toArray();
 
         $this->assertIsArray($message);
 
@@ -171,7 +171,7 @@ class PaymentServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->paymentService = new PaymentService(new PaymentRequest);
+        $this->paymentService = new PaymentService(new PaymentHandler);
 
         $this->order = factory(Order::class)->create([
             'amount' => 200,
