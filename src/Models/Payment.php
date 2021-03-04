@@ -8,6 +8,5 @@ class Payment extends Model
 {
     protected $guarded = [];
 
-    public $incrementing = false;
     public $timestamps = false;
 }

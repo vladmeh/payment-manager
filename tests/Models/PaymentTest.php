@@ -19,5 +19,4 @@ class PaymentTest extends TestCase
         $this->assertInstanceOf(Payment::class, $payment);
         $this->assertDatabaseCount('payments', 1);
     }
-
 }

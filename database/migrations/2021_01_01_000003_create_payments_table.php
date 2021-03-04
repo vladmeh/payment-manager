@@ -14,15 +14,17 @@ class CreatePaymentsTable extends Migration
     public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->unsignedInteger('id')->primary();
+            $table->id();
 
-            $table->uuid('orderId')->unique();
-            $table->string('showOrderId');
-            $table->string('account');
-            $table->string('state');
-            $table->timestamp('stateDate');
+            $table->uuid('orderId')->unique()->comment('Уникальный идентификатор заказа.');
+            $table->string('showOrderId')->comment('Идентификатор заказа, отображаемый Плательщику.');
+            $table->string('account')->comment('Идентификатор плательщика');
 
-            $table->string('system');
+            $table->string('paymentId')->comment('Уникальный идентификатор платежа в рамках Платежной системы.');
+            $table->string('state')->comment('Статус платежа.');
+            $table->timestamp('stateDate')->comment('Дата присвоения статуса платежа');
+
+            $table->string('system')->comment('Идетификатор платежной системы');
         });
     }
 
