@@ -10,6 +10,5 @@ $factory->define(Order::class, function (Faker $faker) {
         'uuid' => $faker->uuid,
         'amount' => random_int(1, 1000),
         'state' => $faker->word,
-        'details' => $faker->paragraph
     ];
 });

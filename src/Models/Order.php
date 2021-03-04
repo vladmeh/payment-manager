@@ -13,9 +13,13 @@ class Order extends Model implements PaymentOrder
     use PaymentOrderTrait;
 
     public $incrementing = false;
+
     protected $guarded = [];
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';
+    protected $attributes = [
+        'details' => ''
+    ];
 
     public function setCreatedAtAttribute($value)
     {
