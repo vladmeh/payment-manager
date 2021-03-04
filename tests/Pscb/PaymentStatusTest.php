@@ -46,6 +46,7 @@ class PaymentStatusTest extends TestCase
 
         $this->assertTrue(PaymentStatus::isFinalState($payment->state));
     }
+
     /**
      * @test
      */

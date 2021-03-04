@@ -43,7 +43,6 @@ class PaymentService
      * @param mixed ...$arguments
      * @return mixed
      * @see checkPaymentOrder()
-     *
      */
     public function checkPaymentOrderCallable(string $orderId, \Closure $callback, ...$arguments)
     {

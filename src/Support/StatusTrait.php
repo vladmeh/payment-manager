@@ -13,7 +13,6 @@ trait StatusTrait
         if (defined('self::STATUS')
             && is_array(self::STATUS)
             && array_key_exists($state, self::STATUS)) {
-
             return self::STATUS[$state];
         }
 
