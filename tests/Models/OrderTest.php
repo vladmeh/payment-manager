@@ -5,6 +5,7 @@ namespace Vladmeh\PaymentManager\Tests\Models;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Vladmeh\PaymentManager\Models\Order;
 use Vladmeh\PaymentManager\Models\OrderItem;
+use Vladmeh\PaymentManager\Models\Payment;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
 class OrderTest extends TestCase
@@ -78,5 +79,33 @@ class OrderTest extends TestCase
         $this->assertDatabaseCount('orders', 1);
         $this->assertDatabaseCount('order_items', 1);
         $this->assertEquals($order->uuid, $order->orderItems->first()->order_id);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_set_payment(): void
+    {
+        $payment = factory(Payment::class)->create();
+        $order = factory(Order::class)->create();
+
+        $order->setPayment($payment);
+
+        $this->assertInstanceOf(Payment::class, $order->payment);
+
+        print_r($order->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_set_status(): void
+    {
+        $status = 'created';
+
+        $order = factory(Order::class)->create();
+        $order->setStatus($status);
+
+        $this->assertEquals($status, $order->state);
     }
 }

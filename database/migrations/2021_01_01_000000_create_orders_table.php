@@ -21,6 +21,14 @@ class CreateOrdersTable extends Migration
 
             $table->text('details')->nullable()->default('')->comment('Детали заказа');
             $table->timestamp('updated_at')->nullable()->comment('Дата обновления записи заказа');
+
+            $table->foreignId('customer_id')
+                ->nullable()
+                ->constrained();
+
+            $table->foreignId('payment_id')
+                ->nullable()
+                ->constrained();
         });
     }
 
