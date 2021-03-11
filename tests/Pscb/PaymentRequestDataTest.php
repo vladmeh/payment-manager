@@ -2,7 +2,7 @@
 
 namespace Vladmeh\PaymentManager\Tests\Pscb;
 
-use Vladmeh\PaymentManager\Pscb\PaymentRequestData;
+use Vladmeh\PaymentManager\Pscb\MessageRequestBuilder;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
 class PaymentRequestDataTest extends TestCase
@@ -12,7 +12,7 @@ class PaymentRequestDataTest extends TestCase
      */
     public function it_can_be_init_config_params(): void
     {
-        $paymentRequest = new PaymentRequestData(200, '123');
+        $paymentRequest = new MessageRequestBuilder(200, '123');
         $successUrl = config('payment.pscb.successUrl');
         $message = $paymentRequest->toArray();
 
@@ -28,7 +28,7 @@ class PaymentRequestDataTest extends TestCase
         $successUrl = 'http://test.example.com/success';
         $failUrl = 'http://test.example.com/fail';
         $params = compact('successUrl', 'failUrl');
-        $paymentRequest = new PaymentRequestData(200, '123', $params);
+        $paymentRequest = new MessageRequestBuilder(200, '123', $params);
         $message = $paymentRequest->toArray();
 
         $this->assertIsArray($message);
@@ -48,7 +48,7 @@ class PaymentRequestDataTest extends TestCase
         $successUrl = 'http://test.example.com/success';
         $failUrl = 'http://test.example.com/fail';
         $params = compact('successUrl', 'failUrl');
-        $paymentRequest = PaymentRequestData::make(200, '123', $params);
+        $paymentRequest = MessageRequestBuilder::make(200, '123', $params);
         $message = $paymentRequest->toArray();
 
         $this->assertIsArray($message);
@@ -65,7 +65,7 @@ class PaymentRequestDataTest extends TestCase
      */
     public function it_can_be_set_property_by_name(): void
     {
-        $paymentRequest = PaymentRequestData::make(200, '123')
+        $paymentRequest = MessageRequestBuilder::make(200, '123')
             ->setShowOrderId('123')
             ->setDetails('details')
             ->setPaymentMethod('ac')
@@ -103,7 +103,7 @@ class PaymentRequestDataTest extends TestCase
      */
     public function it_can_be_get_data_to_json(): void
     {
-        $paymentRequest = PaymentRequestData::make(200, '123')
+        $paymentRequest = MessageRequestBuilder::make(200, '123')
             ->setShowOrderId('123')
             ->setDetails('details')
             ->setPaymentMethod('ac')

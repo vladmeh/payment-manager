@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
  * Объект с данными для запроса создания платежа в системе ПСКБ.
  * @link https://docs.pscb.ru/oos/api.html#api-magazina-sozdanie-platezha-zapros
  */
-class PaymentRequestData implements Arrayable, Jsonable
+class MessageRequestBuilder implements Arrayable, Jsonable
 {
     /**
      * Сумма платежа в рублях. Разделитель целой и дробной части – точка.
@@ -210,9 +210,9 @@ class PaymentRequestData implements Arrayable, Jsonable
      * @param int $amount
      * @param string $orderId
      * @param array $params
-     * @return PaymentRequestData
+     * @return MessageRequestBuilder
      */
-    public static function make(int $amount, string $orderId, array $params = []): PaymentRequestData
+    public static function make(int $amount, string $orderId, array $params = []): MessageRequestBuilder
     {
         return new static($amount, $orderId, $params);
     }
@@ -220,7 +220,7 @@ class PaymentRequestData implements Arrayable, Jsonable
     /**
      * Случайная строка для соблюдения уникальности каждого запроса к API.
      *
-     * @return PaymentRequestData
+     * @return MessageRequestBuilder
      */
     public function setNonce(): self
     {
@@ -231,7 +231,7 @@ class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * @param string $showOrderId
-     * @return PaymentRequestData
+     * @return MessageRequestBuilder
      */
     public function setShowOrderId(string $showOrderId): self
     {
@@ -242,7 +242,7 @@ class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * @param string $details
-     * @return PaymentRequestData
+     * @return MessageRequestBuilder
      */
     public function setDetails(string $details): self
     {
@@ -253,7 +253,7 @@ class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * @param string $paymentMethod
-     * @return PaymentRequestData
+     * @return MessageRequestBuilder
      */
     public function setPaymentMethod(string $paymentMethod): self
     {
@@ -264,7 +264,7 @@ class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * @param string $successUrl
-     * @return PaymentRequestData
+     * @return MessageRequestBuilder
      */
     public function setSuccessUrl(string $successUrl): self
     {
@@ -275,7 +275,7 @@ class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * @param string $failUrl
-     * @return PaymentRequestData
+     * @return MessageRequestBuilder
      */
     public function setFailUrl(string $failUrl): self
     {
@@ -286,7 +286,7 @@ class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * @param string $displayLanguage
-     * @return PaymentRequestData
+     * @return MessageRequestBuilder
      */
     public function setDisplayLanguage(string $displayLanguage): self
     {
@@ -297,7 +297,7 @@ class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * @param array $data
-     * @return PaymentRequestData
+     * @return MessageRequestBuilder
      */
     public function setData(array $data): self
     {
@@ -308,7 +308,7 @@ class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * @param string $customerAccount
-     * @return PaymentRequestData
+     * @return MessageRequestBuilder
      */
     public function setCustomerAccount(string $customerAccount): self
     {
@@ -319,7 +319,7 @@ class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * @param string $customerComment
-     * @return PaymentRequestData
+     * @return MessageRequestBuilder
      */
     public function setCustomerComment(string $customerComment): self
     {
@@ -330,7 +330,7 @@ class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * @param string $customerEmail
-     * @return PaymentRequestData
+     * @return MessageRequestBuilder
      */
     public function setCustomerEmail(string $customerEmail): self
     {
@@ -341,7 +341,7 @@ class PaymentRequestData implements Arrayable, Jsonable
 
     /**
      * @param string $customerPhone
-     * @return PaymentRequestData
+     * @return MessageRequestBuilder
      */
     public function setCustomerPhone(string $customerPhone): self
     {
