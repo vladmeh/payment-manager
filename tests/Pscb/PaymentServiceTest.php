@@ -20,14 +20,12 @@ class PaymentServiceTest extends TestCase
 
     private $customer;
 
-    private $response_message;
-
     /**
      * @test
      */
     public function testCreatePayment(): void
     {
-        $paymentRequest = $this->paymentService->createDataPayment($this->order, $this->customer);
+        $paymentRequest = $this->paymentService->createMessageRequest($this->order, $this->customer);
         $message = $paymentRequest->toArray();
 
         $this->assertIsArray($message);
@@ -59,7 +57,7 @@ class PaymentServiceTest extends TestCase
         $data = ['debug' => true, 'hold' => false];
         $params = compact('successUrl', 'failUrl', 'data');
 
-        $requestData = $this->paymentService->createDataPayment($this->order, $this->customer, $params);
+        $requestData = $this->paymentService->createMessageRequest($this->order, $this->customer, $params);
         $message = $requestData->toArray();
 
         $this->assertIsArray($message);
@@ -81,7 +79,7 @@ class PaymentServiceTest extends TestCase
      */
     public function testSignature(): void
     {
-        $requestData = $this->paymentService->createDataPayment($this->order, $this->customer);
+        $requestData = $this->paymentService->createMessageRequest($this->order, $this->customer);
         $message = $requestData->toJson();
         $signature = $this->paymentService->signature($message);
 
@@ -93,33 +91,10 @@ class PaymentServiceTest extends TestCase
      */
     public function testPayRequestUrl(): void
     {
-        $requestData = $this->paymentService->createDataPayment($this->order, $this->customer);
+        $requestData = $this->paymentService->createMessageRequest($this->order, $this->customer);
         $payRequestUrl = $this->paymentService->payRequestUrl($requestData);
 
         $this->assertIsString($payRequestUrl);
-    }
-
-    /**
-     * @test
-     */
-    public function testDecrypt(): void
-    {
-        $encrypt_message = $this->paymentService->encrypt(json_encode($this->response_message));
-        $decrypt_message = $this->paymentService->decrypt($encrypt_message);
-
-        $this->assertJson($decrypt_message);
-        $this->assertEquals($this->response_message, json_decode($decrypt_message, true));
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_be_decrypt_false_encrypted_message(): void
-    {
-        $encrypt_message = $this->paymentService->encrypt(json_encode($this->response_message), 'invalid');
-        $decrypt_message = $this->paymentService->decrypt($encrypt_message);
-
-        $this->assertFalse($decrypt_message);
     }
 
     /**
@@ -184,21 +159,5 @@ class PaymentServiceTest extends TestCase
             'phone' => '+7(123)456-78-90',
             'comment' => 'Comment'
         ]);
-
-        $this->response_message = [
-            'payments' => [
-                [
-                    'orderId' => '1585687620',
-                    'showOrderId' => '1585687620',
-                    'paymentId' => '245215353',
-                    'account' => '9046100317',
-                    'amount' => 12900.00,
-                    'state' => 'exp',
-                    'marketPlace' => 212036621,
-                    'paymentMethod' => 'ac',
-                    'stateDate' => '2020-04-01T00:52:57.268+03:00',
-                ],
-            ],
-        ];
     }
 }

@@ -21,16 +21,16 @@ class PaymentService
     }
 
     /**
-     * Создание данных для запроса создания платежа в ПСКБ.
+     * Формирование сообщения для запроса создания платежа в ПСКБ.
      *
      * @param PaymentOrder $order
      * @param PaymentCustomer $customer
-     * @param array $requestParameters
-     * @return PaymentRequestData
+     * @param array $queryParameters
+     * @return MessageRequestBuilder
      */
-    public function createDataPayment(PaymentOrder $order, PaymentCustomer $customer, array $requestParameters = []): PaymentRequestData
+    public function createMessageRequest(PaymentOrder $order, PaymentCustomer $customer, array $queryParameters = []): MessageRequestBuilder
     {
-        return PaymentRequestData::make($order->getAmount(), $order->getOrderId(), $requestParameters)
+        return MessageRequestBuilder::make($order->getAmount(), $order->getOrderId(), $queryParameters)
             ->setCustomerAccount($customer->getAccount())
             ->setCustomerEmail($customer->getEmail())
             ->setCustomerPhone($customer->getPhone())
@@ -66,7 +66,7 @@ class PaymentService
         $messageData = compact('orderId', 'marketPlace', 'requestCardData', 'requestFiscalData');
         $messageText = json_encode($messageData);
 
-        return $this->request('checkPayment', $messageText);
+        return $this->sendMessageRequest('checkPayment', $messageText);
     }
 
     /**
@@ -75,7 +75,7 @@ class PaymentService
      *
      * @return Response
      */
-    private function request(string $url, string $messageText): Response
+    private function sendMessageRequest(string $url, string $messageText): Response
     {
         $signature = $this->signature($messageText);
 
@@ -114,17 +114,17 @@ class PaymentService
         $messageData = compact('marketPlace', 'dateFrom', 'dateTo', 'merchant', 'selectMode');
         $messageText = json_encode(array_filter($messageData));
 
-        return $this->request('getPayments', $messageText);
+        return $this->sendMessageRequest('getPayments', $messageText);
     }
 
     /**
      * Формирование URL запроса создания платежа.
      *
-     * @param PaymentRequestData $requestData Объект с данными для запроса создания платежа
+     * @param MessageRequestBuilder $requestData Объект с данными для запроса создания платежа
      * @param string|null $marketPlace Идентификатор Магазина
      * @return string
      */
-    public function payRequestUrl(PaymentRequestData $requestData, string $marketPlace = null): string
+    public function payRequestUrl(MessageRequestBuilder $requestData, string $marketPlace = null): string
     {
         $request_url = config('payment.pscb.requestUrl');
         $message = $requestData->toJson();
@@ -136,39 +136,5 @@ class PaymentService
         ];
 
         return url($request_url) . '?' . http_build_query($params);
-    }
-
-    /**
-     * Функция расшифровки сообщения от ПСКБ.
-     * @param $encrypted mixed зашифрованное сообщение; массив байтов
-     * @param null $merchant_key string секретный ключ мерчанта; текстовая строка
-     * @return mixed расшифрованное сообщение; массив байтов, одновременно - строка в кодировке UTF-8
-     */
-    final public function decrypt($encrypted, $merchant_key = null)
-    {
-        if (null == $merchant_key) {
-            $merchant_key = config('payment.pscb.secretKey');
-        }
-
-        $key_md5_binary = hash('md5', $merchant_key, true);
-
-        return openssl_decrypt($encrypted, 'AES-128-ECB', $key_md5_binary, OPENSSL_RAW_DATA);
-    }
-
-    /**
-     * Функция шифровки сообщения ПСКБ.
-     * @param $message string текстовое сообщение - строка в кодировке UTF-8
-     * @param null $merchant_key string секретный ключ мерчанта; текстовая строка
-     * @return mixed зашифрованное сообщение; массив байтов
-     */
-    final public function encrypt(string $message, $merchant_key = null)
-    {
-        if (null == $merchant_key) {
-            $merchant_key = config('payment.pscb.secretKey');
-        }
-
-        $key_md5_binary = hash('md5', $merchant_key, true);
-
-        return openssl_encrypt($message, 'AES-128-ECB', $key_md5_binary, OPENSSL_RAW_DATA);
     }
 }
