@@ -3,3 +3,4 @@ disabled:
   - trailing_comma_in_multiline_array
   - concat_without_spaces
   - phpdoc_summary
+  - not_operator_with_successor_space

@@ -7,7 +7,6 @@ use Vladmeh\PaymentManager\Tests\TestCase;
 
 class PaymentEncryptTest extends TestCase
 {
-
     private $response_message;
 
     public function testDecrypt()
@@ -17,7 +16,6 @@ class PaymentEncryptTest extends TestCase
 
         $this->assertJson($decrypt_message);
         $this->assertEquals($this->response_message, json_decode($decrypt_message, true));
-
     }
 
     public function testEncrypt()
@@ -48,6 +46,4 @@ class PaymentEncryptTest extends TestCase
             ],
         ];
     }
-
-
 }

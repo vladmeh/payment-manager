@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Ramsey\Uuid\Nonstandard\Uuid;
-use Vladmeh\PaymentManager\Contracts\PaymentModel;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 use Vladmeh\PaymentManager\Order\PaymentOrderTrait;
 
@@ -71,6 +70,7 @@ class Order extends Model implements PaymentOrder
     public function setStatus(string $state): self
     {
         self::update(['state' => $state]);
+
         return $this;
     }
 }

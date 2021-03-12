@@ -1,6 +1,6 @@
 {
     "name": "vladmeh/payment-manager",
-    "version": "2.3.2",
+    "version": "2.3.3",
     "description": "Payment system manager",
     "license": "MIT",
     "keywords": ["laravel", "Payment system"],
@@ -36,6 +36,9 @@
         "laravel": {
             "providers": [
                 "Vladmeh\\PaymentManager\\PaymentServiceProvider"
+            ],
+            "dont-discover": [
+                "*"
             ]
         }
     }

@@ -17,7 +17,7 @@ class RequestDecryptMiddlewareTest extends TestCase
         $encryptMessage = PaymentEncrypt::encrypt(json_encode($this->message));
         $request = Request::create('', 'POST', [], [], [], ['Content-Type' => 'application/octet-stream'], $encryptMessage);
 
-        (new RequestDecryptMiddleware)->handle($request, function ($request){
+        (new RequestDecryptMiddleware)->handle($request, function ($request) {
             $this->assertEquals('Hello World', $request->message);
         });
     }
@@ -27,7 +27,8 @@ class RequestDecryptMiddlewareTest extends TestCase
         $encryptMessage = PaymentEncrypt::encrypt(json_encode($this->message), 'invalid');
         $request = Request::create('', 'POST', [], [], [], ['Content-Type' => 'application/octet-stream'], $encryptMessage);
 
-        $response = (new RequestDecryptMiddleware)->handle($request, function ($request){});
+        $response = (new RequestDecryptMiddleware)->handle($request, function ($request) {
+        });
         $this->assertEquals(401, $response->status());
     }
 
