@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Vladmeh\PaymentManager\Pscb;
 
 use Vladmeh\PaymentManager\Support\StatusTrait;

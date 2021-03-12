@@ -5,7 +5,7 @@ namespace Vladmeh\PaymentManager;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
-use Vladmeh\PaymentManager\Pscb\PaymentHandler;
+use Vladmeh\PaymentManager\Pscb\PaymentRequest;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
 
 class PaymentServiceProvider extends ServiceProvider
@@ -18,7 +18,7 @@ class PaymentServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(PaymentService::class, function ($app) {
-            return new PaymentService($app->make(PaymentHandler::class));
+            return new PaymentService($app->make(PaymentRequest::class));
         });
     }
 
@@ -27,6 +27,20 @@ class PaymentServiceProvider extends ServiceProvider
         $this->registerLogging();
         $this->registerMigrations();
         $this->registerPublishing();
+    }
+
+    private function registerLogging()
+    {
+        try {
+            $this->app->make('config')->set('logging.channels.payment', [
+                'driver' => 'daily',
+                'path' => storage_path('logs/payment/payment.log'),
+                'level' => 'debug',
+                'days' => 14,
+            ]);
+        } catch (BindingResolutionException $e) {
+            Log::error($e->getMessage());
+        }
     }
 
     private function registerMigrations()
@@ -50,20 +64,6 @@ class PaymentServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../database/factories' => database_path('factories'),
             ], 'payment-factories');
-        }
-    }
-
-    private function registerLogging()
-    {
-        try {
-            $this->app->make('config')->set('logging.channels.payment', [
-                'driver' => 'daily',
-                'path' => storage_path('logs/payment/payment.log'),
-                'level' => 'debug',
-                'days' => 14,
-            ]);
-        } catch (BindingResolutionException $e) {
-            Log::error($e->getMessage());
         }
     }
 }

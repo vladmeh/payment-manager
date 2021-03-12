@@ -12,12 +12,12 @@ use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 
 class PaymentService
 {
-    /** @var PaymentHandler */
-    private $paymentHandler;
+    /** @var PaymentRequest */
+    private $paymentRequest;
 
-    public function __construct(PaymentHandler $paymentHandler)
+    public function __construct(PaymentRequest $paymentRequest)
     {
-        $this->paymentHandler = $paymentHandler;
+        $this->paymentRequest = $paymentRequest;
     }
 
     /**
@@ -66,31 +66,7 @@ class PaymentService
         $messageData = compact('orderId', 'marketPlace', 'requestCardData', 'requestFiscalData');
         $messageText = json_encode($messageData);
 
-        return $this->sendMessageRequest('checkPayment', $messageText);
-    }
-
-    /**
-     * @param string $messageText
-     * @param string $url
-     *
-     * @return Response
-     */
-    private function sendMessageRequest(string $url, string $messageText): Response
-    {
-        $signature = $this->signature($messageText);
-
-        return $this->paymentHandler->send($url, $messageText, $signature);
-    }
-
-    /**
-     * Подпись сообщения с использованием ключа API secretKey.
-     *
-     * @param string $messageText JSON UTF8
-     * @return string
-     */
-    final public function signature(string $messageText): string
-    {
-        return hash('sha256', $messageText . config('payment.pscb.secretKey'));
+        return $this->paymentRequest->sendMessage('checkPayment', $messageText);
     }
 
     /**
@@ -114,7 +90,7 @@ class PaymentService
         $messageData = compact('marketPlace', 'dateFrom', 'dateTo', 'merchant', 'selectMode');
         $messageText = json_encode(array_filter($messageData));
 
-        return $this->sendMessageRequest('getPayments', $messageText);
+        return $this->paymentRequest->sendMessage('getPayments', $messageText);
     }
 
     /**
@@ -132,7 +108,7 @@ class PaymentService
         $params = [
             'marketPlace' => $marketPlace ?? config('payment.pscb.marketPlace'),
             'message' => base64_encode($message),
-            'signature' => $this->signature($message),
+            'signature' => $this->paymentRequest->signature($message),
         ];
 
         return url($request_url) . '?' . http_build_query($params);

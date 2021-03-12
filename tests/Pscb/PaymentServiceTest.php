@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Response;
 use Vladmeh\PaymentManager\Models\Customer;
 use Vladmeh\PaymentManager\Models\Order;
-use Vladmeh\PaymentManager\Pscb\PaymentHandler;
+use Vladmeh\PaymentManager\Pscb\PaymentRequest;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
@@ -77,18 +77,6 @@ class PaymentServiceTest extends TestCase
     /**
      * @test
      */
-    public function testSignature(): void
-    {
-        $requestData = $this->paymentService->createMessageRequest($this->order, $this->customer);
-        $message = $requestData->toJson();
-        $signature = $this->paymentService->signature($message);
-
-        $this->assertIsString($signature);
-    }
-
-    /**
-     * @test
-     */
     public function testPayRequestUrl(): void
     {
         $requestData = $this->paymentService->createMessageRequest($this->order, $this->customer);
@@ -146,7 +134,7 @@ class PaymentServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->paymentService = new PaymentService(new PaymentHandler);
+        $this->paymentService = new PaymentService(new PaymentRequest);
 
         $this->order = factory(Order::class)->create([
             'amount' => 200,

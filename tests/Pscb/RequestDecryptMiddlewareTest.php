@@ -9,7 +9,6 @@ use Vladmeh\PaymentManager\Tests\TestCase;
 
 class RequestDecryptMiddlewareTest extends TestCase
 {
-
     private $message;
 
     public function testHandle()

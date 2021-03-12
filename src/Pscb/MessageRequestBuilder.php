@@ -189,21 +189,11 @@ class MessageRequestBuilder implements Arrayable, Jsonable
      */
     public function setParams(array $arguments)
     {
-        if (! empty($arguments)) {
+        if (!empty($arguments)) {
             foreach ($arguments as $param => $argument) {
                 property_exists($this, $param) && $this->{$param} = $argument;
             }
         }
-    }
-
-    public function toArray(): array
-    {
-        return array_filter(get_object_vars($this));
-    }
-
-    public function toJson($options = 0)
-    {
-        return json_encode($this->toArray(), $options);
     }
 
     /**
@@ -218,13 +208,30 @@ class MessageRequestBuilder implements Arrayable, Jsonable
     }
 
     /**
+     * @param int $options
+     * @return false|string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return array_filter(get_object_vars($this));
+    }
+
+    /**
      * Случайная строка для соблюдения уникальности каждого запроса к API.
      *
      * @return MessageRequestBuilder
      */
     public function setNonce(): self
     {
-        $this->nonce = sha1(time().Str::random(8));
+        $this->nonce = sha1(time() . Str::random(8));
 
         return $this;
     }
