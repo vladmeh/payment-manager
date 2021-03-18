@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Ramsey\Uuid\Nonstandard\Uuid;
+use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 use Vladmeh\PaymentManager\Order\PaymentOrderTrait;
 
-/**
- * @method static self find(string $orderId)
- */
 class Order extends Model implements PaymentOrder
 {
     use PaymentOrderTrait;
@@ -43,24 +41,24 @@ class Order extends Model implements PaymentOrder
     }
 
     /**
-     * @return BelongsTo
+     * @param PaymentCustomer $customer
+     * @return Order
      */
-    public function payment(): BelongsTo
+    public function setCustomer(PaymentCustomer $customer): self
     {
-        return $this->belongsTo(Payment::class);
-    }
-
-    /**
-     * @param Payment $payment
-     * @return $this
-     */
-    public function setPayment(Payment $payment): self
-    {
-        $this->payment()
-            ->associate($payment)
+        $this->customer()
+            ->associate($customer)
             ->save();
 
         return $this;
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
     }
 
     /**
