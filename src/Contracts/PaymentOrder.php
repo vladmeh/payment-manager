@@ -16,7 +16,13 @@ interface PaymentOrder
 
     /**
      * @param PaymentCustomer $customer
-     * @return mixed
+     * @return void
      */
     public function setCustomer(PaymentCustomer $customer);
+
+    /**
+     * @param mixed $payment
+     * @return mixed|void
+     */
+    public function setPayment($payment);
 }

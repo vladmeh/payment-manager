@@ -107,4 +107,29 @@ class OrderTest extends TestCase
 
         $this->assertEquals($status, $order->state);
     }
+
+    /**
+     * @test
+     */
+    public function it_can_be_set_payment(): void
+    {
+        $order = factory(Order::class)->create();
+        $payment = [
+            'orderId' => $order->uuid,
+            'showOrderId' => '1585687620',
+            'paymentId' => '245215353',
+            'account' => '1234567890',
+            'amount' => $order->amount,
+            'state' => 'exp',
+            'marketPlace' => '328150779',
+            'paymentMethod' => 'ac',
+            'stateDate' => '2020-04-01T00:52:57.268+03:00'
+        ];
+
+        $order->setPayment(['payment' => $payment]);
+
+        $this->assertDatabaseHas('orders', ['payment' => json_encode($payment)]);
+        $this->assertEquals($payment, $order->payment);
+        $this->assertTrue($order->hasCast('payment'));
+    }
 }

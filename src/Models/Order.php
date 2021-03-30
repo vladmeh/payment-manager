@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Ramsey\Uuid\Nonstandard\Uuid;
-use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
+use Vladmeh\PaymentManager\Casts\PaymentJson;
 use Vladmeh\PaymentManager\Contracts\PaymentOrder;
 use Vladmeh\PaymentManager\Order\PaymentOrderTrait;
 
@@ -21,6 +21,10 @@ class Order extends Model implements PaymentOrder
     protected $keyType = 'string';
     protected $attributes = [
         'details' => ''
+    ];
+
+    protected $casts = [
+        'payment' => PaymentJson::class,
     ];
 
     /**
@@ -41,19 +45,6 @@ class Order extends Model implements PaymentOrder
     }
 
     /**
-     * @param PaymentCustomer $customer
-     * @return Order
-     */
-    public function setCustomer(PaymentCustomer $customer): self
-    {
-        $this->customer()
-            ->associate($customer)
-            ->save();
-
-        return $this;
-    }
-
-    /**
      * @return BelongsTo
      */
     public function customer(): BelongsTo
@@ -63,12 +54,10 @@ class Order extends Model implements PaymentOrder
 
     /**
      * @param string $state
-     * @return $this
+     * @return void
      */
-    public function setStatus(string $state): self
+    public function setStatus(string $state)
     {
         self::update(['state' => $state]);
-
-        return $this;
     }
 }
