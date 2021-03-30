@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Vladmeh\PaymentManager\Pscb\PaymentRequest;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
+use Vladmeh\PaymentManager\Requests\NotificationRequest;
 
 class PaymentServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,8 @@ class PaymentServiceProvider extends ServiceProvider
         $this->registerLogging();
         $this->registerMigrations();
         $this->registerPublishing();
+
+        $this->resolvingRequests();
     }
 
     private function registerLogging()
@@ -65,5 +68,12 @@ class PaymentServiceProvider extends ServiceProvider
                 __DIR__ . '/../database/factories' => database_path('factories'),
             ], 'payment-factories');
         }
+    }
+
+    private function resolvingRequests(): void
+    {
+        $this->app->resolving(NotificationRequest::class, function ($request, $app) {
+            NotificationRequest::createFrom($app['request'], $request);
+        });
     }
 }
