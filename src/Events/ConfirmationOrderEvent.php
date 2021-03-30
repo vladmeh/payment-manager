@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Vladmeh\PaymentManager\Events;
-
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;

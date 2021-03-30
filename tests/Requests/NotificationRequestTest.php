@@ -45,7 +45,6 @@ class NotificationRequestTest extends TestCase
         $request = NotificationRequest::create('', 'POST', $this->message);
         $request->validateDate();
         $this->expectNotToPerformAssertions();
-
     }
 
     /**

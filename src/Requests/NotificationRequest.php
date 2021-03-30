@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Vladmeh\PaymentManager\Requests;
@@ -34,6 +35,7 @@ class NotificationRequest extends Request
     public function responseData(): array
     {
         $requestData = $this->all();
+
         return array_map(function ($payment) {
             return [
                 'orderId' => $payment['orderId'],
@@ -50,11 +52,13 @@ class NotificationRequest extends Request
     {
         if (!$order = Order::find($paymentData['orderId'])) {
             Log::channel('payment')->info('Платеж отвергнут: ' . json_encode($paymentData, JSON_UNESCAPED_UNICODE) . ' Не найден заказ.');
+
             return PaymentStatus::ACTION_REJECT;
         }
 
         if (!$order->customer || $order->customer->account != $paymentData['account']) {
             Log::channel('payment')->info('Платеж отвергнут: ' . json_encode($paymentData, JSON_UNESCAPED_UNICODE) . ' Не найден клиент.');
+
             return PaymentStatus::ACTION_REJECT;
         }
 
