@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PaymentOrderItem extends Model
 {
-    protected $table ='order_items';
+    protected $table = 'order_items';
     protected $guarded = [];
     protected $appends = ['amount'];
     protected $attributes = [
