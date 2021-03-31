@@ -3,7 +3,7 @@
 namespace Vladmeh\PaymentManager\Tests\Pscb;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Vladmeh\PaymentManager\Models\Order;
+use Vladmeh\PaymentManager\Models\PaymentOrder;
 use Vladmeh\PaymentManager\Pscb\PaymentStatus;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
@@ -16,7 +16,7 @@ class PaymentStatusTest extends TestCase
      */
     public function it_can_be_set_status_default(): void
     {
-        $order = factory(Order::class)->create();
+        $order = factory(PaymentOrder::class)->create();
         $this->assertEquals(PaymentStatus::UNDEF, $order->state);
     }
 
@@ -25,7 +25,7 @@ class PaymentStatusTest extends TestCase
      */
     public function testStatusIsConstants()
     {
-        $payment = factory(Order::class)->create([
+        $payment = factory(PaymentOrder::class)->create([
             'state' => PaymentStatus::status('end')
         ]);
 
@@ -37,7 +37,7 @@ class PaymentStatusTest extends TestCase
      */
     public function testStatusIsNotConstants(): void
     {
-        $payment = factory(Order::class)->create([
+        $payment = factory(PaymentOrder::class)->create([
             'state' => PaymentStatus::status('undefined')
         ]);
 
@@ -49,7 +49,7 @@ class PaymentStatusTest extends TestCase
      */
     public function testIsFinalState()
     {
-        $payment = factory(Order::class)->create([
+        $payment = factory(PaymentOrder::class)->create([
             'state' => PaymentStatus::END
         ]);
 
@@ -61,7 +61,7 @@ class PaymentStatusTest extends TestCase
      */
     public function testIsNotFinalState()
     {
-        $payment = factory(Order::class)->create([
+        $payment = factory(PaymentOrder::class)->create([
             'state' => PaymentStatus::SENT
         ]);
 

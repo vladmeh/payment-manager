@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Vladmeh\PaymentManager\Events\ConfirmationOrderEvent;
-use Vladmeh\PaymentManager\Models\Order;
+use Vladmeh\PaymentManager\Models\PaymentOrder;
 use Vladmeh\PaymentManager\Pscb\PaymentStatus;
 
 class NotificationRequest extends Request
@@ -50,7 +50,7 @@ class NotificationRequest extends Request
      */
     private function confirmPayment(array $paymentData): string
     {
-        if (!$order = Order::find($paymentData['orderId'])) {
+        if (!$order = PaymentOrder::find($paymentData['orderId'])) {
             Log::channel('payment')->info('Платеж отвергнут: ' . json_encode($paymentData, JSON_UNESCAPED_UNICODE) . ' Не найден заказ.');
 
             return PaymentStatus::ACTION_REJECT;

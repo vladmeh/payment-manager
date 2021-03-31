@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Ramsey\Uuid\Nonstandard\Uuid;
 use Vladmeh\PaymentManager\Casts\PaymentJson;
-use Vladmeh\PaymentManager\Contracts\PaymentOrder;
-use Vladmeh\PaymentManager\Order\PaymentOrderTrait;
+use Vladmeh\PaymentManager\Contracts\PayableOrder;
+use Vladmeh\PaymentManager\Order\PayableOrderTrait;
+use Vladmeh\PaymentManager\Pscb\PaymentStatus;
 
-class Order extends Model implements PaymentOrder
+class PaymentOrder extends Model implements PayableOrder
 {
-    use PaymentOrderTrait;
+    use PayableOrderTrait;
+
+    protected $table = 'orders';
 
     public $incrementing = false;
 
@@ -59,5 +62,23 @@ class Order extends Model implements PaymentOrder
     public function setStatus(string $state)
     {
         self::update(['state' => $state]);
+    }
+
+    /**
+     * @param mixed $payment
+     * @return void
+     */
+    public function setPayment($payment)
+    {
+        if (is_array($payment) && array_key_exists('payment', $payment)) {
+            $paymentStatus = $payment['payment']['state']
+                ? PaymentStatus::status($payment['payment']['state'])
+                : PaymentStatus::UNDEF;
+
+            $this->update([
+                'payment' => $payment['payment'],
+                'state' => $paymentStatus
+            ]);
+        }
     }
 }

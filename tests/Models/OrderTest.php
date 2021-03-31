@@ -4,7 +4,7 @@ namespace Vladmeh\PaymentManager\Tests\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Vladmeh\PaymentManager\Models\Customer;
-use Vladmeh\PaymentManager\Models\Order;
+use Vladmeh\PaymentManager\Models\PaymentOrder;
 use Vladmeh\PaymentManager\Models\OrderItem;
 use Vladmeh\PaymentManager\Pscb\PaymentStatus;
 use Vladmeh\PaymentManager\Tests\TestCase;
@@ -18,7 +18,7 @@ class OrderTest extends TestCase
      */
     public function testCreateOrder(): void
     {
-        $order = factory(Order::class)
+        $order = factory(PaymentOrder::class)
             ->create(['amount' => 100, 'details' => 'Тестовая услуга']);
 
         $this->assertDatabaseCount('orders', 1);
@@ -33,7 +33,7 @@ class OrderTest extends TestCase
      */
     public function testGetAmount(): void
     {
-        $order = factory(Order::class)
+        $order = factory(PaymentOrder::class)
             ->create(['amount' => 100]);
 
         $this->assertEquals($order->amount, $order->getAmount());
@@ -44,7 +44,7 @@ class OrderTest extends TestCase
      */
     public function testGetOrderId(): void
     {
-        $order = factory(Order::class)
+        $order = factory(PaymentOrder::class)
             ->create();
 
         $this->assertEquals($order->uuid, $order->getOrderId());
@@ -55,7 +55,7 @@ class OrderTest extends TestCase
      */
     public function it_can_be_added_order_item_model(): void
     {
-        $order = factory(Order::class)->create();
+        $order = factory(PaymentOrder::class)->create();
         $orderItem = factory(OrderItem::class)->create();
         $order->orderItems()->save($orderItem);
 
@@ -69,7 +69,7 @@ class OrderTest extends TestCase
      */
     public function it_can_be_added_order_item_from_attributes(): void
     {
-        $order = factory(Order::class)->create();
+        $order = factory(PaymentOrder::class)->create();
         $dataOrderItem = [
             'text' => 'Тестовая услуга',
             'price' => 100,
@@ -88,7 +88,7 @@ class OrderTest extends TestCase
     public function it_can_be_set_customer(): void
     {
         $customer = factory(Customer::class)->create();
-        $order = factory(Order::class)->create();
+        $order = factory(PaymentOrder::class)->create();
 
         $order->setCustomer($customer);
 
@@ -102,7 +102,7 @@ class OrderTest extends TestCase
     {
         $status = PaymentStatus::SENT;
 
-        $order = factory(Order::class)->create();
+        $order = factory(PaymentOrder::class)->create();
         $order->setStatus($status);
 
         $this->assertEquals($status, $order->state);
@@ -113,7 +113,7 @@ class OrderTest extends TestCase
      */
     public function it_can_be_set_payment(): void
     {
-        $order = factory(Order::class)->create();
+        $order = factory(PaymentOrder::class)->create();
         $payment = [
             'orderId' => $order->uuid,
             'showOrderId' => '1585687620',
