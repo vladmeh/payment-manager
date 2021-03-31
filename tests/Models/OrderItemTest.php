@@ -3,7 +3,7 @@
 namespace Vladmeh\PaymentManager\Tests\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Vladmeh\PaymentManager\Models\OrderItem;
+use Vladmeh\PaymentManager\Models\PaymentOrderItem;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
 class OrderItemTest extends TestCase
@@ -20,7 +20,7 @@ class OrderItemTest extends TestCase
             'price' => 100,
         ];
 
-        $orderItem = factory(OrderItem::class)->create($data);
+        $orderItem = factory(PaymentOrderItem::class)->create($data);
 
         $this->assertDatabaseCount('order_items', 1);
         $this->assertDatabaseHas('order_items', $data);
@@ -41,7 +41,7 @@ class OrderItemTest extends TestCase
             'quantity' => 3
         ];
 
-        $orderItem = factory(OrderItem::class)->create($data);
+        $orderItem = factory(PaymentOrderItem::class)->create($data);
         $this->assertEquals(300, $orderItem->amount);
     }
 }

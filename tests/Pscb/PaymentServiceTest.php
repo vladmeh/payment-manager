@@ -4,7 +4,7 @@ namespace Vladmeh\PaymentManager\Tests\Pscb;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Response;
-use Vladmeh\PaymentManager\Models\Customer;
+use Vladmeh\PaymentManager\Models\PaymentCustomer;
 use Vladmeh\PaymentManager\Models\PaymentOrder;
 use Vladmeh\PaymentManager\Pscb\PaymentRequest;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
@@ -141,7 +141,7 @@ class PaymentServiceTest extends TestCase
             'details' => 'Тестовая услуга'
         ]);
 
-        $this->customer = factory(Customer::class)->create([
+        $this->customer = factory(PaymentCustomer::class)->create([
             'account' => '1234567890',
             'email' => 'customer@mail.test',
             'phone' => '+7(123)456-78-90',

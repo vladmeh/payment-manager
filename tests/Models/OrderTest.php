@@ -3,9 +3,9 @@
 namespace Vladmeh\PaymentManager\Tests\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Vladmeh\PaymentManager\Models\Customer;
+use Vladmeh\PaymentManager\Models\PaymentCustomer;
 use Vladmeh\PaymentManager\Models\PaymentOrder;
-use Vladmeh\PaymentManager\Models\OrderItem;
+use Vladmeh\PaymentManager\Models\PaymentOrderItem;
 use Vladmeh\PaymentManager\Pscb\PaymentStatus;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
@@ -56,7 +56,7 @@ class OrderTest extends TestCase
     public function it_can_be_added_order_item_model(): void
     {
         $order = factory(PaymentOrder::class)->create();
-        $orderItem = factory(OrderItem::class)->create();
+        $orderItem = factory(PaymentOrderItem::class)->create();
         $order->orderItems()->save($orderItem);
 
         $this->assertDatabaseCount('orders', 1);
@@ -87,12 +87,12 @@ class OrderTest extends TestCase
      */
     public function it_can_be_set_customer(): void
     {
-        $customer = factory(Customer::class)->create();
+        $customer = factory(PaymentCustomer::class)->create();
         $order = factory(PaymentOrder::class)->create();
 
         $order->setCustomer($customer);
 
-        $this->assertInstanceOf(Customer::class, $order->customer);
+        $this->assertInstanceOf(PaymentCustomer::class, $order->customer);
     }
 
     /**

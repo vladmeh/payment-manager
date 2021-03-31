@@ -4,7 +4,7 @@ namespace Vladmeh\PaymentManager\Tests\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Vladmeh\PaymentManager\Contracts\PayableCustomer;
-use Vladmeh\PaymentManager\Models\Customer;
+use Vladmeh\PaymentManager\Models\PaymentCustomer;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
 class CustomerTest extends TestCase
@@ -16,7 +16,7 @@ class CustomerTest extends TestCase
      */
     public function it_can_be_created_customer(): void
     {
-        $customer = factory(Customer::class)->create();
+        $customer = factory(PaymentCustomer::class)->create();
 
         $this->assertInstanceOf(PayableCustomer::class, $customer);
         $this->assertDatabaseHas('customers', $customer->toArray());
@@ -27,7 +27,7 @@ class CustomerTest extends TestCase
      */
     public function it_can_be_get_account(): void
     {
-        $customer = factory(Customer::class)->create();
+        $customer = factory(PaymentCustomer::class)->create();
 
         $this->assertEquals($customer->account, $customer->getAccount());
     }
@@ -37,7 +37,7 @@ class CustomerTest extends TestCase
      */
     public function it_can_be_get_email(): void
     {
-        $customer = factory(Customer::class)->create();
+        $customer = factory(PaymentCustomer::class)->create();
 
         $this->assertEquals($customer->email, $customer->getEmail());
     }
@@ -47,7 +47,7 @@ class CustomerTest extends TestCase
      */
     public function it_can_be_get_phone(): void
     {
-        $customer = factory(Customer::class)->create();
+        $customer = factory(PaymentCustomer::class)->create();
 
         $this->assertEquals($customer->phone, $customer->getPhone());
     }
@@ -57,7 +57,7 @@ class CustomerTest extends TestCase
      */
     public function it_can_be_get_comment(): void
     {
-        $customer = factory(Customer::class)->create();
+        $customer = factory(PaymentCustomer::class)->create();
 
         $this->assertEquals($customer->comment, $customer->getComment());
     }

@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Vladmeh\PaymentManager\Contracts\PayableCustomer;
 use Vladmeh\PaymentManager\Order\PaymentCustomerTrait;
 
-class Customer extends Model implements PayableCustomer
+class PaymentCustomer extends Model implements PayableCustomer
 {
     use PaymentCustomerTrait;
+
+    protected $table = 'customers';
 
     public $timestamps = false;
     protected $guarded = [];

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Vladmeh\PaymentManager\Models\Customer;
+use Vladmeh\PaymentManager\Models\PaymentCustomer;
 use Vladmeh\PaymentManager\Models\PaymentOrder;
 use Vladmeh\PaymentManager\Pscb\PaymentStatus;
 use Vladmeh\PaymentManager\Requests\NotificationRequest;
@@ -74,7 +74,7 @@ class NotificationRequestTest extends TestCase
     {
         parent::setUp();
 
-        $customer = factory(Customer::class)->create();
+        $customer = factory(PaymentCustomer::class)->create();
         $orders = factory(PaymentOrder::class, 3)->create(
             ['customer_id' => $customer->id]
         );

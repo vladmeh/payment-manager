@@ -9,12 +9,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property int quantity
  * @property int amount
  */
-class OrderItem extends Model
+class PaymentOrderItem extends Model
 {
+    protected $table ='order_items';
     protected $guarded = [];
-
     protected $appends = ['amount'];
-
     protected $attributes = [
         'quantity' => 1
     ];

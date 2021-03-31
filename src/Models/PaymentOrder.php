@@ -44,7 +44,7 @@ class PaymentOrder extends Model implements PayableOrder
      */
     public function orderItems(): HasMany
     {
-        return $this->hasMany(OrderItem::class, 'order_id', 'uuid');
+        return $this->hasMany(PaymentOrderItem::class, 'order_id', 'uuid');
     }
 
     /**
@@ -52,7 +52,7 @@ class PaymentOrder extends Model implements PayableOrder
      */
     public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(PaymentCustomer::class);
     }
 
     /**
