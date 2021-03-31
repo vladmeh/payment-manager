@@ -12,10 +12,10 @@ use Vladmeh\PaymentManager\Contracts\PayableOrder;
 
 class PaymentService
 {
-    /** @var PaymentRequest */
+    /** @var OrderPaymentRequest */
     private $paymentRequest;
 
-    public function __construct(PaymentRequest $paymentRequest)
+    public function __construct(OrderPaymentRequest $paymentRequest)
     {
         $this->paymentRequest = $paymentRequest;
     }

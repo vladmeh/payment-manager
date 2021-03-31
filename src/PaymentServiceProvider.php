@@ -5,7 +5,7 @@ namespace Vladmeh\PaymentManager;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
-use Vladmeh\PaymentManager\Pscb\PaymentRequest;
+use Vladmeh\PaymentManager\Pscb\OrderPaymentRequest;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
 use Vladmeh\PaymentManager\Requests\NotificationRequest;
 
@@ -19,7 +19,7 @@ class PaymentServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(PaymentService::class, function ($app) {
-            return new PaymentService($app->make(PaymentRequest::class));
+            return new PaymentService($app->make(OrderPaymentRequest::class));
         });
     }
 

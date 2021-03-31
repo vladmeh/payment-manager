@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Response;
 use Vladmeh\PaymentManager\Models\PaymentCustomer;
 use Vladmeh\PaymentManager\Models\PaymentOrder;
-use Vladmeh\PaymentManager\Pscb\PaymentRequest;
+use Vladmeh\PaymentManager\Pscb\OrderPaymentRequest;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
@@ -134,7 +134,7 @@ class PaymentServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->paymentService = new PaymentService(new PaymentRequest);
+        $this->paymentService = new PaymentService(new OrderPaymentRequest);
 
         $this->order = factory(PaymentOrder::class)->create([
             'amount' => 200,

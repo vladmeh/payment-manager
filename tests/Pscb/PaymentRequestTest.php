@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\Response;
 use Vladmeh\PaymentManager\Models\PaymentCustomer;
 use Vladmeh\PaymentManager\Models\PaymentOrder;
-use Vladmeh\PaymentManager\Pscb\PaymentRequest;
+use Vladmeh\PaymentManager\Pscb\OrderPaymentRequest;
 use Vladmeh\PaymentManager\Pscb\PaymentService;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
 class PaymentRequestTest extends TestCase
 {
     /**
-     * @var PaymentRequest
+     * @var OrderPaymentRequest
      */
     private $paymentRequest;
     /**
@@ -56,7 +56,7 @@ class PaymentRequestTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->paymentRequest = new PaymentRequest;
+        $this->paymentRequest = new OrderPaymentRequest;
         $this->paymentService = new PaymentService($this->paymentRequest);
         $this->order = factory(PaymentOrder::class)->make([
             'amount' => 200,
