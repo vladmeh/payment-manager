@@ -11,14 +11,17 @@ use Vladmeh\PaymentManager\Contracts\PayableOrder;
 use Vladmeh\PaymentManager\Order\PayableOrderTrait;
 use Vladmeh\PaymentManager\Pscb\PaymentStatus;
 
+/**
+ * @method static self find(string $orderId)
+ * @property PaymentCustomer customer
+ */
 class PaymentOrder extends Model implements PayableOrder
 {
     use PayableOrderTrait;
 
-    protected $table = 'orders';
-
     public $incrementing = false;
 
+    protected $table = 'orders';
     protected $guarded = [];
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';
@@ -29,6 +32,15 @@ class PaymentOrder extends Model implements PayableOrder
     protected $casts = [
         'payment' => PaymentJson::class,
     ];
+
+    /**
+     * @param $orderId
+     * @return PayableOrder|null
+     */
+    public static function findById($orderId): ?PayableOrder
+    {
+        return self::find($orderId);
+    }
 
     /**
      * @param $value
@@ -80,5 +92,18 @@ class PaymentOrder extends Model implements PayableOrder
                 'state' => $paymentStatus
             ]);
         }
+    }
+
+    /**
+     * @param string $customerAccount
+     * @return bool
+     */
+    public function hasCustomerAccount(string $customerAccount): bool
+    {
+        if (!$this->customer || $this->customer->account != $customerAccount) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -47,16 +47,18 @@ class NotificationRequest extends Request
     /**
      * @param array $paymentData
      * @return string
+     *
+     * @todo Out to object or class
      */
     private function confirmPayment(array $paymentData): string
     {
-        if (!$order = PaymentOrder::find($paymentData['orderId'])) {
+        if (!$order = PaymentOrder::findById($paymentData['orderId'])) {
             Log::channel('payment')->info('Платеж отвергнут: ' . json_encode($paymentData, JSON_UNESCAPED_UNICODE) . ' Не найден заказ.');
 
             return PaymentStatus::ACTION_REJECT;
         }
 
-        if (!$order->customer || $order->customer->account != $paymentData['account']) {
+        if (!$order->hasCustomerAccount($paymentData['account'])) {
             Log::channel('payment')->info('Платеж отвергнут: ' . json_encode($paymentData, JSON_UNESCAPED_UNICODE) . ' Не найден клиент.');
 
             return PaymentStatus::ACTION_REJECT;

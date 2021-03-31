@@ -5,6 +5,12 @@ namespace Vladmeh\PaymentManager\Contracts;
 interface PayableOrder
 {
     /**
+     * @param $orderId
+     * @return PayableOrder|null
+     */
+    public static function findById($orderId): ?PayableOrder;
+
+    /**
      * @return int
      */
     public function getAmount(): int;
@@ -19,4 +25,10 @@ interface PayableOrder
      * @return void
      */
     public function setCustomer(PayableCustomer $customer);
+
+    /**
+     * @param string $customerAccount
+     * @return bool
+     */
+    public function hasCustomerAccount(string $customerAccount): bool;
 }
