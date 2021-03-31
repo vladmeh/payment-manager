@@ -3,7 +3,7 @@
 namespace Vladmeh\PaymentManager\Tests\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
+use Vladmeh\PaymentManager\Contracts\PayableCustomer;
 use Vladmeh\PaymentManager\Models\Customer;
 use Vladmeh\PaymentManager\Tests\TestCase;
 
@@ -18,7 +18,7 @@ class CustomerTest extends TestCase
     {
         $customer = factory(Customer::class)->create();
 
-        $this->assertInstanceOf(PaymentCustomer::class, $customer);
+        $this->assertInstanceOf(PayableCustomer::class, $customer);
         $this->assertDatabaseHas('customers', $customer->toArray());
     }
 

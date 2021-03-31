@@ -2,7 +2,7 @@
 
 namespace Vladmeh\PaymentManager\Contracts;
 
-interface PaymentOrder
+interface PayableOrder
 {
     /**
      * @return int
@@ -15,14 +15,8 @@ interface PaymentOrder
     public function getOrderId(): string;
 
     /**
-     * @param PaymentCustomer $customer
+     * @param PayableCustomer $customer
      * @return void
      */
-    public function setCustomer(PaymentCustomer $customer);
-
-    /**
-     * @param mixed $payment
-     * @return mixed|void
-     */
-    public function setPayment($payment);
+    public function setCustomer(PayableCustomer $customer);
 }

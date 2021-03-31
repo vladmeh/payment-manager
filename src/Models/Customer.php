@@ -3,10 +3,10 @@
 namespace Vladmeh\PaymentManager\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
+use Vladmeh\PaymentManager\Contracts\PayableCustomer;
 use Vladmeh\PaymentManager\Order\PaymentCustomerTrait;
 
-class Customer extends Model implements PaymentCustomer
+class Customer extends Model implements PayableCustomer
 {
     use PaymentCustomerTrait;
 

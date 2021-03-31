@@ -4,16 +4,17 @@ namespace Vladmeh\PaymentManager\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Vladmeh\PaymentManager\Models\Order;
+use Vladmeh\PaymentManager\Contracts\PayableOrder;
 
 class ConfirmationOrderEvent
 {
     use Dispatchable, SerializesModels;
 
     /**
-     * @var Order
+     * @var PayableOrder
      */
     public $order;
+
     /**
      * @var array
      */
@@ -24,7 +25,7 @@ class ConfirmationOrderEvent
      * @param $order
      * @param array $paymentData
      */
-    public function __construct(Order $order, array $paymentData)
+    public function __construct(PayableOrder $order, array $paymentData)
     {
         $this->order = $order;
         $this->paymentData = $paymentData;

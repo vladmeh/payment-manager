@@ -7,8 +7,8 @@ namespace Vladmeh\PaymentManager\Pscb;
 use DateTime;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Carbon;
-use Vladmeh\PaymentManager\Contracts\PaymentCustomer;
-use Vladmeh\PaymentManager\Contracts\PaymentOrder;
+use Vladmeh\PaymentManager\Contracts\PayableCustomer;
+use Vladmeh\PaymentManager\Contracts\PayableOrder;
 
 class PaymentService
 {
@@ -23,12 +23,12 @@ class PaymentService
     /**
      * Формирование сообщения для запроса создания платежа в ПСКБ.
      *
-     * @param PaymentOrder $order
-     * @param PaymentCustomer $customer
+     * @param PayableOrder $order
+     * @param PayableCustomer $customer
      * @param array $queryParameters
      * @return MessageRequestBuilder
      */
-    public function createMessageRequest(PaymentOrder $order, PaymentCustomer $customer, array $queryParameters = []): MessageRequestBuilder
+    public function createMessageRequest(PayableOrder $order, PayableCustomer $customer, array $queryParameters = []): MessageRequestBuilder
     {
         return MessageRequestBuilder::make($order->getAmount(), $order->getOrderId(), $queryParameters)
             ->setCustomerAccount($customer->getAccount())
