@@ -1,9 +1,9 @@
 <?php
 
 use Faker\Generator as Faker;
+use Fh\PaymentManager\Models\PaymentCustomer;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Str;
-use Fh\PaymentManager\Models\PaymentCustomer;
 
 /** @var Factory $factory */
 $factory->define(PaymentCustomer::class, function (Faker $faker) {

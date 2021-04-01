@@ -2,10 +2,10 @@
 
 namespace Fh\PaymentManager\Tests\Pscb;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Fh\PaymentManager\Models\PaymentOrder;
 use Fh\PaymentManager\Pscb\PaymentStatus;
 use Fh\PaymentManager\Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PaymentStatusTest extends TestCase
 {

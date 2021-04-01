@@ -2,12 +2,12 @@
 
 namespace Fh\PaymentManager;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\ServiceProvider;
 use Fh\PaymentManager\Pscb\OrderPaymentRequest;
 use Fh\PaymentManager\Pscb\PaymentService;
 use Fh\PaymentManager\Requests\NotificationRequest;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\ServiceProvider;
 
 class PaymentServiceProvider extends ServiceProvider
 {

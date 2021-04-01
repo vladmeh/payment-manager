@@ -2,10 +2,10 @@
 
 namespace Fh\PaymentManager\Tests\Models;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Fh\PaymentManager\Contracts\PayableCustomer;
 use Fh\PaymentManager\Models\PaymentCustomer;
 use Fh\PaymentManager\Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CustomerTest extends TestCase
 {

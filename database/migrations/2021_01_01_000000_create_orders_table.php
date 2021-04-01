@@ -1,9 +1,9 @@
 <?php
 
+use Fh\PaymentManager\Pscb\PaymentStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Fh\PaymentManager\Pscb\PaymentStatus;
 
 class CreateOrdersTable extends Migration
 {

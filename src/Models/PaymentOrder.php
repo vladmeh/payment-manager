@@ -2,14 +2,14 @@
 
 namespace Fh\PaymentManager\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Ramsey\Uuid\Nonstandard\Uuid;
 use Fh\PaymentManager\Casts\PaymentJson;
 use Fh\PaymentManager\Contracts\PayableOrder;
 use Fh\PaymentManager\Order\PayableOrderTrait;
 use Fh\PaymentManager\Pscb\PaymentStatus;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Ramsey\Uuid\Nonstandard\Uuid;
 
 /**
  * @method static self find(string $orderId)

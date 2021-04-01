@@ -2,10 +2,10 @@
 
 namespace Fh\PaymentManager\Tests\Pscb;
 
-use Illuminate\Http\Request;
 use Fh\PaymentManager\Pscb\PaymentEncrypt;
 use Fh\PaymentManager\Pscb\RequestDecryptMiddleware;
 use Fh\PaymentManager\Tests\TestCase;
+use Illuminate\Http\Request;
 
 class RequestDecryptMiddlewareTest extends TestCase
 {

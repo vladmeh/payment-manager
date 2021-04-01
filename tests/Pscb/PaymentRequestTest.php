@@ -2,14 +2,14 @@
 
 namespace Fh\PaymentManager\Tests\Pscb;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Client\Response;
 use Fh\PaymentManager\Models\PaymentCustomer;
 use Fh\PaymentManager\Models\PaymentOrder;
 use Fh\PaymentManager\Pscb\OrderPaymentRequest;
 use Fh\PaymentManager\Pscb\PaymentService;
 use Fh\PaymentManager\Tests\TestCase;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Client\Response;
 
 class PaymentRequestTest extends TestCase
 {

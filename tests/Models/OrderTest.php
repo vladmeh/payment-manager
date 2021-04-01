@@ -2,12 +2,12 @@
 
 namespace Fh\PaymentManager\Tests\Models;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Fh\PaymentManager\Models\PaymentCustomer;
 use Fh\PaymentManager\Models\PaymentOrder;
 use Fh\PaymentManager\Models\PaymentOrderItem;
 use Fh\PaymentManager\Pscb\PaymentStatus;
 use Fh\PaymentManager\Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OrderTest extends TestCase
 {

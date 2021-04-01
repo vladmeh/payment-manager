@@ -2,9 +2,9 @@
 
 namespace Fh\PaymentManager\Events;
 
+use Fh\PaymentManager\Contracts\PayableOrder;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Fh\PaymentManager\Contracts\PayableOrder;
 
 class ConfirmationOrderEvent
 {

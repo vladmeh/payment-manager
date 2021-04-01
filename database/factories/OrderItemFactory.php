@@ -1,8 +1,8 @@
 <?php
 
 use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
 use Fh\PaymentManager\Models\PaymentOrderItem;
+use Illuminate\Database\Eloquent\Factory;
 
 /** @var Factory $factory */
 $factory->define(PaymentOrderItem::class, function (Faker $faker) {

@@ -2,9 +2,9 @@
 
 namespace Fh\PaymentManager\Tests\Models;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Fh\PaymentManager\Models\PaymentOrderItem;
 use Fh\PaymentManager\Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OrderItemTest extends TestCase
 {

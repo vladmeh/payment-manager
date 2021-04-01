@@ -2,8 +2,8 @@
 
 namespace Fh\PaymentManager\Tests;
 
-use Orchestra\Testbench\TestCase as BaseTestCase;
 use Fh\PaymentManager\PaymentServiceProvider;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
