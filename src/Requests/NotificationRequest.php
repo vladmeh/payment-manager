@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Vladmeh\PaymentManager\Requests;
+namespace Fh\PaymentManager\Requests;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Vladmeh\PaymentManager\Events\ConfirmationOrderEvent;
-use Vladmeh\PaymentManager\Models\PaymentOrder;
-use Vladmeh\PaymentManager\Pscb\PaymentStatus;
+use Fh\PaymentManager\Events\ConfirmationOrderEvent;
+use Fh\PaymentManager\Models\PaymentOrder;
+use Fh\PaymentManager\Pscb\PaymentStatus;
 
 class NotificationRequest extends Request
 {

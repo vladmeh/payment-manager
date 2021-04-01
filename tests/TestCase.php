@@ -1,9 +1,9 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Tests;
+namespace Fh\PaymentManager\Tests;
 
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Vladmeh\PaymentManager\PaymentServiceProvider;
+use Fh\PaymentManager\PaymentServiceProvider;
 
 abstract class TestCase extends BaseTestCase
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Tests\Pscb;
+namespace Fh\PaymentManager\Tests\Pscb;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Vladmeh\PaymentManager\Models\PaymentOrder;
-use Vladmeh\PaymentManager\Pscb\PaymentStatus;
-use Vladmeh\PaymentManager\Tests\TestCase;
+use Fh\PaymentManager\Models\PaymentOrder;
+use Fh\PaymentManager\Pscb\PaymentStatus;
+use Fh\PaymentManager\Tests\TestCase;
 
 class PaymentStatusTest extends TestCase
 {

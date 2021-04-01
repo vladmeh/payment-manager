@@ -1,6 +1,6 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Tests;
+namespace Fh\PaymentManager\Tests;
 
 class ConfigTest extends TestCase
 {

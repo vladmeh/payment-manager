@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vladmeh\PaymentManager\Pscb;
+namespace Fh\PaymentManager\Pscb;
 
 use Closure;
 use Illuminate\Http\Request;

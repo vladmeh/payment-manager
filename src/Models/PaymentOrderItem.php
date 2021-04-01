@@ -1,6 +1,6 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Models;
+namespace Fh\PaymentManager\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

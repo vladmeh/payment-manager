@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Vladmeh\PaymentManager\Pscb;
+namespace Fh\PaymentManager\Pscb;
 
 use DateTime;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Carbon;
-use Vladmeh\PaymentManager\Contracts\PayableCustomer;
-use Vladmeh\PaymentManager\Contracts\PayableOrder;
+use Fh\PaymentManager\Contracts\PayableCustomer;
+use Fh\PaymentManager\Contracts\PayableOrder;
 
 class PaymentService
 {

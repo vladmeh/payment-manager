@@ -1,10 +1,10 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Events;
+namespace Fh\PaymentManager\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Vladmeh\PaymentManager\Contracts\PayableOrder;
+use Fh\PaymentManager\Contracts\PayableOrder;
 
 class ConfirmationOrderEvent
 {

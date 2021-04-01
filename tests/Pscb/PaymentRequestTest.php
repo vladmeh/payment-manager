@@ -1,15 +1,15 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Tests\Pscb;
+namespace Fh\PaymentManager\Tests\Pscb;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\Response;
-use Vladmeh\PaymentManager\Models\PaymentCustomer;
-use Vladmeh\PaymentManager\Models\PaymentOrder;
-use Vladmeh\PaymentManager\Pscb\OrderPaymentRequest;
-use Vladmeh\PaymentManager\Pscb\PaymentService;
-use Vladmeh\PaymentManager\Tests\TestCase;
+use Fh\PaymentManager\Models\PaymentCustomer;
+use Fh\PaymentManager\Models\PaymentOrder;
+use Fh\PaymentManager\Pscb\OrderPaymentRequest;
+use Fh\PaymentManager\Pscb\PaymentService;
+use Fh\PaymentManager\Tests\TestCase;
 
 class PaymentRequestTest extends TestCase
 {

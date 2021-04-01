@@ -1,6 +1,6 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Casts;
+namespace Fh\PaymentManager\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 

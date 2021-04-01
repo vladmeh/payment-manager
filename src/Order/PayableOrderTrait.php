@@ -1,8 +1,8 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Order;
+namespace Fh\PaymentManager\Order;
 
-use Vladmeh\PaymentManager\Contracts\PayableCustomer;
+use Fh\PaymentManager\Contracts\PayableCustomer;
 
 /**
  * @property int amount

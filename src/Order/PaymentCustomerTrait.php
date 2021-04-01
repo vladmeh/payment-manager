@@ -1,6 +1,6 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Order;
+namespace Fh\PaymentManager\Order;
 
 /**
  * @property string account

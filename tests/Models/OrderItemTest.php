@@ -1,10 +1,10 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Tests\Models;
+namespace Fh\PaymentManager\Tests\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Vladmeh\PaymentManager\Models\PaymentOrderItem;
-use Vladmeh\PaymentManager\Tests\TestCase;
+use Fh\PaymentManager\Models\PaymentOrderItem;
+use Fh\PaymentManager\Tests\TestCase;
 
 class OrderItemTest extends TestCase
 {

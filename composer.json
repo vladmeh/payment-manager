@@ -1,10 +1,10 @@
 {
-    "name": "vladmeh/payment-manager",
-    "version": "2.4.1",
+    "name": "fitnesshouse/payment-manager",
+    "version": "1.0.1",
     "description": "Payment system manager",
     "license": "MIT",
     "keywords": ["laravel", "Payment system"],
-    "homepage": "https://github.com/vladmeh/payment-manager",
+    "homepage": "https://github.com/fhcs/fh-payment-manager",
     "authors": [
         {
             "name": "Mikhaylov.V",
@@ -24,18 +24,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Vladmeh\\PaymentManager\\": "src/"
+            "Fh\\PaymentManager\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Vladmeh\\PaymentManager\\Tests\\": "tests/"
+            "Fh\\PaymentManager\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Vladmeh\\PaymentManager\\PaymentServiceProvider"
+                "Fh\\PaymentManager\\PaymentServiceProvider"
             ],
             "dont-discover": [
                 "*"

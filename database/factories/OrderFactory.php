@@ -2,8 +2,8 @@
 
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
-use Vladmeh\PaymentManager\Models\PaymentOrder;
-use Vladmeh\PaymentManager\Pscb\PaymentStatus;
+use Fh\PaymentManager\Models\PaymentOrder;
+use Fh\PaymentManager\Pscb\PaymentStatus;
 
 /** @var Factory $factory */
 $factory->define(PaymentOrder::class, function (Faker $faker) {

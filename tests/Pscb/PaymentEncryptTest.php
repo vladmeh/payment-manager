@@ -1,9 +1,9 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Tests\Pscb;
+namespace Fh\PaymentManager\Tests\Pscb;
 
-use Vladmeh\PaymentManager\Pscb\PaymentEncrypt;
-use Vladmeh\PaymentManager\Tests\TestCase;
+use Fh\PaymentManager\Pscb\PaymentEncrypt;
+use Fh\PaymentManager\Tests\TestCase;
 
 class PaymentEncryptTest extends TestCase
 {

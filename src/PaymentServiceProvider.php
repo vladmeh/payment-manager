@@ -1,13 +1,13 @@
 <?php
 
-namespace Vladmeh\PaymentManager;
+namespace Fh\PaymentManager;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
-use Vladmeh\PaymentManager\Pscb\OrderPaymentRequest;
-use Vladmeh\PaymentManager\Pscb\PaymentService;
-use Vladmeh\PaymentManager\Requests\NotificationRequest;
+use Fh\PaymentManager\Pscb\OrderPaymentRequest;
+use Fh\PaymentManager\Pscb\PaymentService;
+use Fh\PaymentManager\Requests\NotificationRequest;
 
 class PaymentServiceProvider extends ServiceProvider
 {

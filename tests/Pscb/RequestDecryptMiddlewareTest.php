@@ -1,11 +1,11 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Tests\Pscb;
+namespace Fh\PaymentManager\Tests\Pscb;
 
 use Illuminate\Http\Request;
-use Vladmeh\PaymentManager\Pscb\PaymentEncrypt;
-use Vladmeh\PaymentManager\Pscb\RequestDecryptMiddleware;
-use Vladmeh\PaymentManager\Tests\TestCase;
+use Fh\PaymentManager\Pscb\PaymentEncrypt;
+use Fh\PaymentManager\Pscb\RequestDecryptMiddleware;
+use Fh\PaymentManager\Tests\TestCase;
 
 class RequestDecryptMiddlewareTest extends TestCase
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vladmeh\PaymentManager\Pscb;
+namespace Fh\PaymentManager\Pscb;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;

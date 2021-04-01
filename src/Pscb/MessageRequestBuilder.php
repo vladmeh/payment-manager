@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vladmeh\PaymentManager\Pscb;
+namespace Fh\PaymentManager\Pscb;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;

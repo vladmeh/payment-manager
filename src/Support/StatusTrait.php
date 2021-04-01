@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vladmeh\PaymentManager\Support;
+namespace Fh\PaymentManager\Support;
 
 trait StatusTrait
 {

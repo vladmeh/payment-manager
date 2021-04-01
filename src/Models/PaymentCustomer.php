@@ -1,10 +1,10 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Models;
+namespace Fh\PaymentManager\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Vladmeh\PaymentManager\Contracts\PayableCustomer;
-use Vladmeh\PaymentManager\Order\PaymentCustomerTrait;
+use Fh\PaymentManager\Contracts\PayableCustomer;
+use Fh\PaymentManager\Order\PaymentCustomerTrait;
 
 class PaymentCustomer extends Model implements PayableCustomer
 {

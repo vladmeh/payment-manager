@@ -1,15 +1,15 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Models;
+namespace Fh\PaymentManager\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Ramsey\Uuid\Nonstandard\Uuid;
-use Vladmeh\PaymentManager\Casts\PaymentJson;
-use Vladmeh\PaymentManager\Contracts\PayableOrder;
-use Vladmeh\PaymentManager\Order\PayableOrderTrait;
-use Vladmeh\PaymentManager\Pscb\PaymentStatus;
+use Fh\PaymentManager\Casts\PaymentJson;
+use Fh\PaymentManager\Contracts\PayableOrder;
+use Fh\PaymentManager\Order\PayableOrderTrait;
+use Fh\PaymentManager\Pscb\PaymentStatus;
 
 /**
  * @method static self find(string $orderId)

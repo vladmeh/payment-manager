@@ -1,6 +1,6 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Contracts;
+namespace Fh\PaymentManager\Contracts;
 
 interface PayableOrder
 {

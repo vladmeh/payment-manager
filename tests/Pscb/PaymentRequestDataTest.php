@@ -1,9 +1,9 @@
 <?php
 
-namespace Vladmeh\PaymentManager\Tests\Pscb;
+namespace Fh\PaymentManager\Tests\Pscb;
 
-use Vladmeh\PaymentManager\Pscb\MessageRequestBuilder;
-use Vladmeh\PaymentManager\Tests\TestCase;
+use Fh\PaymentManager\Pscb\MessageRequestBuilder;
+use Fh\PaymentManager\Tests\TestCase;
 
 class PaymentRequestDataTest extends TestCase
 {

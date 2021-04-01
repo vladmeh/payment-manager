@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Vladmeh\PaymentManager\Pscb;
+namespace Fh\PaymentManager\Pscb;
 
-use Vladmeh\PaymentManager\Support\StatusTrait;
+use Fh\PaymentManager\Support\StatusTrait;
 
 class PaymentStatus
 {
