@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.com/vladmeh/payment-manager.svg?branch=master)](https://travis-ci.com/vladmeh/payment-manager)
-[![StyleCI](https://github.styleci.io/repos/334944839/shield?branch=master)](https://github.styleci.io/repos/334944839?branch=master)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/654b16db2d794a3fabe5f5f832ca7283)](https://www.codacy.com/gh/vladmeh/payment-manager/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=vladmeh/payment-manager&amp;utm_campaign=Badge_Grade)
-[![Latest Stable Version](https://poser.pugx.org/vladmeh/payment-manager/v)](//packagist.org/packages/vladmeh/payment-manager) 
-[![Daily Downloads](https://poser.pugx.org/vladmeh/payment-manager/d/daily)](//packagist.org/packages/vladmeh/payment-manager)
-[![License](https://poser.pugx.org/vladmeh/payment-manager/license)](//packagist.org/packages/vladmeh/payment-manager)
+[comment]: <> ([![Build Status]&#40;https://travis-ci.com/vladmeh/payment-manager.svg?branch=master&#41;]&#40;https://travis-ci.com/vladmeh/payment-manager&#41;)
+[comment]: <> ([![StyleCI]&#40;https://github.styleci.io/repos/334944839/shield?branch=master&#41;]&#40;https://github.styleci.io/repos/334944839?branch=master&#41;)
+[comment]: <> ([![Codacy Badge]&#40;https://app.codacy.com/project/badge/Grade/654b16db2d794a3fabe5f5f832ca7283&#41;]&#40;https://www.codacy.com/gh/vladmeh/payment-manager/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=vladmeh/payment-manager&amp;utm_campaign=Badge_Grade&#41;)
+[comment]: <> ([![Latest Stable Version]&#40;https://poser.pugx.org/vladmeh/payment-manager/v&#41;]&#40;//packagist.org/packages/vladmeh/payment-manager&#41; )
+[comment]: <> ([![Daily Downloads]&#40;https://poser.pugx.org/vladmeh/payment-manager/d/daily&#41;]&#40;//packagist.org/packages/vladmeh/payment-manager&#41;)
+[comment]: <> ([![License]&#40;https://poser.pugx.org/vladmeh/payment-manager/license&#41;]&#40;//packagist.org/packages/vladmeh/payment-manager&#41;)
 
 # payment-manager
 
@@ -18,6 +18,7 @@ _Реализовано:_
 * Базовый интерфейс для создания платежа
 * Запрос параметров платежа
 * Запрос списка платежей
+* Оповещение от платежной системы web ресурса об изменении статуса платежей
 
 _Планируется:_
 * Подключение нескольких платежных систем
@@ -31,7 +32,7 @@ _Планируется:_
 ### Composer
 
 ```shell script
-composer require vladmeh/payment-manager
+composer require fitnesshouse/payment-manager
 ```
 
 or add the following to your requirement part within the composer.json:
@@ -39,7 +40,7 @@ or add the following to your requirement part within the composer.json:
 ```json
 {
     "require": {
-        "vladmeh/payment-manager": "^2.*"
+        "fitnesshouse/payment-manager": "^1.*"
     }
 }
 ```
