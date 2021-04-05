@@ -19,7 +19,7 @@ class CustomerTest extends TestCase
         $customer = factory(PaymentCustomer::class)->create();
 
         $this->assertInstanceOf(PayableCustomer::class, $customer);
-        $this->assertDatabaseHas('customers', $customer->toArray());
+        $this->assertDatabaseHas('payment_customers', $customer->toArray());
     }
 
     /**

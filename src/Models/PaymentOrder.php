@@ -21,7 +21,7 @@ class PaymentOrder extends Model implements PayableOrder
 
     public $incrementing = false;
 
-    protected $table = 'orders';
+    protected $table = 'payment_orders';
     protected $guarded = [];
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

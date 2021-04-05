@@ -13,7 +13,7 @@ class CreateOrderItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_items', function (Blueprint $table) {
+        Schema::create('payment_order_items', function (Blueprint $table) {
             $table->id();
 
             $table->string('text')->comment('Наименование позиции.');

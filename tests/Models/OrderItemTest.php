@@ -22,8 +22,8 @@ class OrderItemTest extends TestCase
 
         $orderItem = factory(PaymentOrderItem::class)->create($data);
 
-        $this->assertDatabaseCount('order_items', 1);
-        $this->assertDatabaseHas('order_items', $data);
+        $this->assertDatabaseCount('payment_order_items', 1);
+        $this->assertDatabaseHas('payment_order_items', $data);
         $this->assertEquals('Тестовая услуга', $orderItem->text);
         $this->assertEquals(100, $orderItem->price);
         $this->assertEquals(1, $orderItem->quantity);

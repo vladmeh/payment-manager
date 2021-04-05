@@ -14,7 +14,7 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('payment_orders', function (Blueprint $table) {
             $table->uuid('uuid')->primary()->comment('Уникальный идентификатор заказа');
             $table->decimal('amount')->comment('Сумма заказа в рублях');
             $table->timestamp('created_at')->comment('Дата создания заказа');

@@ -21,8 +21,8 @@ class OrderTest extends TestCase
         $order = factory(PaymentOrder::class)
             ->create(['amount' => 100, 'details' => 'Тестовая услуга']);
 
-        $this->assertDatabaseCount('orders', 1);
-        $this->assertDatabaseHas('orders', ['amount' => 100, 'details' => 'Тестовая услуга']);
+        $this->assertDatabaseCount('payment_orders', 1);
+        $this->assertDatabaseHas('payment_orders', ['amount' => 100, 'details' => 'Тестовая услуга']);
         $this->assertEquals(100, $order->amount);
         $this->assertEquals('Тестовая услуга', $order->details);
         $this->assertEquals(PaymentStatus::UNDEF, $order->state);
@@ -59,8 +59,8 @@ class OrderTest extends TestCase
         $orderItem = factory(PaymentOrderItem::class)->create();
         $order->orderItems()->save($orderItem);
 
-        $this->assertDatabaseCount('orders', 1);
-        $this->assertDatabaseCount('order_items', 1);
+        $this->assertDatabaseCount('payment_orders', 1);
+        $this->assertDatabaseCount('payment_order_items', 1);
         $this->assertEquals($order->uuid, $order->orderItems->first()->order_id);
     }
 
@@ -77,8 +77,8 @@ class OrderTest extends TestCase
         ];
         $order->orderItems()->create($dataOrderItem);
 
-        $this->assertDatabaseCount('orders', 1);
-        $this->assertDatabaseCount('order_items', 1);
+        $this->assertDatabaseCount('payment_orders', 1);
+        $this->assertDatabaseCount('payment_order_items', 1);
         $this->assertEquals($order->uuid, $order->orderItems->first()->order_id);
     }
 
@@ -128,7 +128,7 @@ class OrderTest extends TestCase
 
         $order->setPayment(['payment' => $payment]);
 
-        $this->assertDatabaseHas('orders', ['payment' => json_encode($payment)]);
+        $this->assertDatabaseHas('payment_orders', ['payment' => json_encode($payment)]);
         $this->assertEquals($payment, $order->payment);
         $this->assertTrue($order->hasCast('payment'));
     }

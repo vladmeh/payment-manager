@@ -11,7 +11,7 @@ class PaymentCustomer extends Model implements PayableCustomer
     use PaymentCustomerTrait;
 
     public $timestamps = false;
-    protected $table = 'customers';
+    protected $table = 'payment_customers';
     protected $guarded = [];
     protected $attributes = [
         'email' => '',

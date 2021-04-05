@@ -13,7 +13,7 @@ class CreateCustomersTable extends Migration
      */
     public function up()
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('payment_customers', function (Blueprint $table) {
             $table->id();
             $table->string('account')->unique()->comment('Уникальный идентификатор Плательщика.');
             $table->string('email')->nullable()->default('')->comment('Контактный e-mail Плательщика.');
