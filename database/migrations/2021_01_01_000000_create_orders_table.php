@@ -27,7 +27,7 @@ class CreateOrdersTable extends Migration
 
             $table->foreignId('customer_id')
                 ->nullable()
-                ->constrained();
+                ->constrained('payment_customers');
         });
     }
 

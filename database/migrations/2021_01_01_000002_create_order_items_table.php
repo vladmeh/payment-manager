@@ -22,7 +22,7 @@ class CreateOrderItemsTable extends Migration
 
             $table->foreignUuid('order_id')
                 ->nullable()
-                ->constrained('orders', 'uuid')
+                ->constrained('payment_orders', 'uuid')
                 ->onDelete('cascade');
 
             $table->timestamps();
