@@ -12,7 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Ramsey\Uuid\Nonstandard\Uuid;
 
 /**
- * @method static self find(string $orderId)
+ * @method static Model|self find(string $orderId)
+ * @method static Model|self create(array $attributes = [])
  * @property PaymentCustomer customer
  */
 class PaymentOrder extends Model implements PayableOrder
