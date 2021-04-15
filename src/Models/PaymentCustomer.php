@@ -7,6 +7,8 @@ use Fh\PaymentManager\Order\PaymentCustomerTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @method static Model|self create(array $attributes = [])
+ * @method static Model|self make(array $attributes = [])
  * @method static Model|self firstOrCreate(array $attributes, array $values = [])
  * @method static Model|self updateOrCreate(array $attributes, array $values = [])
  */
