@@ -20,9 +20,10 @@ class CreateOrderItemsTable extends Migration
             $table->decimal('price')->comment('Цена позиции (с учётом НДС).');
             $table->integer('quantity')->default(1)->comment('Количество позиций.');
 
-            $table->foreignUuid('order_id')
-                ->nullable()
-                ->constrained('payment_orders', 'uuid')
+            $table->uuid('order_id')->nullable();
+            $table->foreign('order_id')
+                ->references('uuid')
+                ->on('payment_orders')
                 ->onDelete('cascade');
 
             $table->timestamps();

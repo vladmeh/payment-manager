@@ -20,14 +20,15 @@ class CreateOrdersTable extends Migration
             $table->timestamp('created_at')->comment('Дата создания заказа');
             $table->string('state')->nullable()->default(PaymentStatus::UNDEF)->comment('Статус оплаты заказа');
 
-            $table->text('details')->nullable()->default('')->comment('Детали заказа');
+            $table->text('details')->nullable()->comment('Детали заказа');
             $table->timestamp('updated_at')->nullable()->comment('Дата обновления записи заказа');
 
-            $table->json('payment')->nullable();
+            $table->text('payment')->nullable()->comment('Детали платежа в json формате');
 
-            $table->foreignId('customer_id')
-                ->nullable()
-                ->constrained('payment_customers');
+            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->foreign('customer_id')
+                ->references('id')
+                ->on('payment_customers');
         });
     }
 
@@ -38,6 +39,6 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('payment_orders');
     }
 }
