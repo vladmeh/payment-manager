@@ -16,6 +16,9 @@ use Ramsey\Uuid\Nonstandard\Uuid;
  * @method static Model|self make(array $attributes = [])
  * @method static Model|self create(array $attributes = [])
  * @property PaymentCustomer customer
+ * @property mixed payment
+ * @property string state
+ * @property string details
  */
 class PaymentOrder extends Model implements PayableOrder
 {

@@ -22,7 +22,7 @@ class ConfirmationOrderEvent
 
     /**
      * ConfirmationOrderEvent constructor.
-     * @param $order
+     * @param PayableOrder $order
      * @param array $paymentData
      */
     public function __construct(PayableOrder $order, array $paymentData)
