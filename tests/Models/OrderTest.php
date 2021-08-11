@@ -2,6 +2,7 @@
 
 namespace Fh\PaymentManager\Tests\Models;
 
+use Fh\PaymentManager\Casts\CastObjectJson;
 use Fh\PaymentManager\Models\PaymentCustomer;
 use Fh\PaymentManager\Models\PaymentOrder;
 use Fh\PaymentManager\Models\PaymentOrderItem;
@@ -129,7 +130,8 @@ class OrderTest extends TestCase
         $order->setPayment(['payment' => $payment]);
 
         $this->assertDatabaseHas('payment_orders', ['payment' => json_encode($payment)]);
-        $this->assertEquals($payment, $order->payment);
+        $this->assertEquals($payment, $order->payment->toArray());
+        $this->assertInstanceOf(CastObjectJson::class, $order->payment);
         $this->assertTrue($order->hasCast('payment'));
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Fh\PaymentManager\Models;
 
-use Fh\PaymentManager\Casts\PaymentJson;
+use Fh\PaymentManager\Casts\PaymentResponse;
 use Fh\PaymentManager\Contracts\PayableOrder;
 use Fh\PaymentManager\Order\PayableOrderTrait;
 use Fh\PaymentManager\Pscb\PaymentStatus;
@@ -35,7 +35,7 @@ class PaymentOrder extends Model implements PayableOrder
     ];
 
     protected $casts = [
-        'payment' => PaymentJson::class,
+        'payment' => PaymentResponse::class,
     ];
 
     /**
