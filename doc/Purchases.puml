@@ -1,0 +1,116 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+header %date("dd MMMM YYYY")
+footer Page %page% of %lastpage%
+
+title Purchases
+
+interface PayableProduct {
+    getName(): String
+    getPrice(): Float
+}
+interface PayableCustomer {
+    getAccount(): String
+    getEmail(): String
+    getPhone(): String
+    getComment(): String
+}
+class OrderFactory {
+    makeOrder(PayableProduct, quantity:Int): Order
+    getOrder(orderId:String): Order
+    destroy(orderId:String):
+}
+entity Product {
+    id: Int
+    orderId:Int
+    name: String
+    price: Float = 0.00
+    quantity: Int = 1
+    setDescription(:Text)
+    getDescription():Text
+}
+entity Order {
+    id: Int
+    products: Collection <<Product>>
+    amount: Float
+    total: Int
+    status: OrderStatus
+    created: Date
+    updated: Date
+    addProduct(PayableProduct, quantity: Int = 1)
+    removeProduct(productId: Int, quantity: Int = 1)
+    deleteProduct(productId)
+}
+entity Customer {
+    account: String {id}
+    email:String
+    phone: String
+    comment: String
+}
+entity Invoice {
+    id: UUID
+    customer: Customer
+    order: Order
+    payment: Payment
+    open: Date
+    closed: Date
+    isClosed(): Boolean
+}
+object Payment {
+    id: Int
+    status: PaymentStatus
+}
+class InvoiceFactory {
+    setCustomer(PayableCustomer): Customer
+    makeInvoice(Customer, Order): Invoice
+    getInvoice(invoiceId: UUID): Invoice
+}
+class PaymentService {
+    paymentRequest: PaymentRequest
+    createRequestQuery(queryBuilderClass: String, ...params): QueryBuilder
+    checkPayment(invoiceId: UUID, ...params): PaymentResponse
+    getPayments(...params): PaymentResponse
+}
+abstract QueryBuilder
+interface PaymentRequest {
+    send(): PaymentResponse
+}
+
+'interface PaymentResponse
+'enum OrderStatus
+enum PaymentStatus {
+    NEW = 'новый';
+    SENT = 'в оплате';
+    END = 'оплачен';
+    REF = 'возвращён';
+    EXP = 'просрочен';
+    HOLD = 'холд';
+    CANCELED = 'отменен';
+    ERR = 'ошибка';
+    REJ = 'отвергнут';
+    UNDEF = 'не определен';
+}
+
+PayableProduct <|.. Product
+PayableCustomer <|... Customer
+Product }--* Order
+Customer --* Invoice
+Order -* Invoice
+
+PayableProduct }..o OrderFactory
+OrderFactory --> Order: create
+
+Customer ..o InvoiceFactory
+Order ..o InvoiceFactory
+'Order .OrderStatus
+
+PaymentService o.. Invoice
+Invoice <- InvoiceFactory: create
+Invoice *-- Payment
+Payment . PaymentStatus
+
+PaymentService o--> QueryBuilder
+PaymentService o--> PaymentRequest
+
+@enduml
