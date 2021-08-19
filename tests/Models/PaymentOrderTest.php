@@ -10,7 +10,7 @@ use Fh\PaymentManager\Pscb\PaymentStatus;
 use Fh\PaymentManager\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class OrderTest extends TestCase
+class PaymentOrderTest extends TestCase
 {
     use RefreshDatabase;
 

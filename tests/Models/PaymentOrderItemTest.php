@@ -6,7 +6,7 @@ use Fh\PaymentManager\Models\PaymentOrderItem;
 use Fh\PaymentManager\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class OrderItemTest extends TestCase
+class PaymentOrderItemTest extends TestCase
 {
     use RefreshDatabase;
 
