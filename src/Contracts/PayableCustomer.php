@@ -19,8 +19,4 @@ interface PayableCustomer
      */
     public function getPhone(): string;
 
-    /**
-     * @return string
-     */
-    public function getComment(): string;
 }

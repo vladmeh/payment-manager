@@ -5,6 +5,8 @@ namespace Fh\PaymentManager\Factories;
 use Fh\PaymentManager\Contracts\PayableProduct;
 use Fh\PaymentManager\Entities\Order;
 use Fh\PaymentManager\Entities\OrderItem;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Validator;
 
 class OrderFactory
 {
@@ -23,10 +25,19 @@ class OrderFactory
     }
 
     /**
+     * @param $product
+     * @return OrderItem
+     */
+    private function createOrderItem($product): OrderItem
+    {
+        return OrderItem::create($this->getAttributes($product));
+    }
+
+    /**
      * @param array|PayableProduct $product
      * @return array
      */
-    private function orderItemAttributes($product): array
+    private function getAttributes($product): array
     {
         $attributes = [];
 
@@ -39,32 +50,28 @@ class OrderFactory
         }
 
         if (is_array($product)) {
-            if (key_exists('name', $product)) {
-                $attributes['name'] = $product['name'];
-            }
-
-            if (!empty($attributes) && key_exists('price', $product)) {
-                $attributes['price'] = $product['price'];
-            }
-
-            if (!empty($attributes)) {
-                $attributes['details'] = $product;
-            }
+            $attributes = [
+                'name' => Arr::get($product, 'name', ''),
+                'price' => Arr::get($product, 'price', ''),
+                'details' => $product
+            ];
         }
 
-        if (empty($attributes)) {
-            throw new \InvalidArgumentException("Невозможно создать OrderItem. Некорректный Product");
-        }
+        $this->validateAttributes($attributes);
 
         return $attributes;
     }
 
-    /**
-     * @param $product
-     * @return OrderItem
-     */
-    private function createOrderItem($product): OrderItem
+    private function validateAttributes(array $attributes)
     {
-        return OrderItem::create($this->orderItemAttributes($product));
+        $validator = Validator::make($attributes, [
+            'name' => ['required', 'string'],
+            'price' => ['required', 'numeric'],
+            'details' => ['required', 'array']
+        ]);
+
+        if ($validator->fails()) {
+            throw new \InvalidArgumentException("Невозможно создать OrderItem. Некорректный Product");
+        }
     }
 }
