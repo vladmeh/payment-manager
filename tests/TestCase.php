@@ -2,6 +2,7 @@
 
 namespace Fh\PaymentManager\Tests;
 
+use Fh\PaymentManager\Facades\OrderFactoryFacade;
 use Fh\PaymentManager\PaymentServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
@@ -17,6 +18,13 @@ abstract class TestCase extends BaseTestCase
     {
         return [
             PaymentServiceProvider::class,
+        ];
+    }
+
+    protected function getPackageAliases($app): array
+    {
+        return [
+            'OrderFactoryFacade' => OrderFactoryFacade::class,
         ];
     }
 }
