@@ -14,6 +14,13 @@ class CreatePurchasesTables extends Migration
      */
     public function up()
     {
+        Schema::create('purchase_customers', function (Blueprint $table) {
+            $table->id();
+            $table->string('account')->unique()->comment('Уникальный идентификатор Плательщика.');
+            $table->string('email')->nullable()->default('')->comment('Контактный e-mail Плательщика.');
+            $table->string('phone')->nullable()->default('')->comment('Контактный телефон Плательщика в международном формате.');
+        });
+
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->uuid('uuid')->primary()->comment('Уникальный идентификатор заказа');
             $table->integer('total')->default(0)->comment('Количество позиций в заказе.');
@@ -25,7 +32,6 @@ class CreatePurchasesTables extends Migration
 
         Schema::create('purchase_order_items', function (Blueprint $table) {
             $table->id();
-
             $table->string('name')->comment('Наименование позиции.');
             $table->text('details')->nullable()->comment('Детали позиции в Json формате');
             $table->decimal('price')->default(0.00)->comment('Цена позиции (с учётом НДС).');
@@ -50,5 +56,6 @@ class CreatePurchasesTables extends Migration
     {
         Schema::dropIfExists('purchase_order_items');
         Schema::dropIfExists('purchase_orders');
+        Schema::dropIfExists('purchase_customers');
     }
 }

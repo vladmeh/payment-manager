@@ -1,6 +1,6 @@
 {
     "name": "fitnesshouse/payment-manager",
-    "version": "2.x-dev",
+    "version": "dev-2.x",
     "description": "Payment system manager",
     "license": "MIT",
     "keywords": ["laravel", "Payment system"],
@@ -23,6 +23,9 @@
         "orchestra/testbench": "^5.0"
     },
     "autoload": {
+        "files": [
+            "src/Helpers/helpers.php"
+        ],
         "psr-4": {
             "Fh\\PaymentManager\\": "src/"
         }

@@ -7,7 +7,7 @@ use Fh\PaymentManager\Models\PaymentCustomer;
 use Fh\PaymentManager\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class CustomerTest extends TestCase
+class PaymentCustomerTest extends TestCase
 {
     use RefreshDatabase;
 
