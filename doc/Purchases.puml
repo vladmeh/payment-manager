@@ -9,6 +9,7 @@ title Purchases
 interface PayableProduct {
     getName(): String
     getPrice(): Float
+    toArray(): Array
 }
 interface PayableCustomer {
     getAccount(): String
@@ -21,26 +22,25 @@ class OrderFactory {
     getOrder(orderId:String): Order
     destroy(orderId:String):
 }
-entity Product {
+entity OrderItem {
     id: Int
-    orderId:Int
+    orderId: Int
     name: String
     price: Float = 0.00
     quantity: Int = 1
-    setDescription(:Text)
-    getDescription():Text
+    details: Json
 }
 entity Order {
-    id: Int
-    products: Collection <<Product>>
+    id: UUID
+    items: Collection <<OrderItem>>
     amount: Float
     total: Int
     status: OrderStatus
     created: Date
     updated: Date
-    addProduct(PayableProduct, quantity: Int = 1)
-    removeProduct(productId: Int, quantity: Int = 1)
-    deleteProduct(productId)
+    addOrderItem(PayableProduct, quantity: Int = 1)
+    removeOrderItem(itemId: Int, quantity: Int = 1)
+    deleteOrderItem(itemId)
 }
 entity Customer {
     account: String {id}
@@ -92,9 +92,9 @@ enum PaymentStatus {
     UNDEF = 'не определен';
 }
 
-PayableProduct <|.. Product
+PayableProduct <|.. OrderItem
 PayableCustomer <|... Customer
-Product }--* Order
+OrderItem }--* Order
 Customer --* Invoice
 Order -* Invoice
 

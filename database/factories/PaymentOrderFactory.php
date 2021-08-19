@@ -1,16 +1,15 @@
 <?php
 
 use Faker\Generator as Faker;
-use Fh\PaymentManager\Entities\Order;
+use Fh\PaymentManager\Models\PaymentOrder;
 use Fh\PaymentManager\Pscb\PaymentStatus;
 use Illuminate\Database\Eloquent\Factory;
 
 /** @var Factory $factory */
-$factory->define(Order::class, function (Faker $faker) {
+$factory->define(PaymentOrder::class, function (Faker $faker) {
     return [
         'uuid' => $faker->uuid,
-        'total' => 0,
-        'amount' => 0.00,
-        'state' => PaymentStatus::NEW,
+        'amount' => random_int(1, 1000),
+        'state' => PaymentStatus::UNDEF,
     ];
 });
