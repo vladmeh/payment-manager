@@ -4,6 +4,7 @@ namespace Fh\PaymentManager\Entities;
 
 use Fh\PaymentManager\Pscb\PaymentStatus;
 use Fh\PaymentManager\Support\HasUuid;
+use Fh\PaymentManager\Support\HideTimestamps;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class Order extends Model
 {
-    use HasUuid;
+    use HasUuid, HideTimestamps;
 
     public $incrementing = false;
 

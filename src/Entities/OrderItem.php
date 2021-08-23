@@ -3,6 +3,7 @@
 namespace Fh\PaymentManager\Entities;
 
 use Fh\PaymentManager\Casts\Json;
+use Fh\PaymentManager\Support\HideTimestamps;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -13,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class OrderItem extends Model
 {
+    use HideTimestamps;
+
     protected $table = 'purchase_order_items';
     protected $guarded = [];
     protected $attributes = [
