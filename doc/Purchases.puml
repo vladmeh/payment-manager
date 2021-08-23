@@ -6,66 +6,84 @@ footer Page %page% of %lastpage%
 
 title Purchases
 
+namespace Model {
+    entity OrderItem {
+        id: Int
+        name: String
+        price: Float = 0.00
+        quantity: Int = 1
+        details: Json
+        order_id: Uuid
+    }
+    entity Order {
+        id: UUID
+        amount: Float
+        total: Int
+        status: OrderStatus
+        created: Date
+        updated: Date
+        addOrderItem(PayableProduct)
+        items(): Collection <<OrderItem>>
+        invoice(): Invoice
+    }
+    entity Customer {
+        account: String {id}
+        email:String
+        phone: String
+        invoices(): Collection <<Invoice>>
+    }
+    entity Invoice {
+        id: int
+        payment: Payment
+        closed: Date
+        created: Date
+        updated: Date
+        customer(): Customer
+        order(): Order
+        getOrderId(): String
+    }
+}
+
+object Payment {
+    id: Int
+    status: PaymentStatus
+}
+enum PaymentStatus {
+    NEW = 'новый'
+    SENT = 'в оплате'
+    END = 'оплачен'
+    REF = 'возвращён'
+    EXP = 'просрочен'
+    HOLD = 'холд'
+    CANCELED = 'отменен'
+    ERR = 'ошибка'
+    REJ = 'отвергнут'
+    UNDEF = 'не определен'
+}
+
 interface PayableProduct {
     getName(): String
     getPrice(): Float
-    toArray(): Array
 }
 interface PayableCustomer {
     getAccount(): String
     getEmail(): String
     getPhone(): String
-    getComment(): String
 }
-class OrderFactory {
-    makeOrder(PayableProduct, quantity:Int): Order
-    getOrder(orderId:String): Order
-    destroy(orderId:String):
+
+namespace Factory {
+    class OrderFactory {
+        createOrder(PayableProduct): Order
+    }
+    class CustomerFactory {
+        defineCustomer(PayableCustomer): Customer
+    }
+    class InvoiceFactory {
+        createInvoice(PayableCustomer, PayableProduct): Invoice
+    }
 }
-entity OrderItem {
-    id: Int
-    orderId: Int
-    name: String
-    price: Float = 0.00
-    quantity: Int = 1
-    details: Json
-}
-entity Order {
-    id: UUID
-    items: Collection <<OrderItem>>
-    amount: Float
-    total: Int
-    status: OrderStatus
-    created: Date
-    updated: Date
-    addOrderItem(PayableProduct, quantity: Int = 1)
-    removeOrderItem(itemId: Int, quantity: Int = 1)
-    deleteOrderItem(itemId)
-}
-entity Customer {
-    account: String {id}
-    email:String
-    phone: String
-    comment: String
-}
-entity Invoice {
-    id: UUID
-    customer: Customer
-    order: Order
-    payment: Payment
-    open: Date
-    closed: Date
-    isClosed(): Boolean
-}
-object Payment {
-    id: Int
-    status: PaymentStatus
-}
-class InvoiceFactory {
-    setCustomer(PayableCustomer): Customer
-    makeInvoice(Customer, Order): Invoice
-    getInvoice(invoiceId: UUID): Invoice
-}
+
+
 class PaymentService {
     paymentRequest: PaymentRequest
     createRequestQuery(queryBuilderClass: String, ...params): QueryBuilder
@@ -79,36 +97,31 @@ interface PaymentRequest {
 
 'interface PaymentResponse
 'enum OrderStatus
-enum PaymentStatus {
-    NEW = 'новый';
-    SENT = 'в оплате';
-    END = 'оплачен';
-    REF = 'возвращён';
-    EXP = 'просрочен';
-    HOLD = 'холд';
-    CANCELED = 'отменен';
-    ERR = 'ошибка';
-    REJ = 'отвергнут';
-    UNDEF = 'не определен';
-}
 
-PayableProduct <|.. OrderItem
-PayableCustomer <|... Customer
 OrderItem }--* Order
-Customer --* Invoice
 Order -* Invoice
+Customer --* Invoice
+Invoice *.. Payment
 
-PayableProduct }..o OrderFactory
-OrderFactory --> Order: create
+PaymentStatus . Payment
 
-Customer ..o InvoiceFactory
-Order ..o InvoiceFactory
+PayableProduct .down.o Factory.InvoiceFactory
+PayableCustomer .down.o Factory.InvoiceFactory
+
+Factory.InvoiceFactory o.down.|> Factory.CustomerFactory
+Factory.InvoiceFactory o.down.|> Factory.OrderFactory
+
+'PayableCustomer <|... Customer
+'PayableProduct }..o OrderFactory
+'OrderFactory --> Order: create
+
+'Customer ..o InvoiceFactory
+'Order ..o InvoiceFactory
 'Order .OrderStatus
 
-PaymentService o.. Invoice
-Invoice <- InvoiceFactory: create
-Invoice *-- Payment
-Payment . PaymentStatus
+'PaymentService o.. Invoice
+'Invoice <- InvoiceFactory: create
+'PaymentStatus . Payment
 
 PaymentService o--> QueryBuilder
 PaymentService o--> PaymentRequest
