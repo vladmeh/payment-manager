@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int total
  * @property float amount
  * @property string status
+ * @property string uuid
  */
 class Order extends Model
 {
@@ -70,5 +71,13 @@ class Order extends Model
     public function invoice(): HasOne
     {
         return $this->hasOne(Invoice::class, 'order_id', 'uuid');
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->uuid;
     }
 }

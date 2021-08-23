@@ -14,7 +14,7 @@ class People implements PayableCustomer
      * @param string $phone
      * @param string $email
      */
-    public function __construct(string $phone, string $email)
+    public function __construct(string $phone = '+7(123)456-78-90', string $email = 'test@test.tt')
     {
         $this->phone = $phone;
         $this->email = $email;

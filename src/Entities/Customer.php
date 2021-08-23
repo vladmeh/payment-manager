@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static Customer firstOrCreate(string[] $keys, string[] $attributes = [])
+ * @property int id
  */
 class Customer extends Model
 {
@@ -24,5 +25,13 @@ class Customer extends Model
     public function invoices(): HasMany
     {
         return $this->hasMany(Invoice::class, 'customer_id', 'id');
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 }

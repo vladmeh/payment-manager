@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @method static Invoice create(array $attributes = [])
  * @property PaymentResponse|null payment
+ * @property Order order
+ * @property Customer customer
  */
 class Invoice extends Model
 {

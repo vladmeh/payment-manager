@@ -3,6 +3,7 @@
 namespace Fh\PaymentManager\Tests;
 
 use Fh\PaymentManager\Facades\CustomerFactoryFacade;
+use Fh\PaymentManager\Facades\InvoiceFactoryFacade;
 use Fh\PaymentManager\Facades\OrderFactoryFacade;
 use Fh\PaymentManager\PaymentServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -27,6 +28,7 @@ abstract class TestCase extends BaseTestCase
         return [
             'OrderFactoryFacade' => OrderFactoryFacade::class,
             'CustomerFactoryFacade' => CustomerFactoryFacade::class,
+            'InvoiceFactoryFacade' => InvoiceFactoryFacade::class,
         ];
     }
 }
