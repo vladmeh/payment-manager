@@ -3,6 +3,7 @@
 namespace Fh\PaymentManager\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static Customer firstOrCreate(string[] $keys, string[] $attributes = [])
@@ -16,4 +17,12 @@ class Customer extends Model
         'email' => '',
         'phone' => '',
     ];
+
+    /**
+     * @return HasMany
+     */
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class, 'customer_id', 'id');
+    }
 }

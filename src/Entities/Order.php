@@ -3,10 +3,11 @@
 namespace Fh\PaymentManager\Entities;
 
 use Fh\PaymentManager\Pscb\PaymentStatus;
+use Fh\PaymentManager\Support\HasUuid;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Ramsey\Uuid\Nonstandard\Uuid;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @method static self create(array $attributes = [])
@@ -17,6 +18,8 @@ use Ramsey\Uuid\Nonstandard\Uuid;
  */
 class Order extends Model
 {
+    use HasUuid;
+
     public $incrementing = false;
 
     protected $table = 'purchase_orders';
@@ -29,15 +32,6 @@ class Order extends Model
         'amount' => 0.00,
         'status' => PaymentStatus::NEW
     ];
-
-    /**
-     * @param $value
-     */
-    public function setCreatedAtAttribute($value)
-    {
-        $this->attributes['created_at'] = $value;
-        $this->attributes['uuid'] = Uuid::uuid6();
-    }
 
     /**
      * @param OrderItem $orderItem
@@ -68,5 +62,13 @@ class Order extends Model
         }
 
         $this->save();
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function invoice(): HasOne
+    {
+        return $this->hasOne(Invoice::class, 'order_id', 'uuid');
     }
 }

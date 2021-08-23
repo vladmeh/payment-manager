@@ -31,7 +31,7 @@ abstract class CastObjectJson implements CastsAttributes, Arrayable, Jsonable
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        return new static(json_decode($value, true));
+        return $value ? new static(json_decode($value, true)) : null;
     }
 
     /**

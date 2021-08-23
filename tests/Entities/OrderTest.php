@@ -9,7 +9,6 @@ use Fh\PaymentManager\Tests\TestCase;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 class OrderTest extends TestCase
 {
@@ -31,7 +30,7 @@ class OrderTest extends TestCase
     public function testSetCreatedAtAttribute()
     {
         $order = Order::create();
-        $this->assertInstanceOf(UuidInterface::class, $order->uuid);
+        $this->assertIsString($order->uuid);
         $this->assertTrue(Uuid::isValid($order->uuid));
     }
 

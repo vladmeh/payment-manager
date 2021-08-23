@@ -45,6 +45,22 @@ class CreatePurchasesTables extends Migration
 
             $table->timestamps();
         });
+
+        Schema::create('purchase_invoices', function (Blueprint $table) {
+            $table->id();
+            $table->json('payment')->nullable()->comment('Детали платежа в json формате');
+            $table->timestamp('closed_at')->nullable()->comment('Дата закрытия счета');
+
+            $table->timestamps();
+
+            $table->foreignId('customer_id')
+                ->references('id')
+                ->on('purchase_customers');
+
+            $table->foreignUuid('order_id')
+                ->references('uuid')
+                ->on('purchase_orders');
+        });
     }
 
     /**
@@ -54,6 +70,7 @@ class CreatePurchasesTables extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('purchase_invoices');
         Schema::dropIfExists('purchase_order_items');
         Schema::dropIfExists('purchase_orders');
         Schema::dropIfExists('purchase_customers');
