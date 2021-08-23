@@ -43,6 +43,9 @@ class InvoiceTest extends TestCase
 
         $this->assertEquals(1, Invoice::has('order')->count());
         $this->assertEquals(1, Invoice::has('customer')->count());
+
+        $this->assertArrayNotHasKey('created_at', $this->invoice->toArray());
+        $this->assertArrayNotHasKey('updated_at', $this->invoice->toArray());
     }
 
     public function testCustomer()

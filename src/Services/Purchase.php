@@ -1,6 +1,6 @@
 <?php
 
-namespace Fh\PaymentManager;
+namespace Fh\PaymentManager\Services;
 
 use Fh\PaymentManager\Contracts\PayableCustomer;
 use Fh\PaymentManager\Contracts\PayableProduct;

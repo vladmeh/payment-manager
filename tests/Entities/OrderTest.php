@@ -25,6 +25,8 @@ class OrderTest extends TestCase
             'amount' => 0.00,
             'status' => PaymentStatus::NEW
         ]);
+        $this->assertArrayNotHasKey('created_at', $order->toArray());
+        $this->assertArrayNotHasKey('updated_at', $order->toArray());
     }
 
     public function testSetCreatedAtAttribute()

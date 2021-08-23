@@ -28,6 +28,8 @@ class OrderItemTest extends TestCase
         $this->assertEquals(100.00, $orderItem->price);
         $this->assertNull($orderItem->details);
         $this->assertEquals(1, $orderItem->quantity);
+        $this->assertArrayNotHasKey('created_at', $orderItem->toArray());
+        $this->assertArrayNotHasKey('updated_at', $orderItem->toArray());
     }
 
     /**

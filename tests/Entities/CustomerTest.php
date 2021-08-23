@@ -32,5 +32,8 @@ class CustomerTest extends TestCase
             'phone' => $phone,
             'email' => $email
         ]);
+
+        $this->assertArrayNotHasKey('created_at', $customer->toArray());
+        $this->assertArrayNotHasKey('updated_at', $customer->toArray());
     }
 }

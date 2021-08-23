@@ -20,9 +20,14 @@ class InvoiceFactory
         $order = OrderFactory::createOrder($product);
         $customer = CustomerFactory::defineCustomer($customer);
 
-        return Invoice::create([
+        $invoice = Invoice::create([
             'customer_id' => $customer->getId(),
             'order_id' => $order->getId(),
         ]);
+
+        $invoice->order()->associate($order);
+        $invoice->customer()->associate($customer);
+
+        return $invoice;
     }
 }

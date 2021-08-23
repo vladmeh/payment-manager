@@ -13,7 +13,7 @@ class InvoiceCreated
     /**
      * @var Invoice
      */
-    private $invoice;
+    public $invoice;
 
     public function __construct(Invoice $invoice)
     {
