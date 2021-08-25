@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Order order
  * @property Customer customer
  * @property string order_id
+ * @property int id
  */
 class Invoice extends Model
 {
@@ -47,5 +48,13 @@ class Invoice extends Model
     public function getOrderId(): string
     {
         return $this->order_id;
+    }
+
+    /**
+     * @return float
+     */
+    public function getAmount(): float
+    {
+        return $this->order->amount;
     }
 }

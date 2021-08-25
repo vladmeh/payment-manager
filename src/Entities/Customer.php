@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @method static Customer firstOrCreate(string[] $keys, string[] $attributes = [])
  * @property int id
+ * @property string account
+ * @property string email
+ * @property string phone
  */
 class Customer extends Model
 {
