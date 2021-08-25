@@ -7,7 +7,7 @@ use Fh\PaymentManager\Contracts\PayableProduct;
 use Fh\PaymentManager\Entities\Invoice;
 use Fh\PaymentManager\Events\InvoiceCreated;
 use Fh\PaymentManager\Facades\InvoiceFactoryFacade as InvoiceFactory;
-use Fh\PaymentManager\Facades\PaymentFacade as Payment;
+use Fh\PaymentManager\Facades\PaymentQueryFacade as PaymentQuery;
 use Fh\PaymentManager\Payments\QueryBuilder;
 
 class Purchase
@@ -26,7 +26,13 @@ class Purchase
         });
     }
 
-    public function payInvoice(string $typeRequest, Invoice $invoice,  string $paymentSystem = '')
+    /**
+     * @param string $typeRequest
+     * @param Invoice $invoice
+     * @param string $paymentSystem
+     * @return QueryBuilder
+     */
+    public function paymentQuery(string $typeRequest, Invoice $invoice, string $paymentSystem = ''): QueryBuilder
     {
         return $this->getPaymentQuery($paymentSystem, $invoice);
     }
@@ -38,7 +44,7 @@ class Purchase
      */
     private function getPaymentQuery(string $paymentSystem, Invoice $invoice): QueryBuilder
     {
-        return Payment::createQuery($paymentSystem, function (QueryBuilder $query) use ($invoice) {
+        return PaymentQuery::create($paymentSystem, function (QueryBuilder $query) use ($invoice) {
             $query->amount($invoice->getAmount());
             $query->orderId($invoice->getOrderId());
             $query->customer($invoice->customer->toArray());

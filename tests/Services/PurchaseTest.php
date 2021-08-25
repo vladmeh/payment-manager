@@ -37,7 +37,7 @@ class PurchaseTest extends TestCase
         $product = new Product;
 
         $invoice = Purchase::createInvoice($customer, $product);
-        $query = Purchase::payInvoice('testType', $invoice);
+        $query = Purchase::paymentQuery('testType', $invoice);
 
         $this->assertInstanceOf(QueryBuilder::class, $query);
 

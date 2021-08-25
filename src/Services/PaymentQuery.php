@@ -5,14 +5,14 @@ namespace Fh\PaymentManager\Services;
 use Fh\PaymentManager\Payments\QueryBuilder;
 use Fh\PaymentManager\Pscb\PscbQueryBuilder;
 
-class Payment
+class PaymentQuery
 {
     /**
      * @param $paymentSystem
      * @param \Closure $callback
      * @return QueryBuilder
      */
-    public function createQuery($paymentSystem, \Closure $callback): QueryBuilder
+    public function create($paymentSystem, \Closure $callback): QueryBuilder
     {
         return tap($this->getQueryBuilder($paymentSystem), function (QueryBuilder $builder) use ($callback) {
             $callback($builder);
