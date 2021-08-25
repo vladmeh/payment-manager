@@ -150,6 +150,11 @@ class PscbQueryBuilder implements QueryBuilder
      */
     private $data = [];
 
+    public function __construct()
+    {
+        $this->initConfigParams();
+    }
+
     /**
      * Случайная строка для соблюдения уникальности каждого запроса к API.
      *
@@ -338,16 +343,14 @@ class PscbQueryBuilder implements QueryBuilder
     }
 
     /**
-     * @return PscbQueryBuilder
+     * @return void
      */
-    public function initConfigParams(): PscbQueryBuilder
+    private function initConfigParams(): void
     {
         config('payment.pscb.paymentMethod') && $this->paymentMethod = config('payment.pscb.paymentMethod');
         config('payment.pscb.successUrl') && $this->successUrl = config('payment.pscb.successUrl');
         config('payment.pscb.failUrl') && $this->failUrl = config('payment.pscb.failUrl');
         config('payment.pscb.displayLanguage') && $this->displayLanguage = config('payment.pscb.displayLanguage');
-
-        return $this;
     }
 
     public function getPayUrl(string $marketPlace = ''): string

@@ -41,9 +41,4 @@ interface QueryBuilder extends Arrayable, Jsonable
      * @return string
      */
     public function getPayUrl(): string;
-
-    /**
-     * @return mixed
-     */
-    public function initConfigParams();
 }

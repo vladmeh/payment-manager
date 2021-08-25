@@ -40,5 +40,7 @@ class PurchaseTest extends TestCase
         $query = Purchase::payInvoice('testType', $invoice);
 
         $this->assertInstanceOf(QueryBuilder::class, $query);
+
+        var_dump($query);
     }
 }

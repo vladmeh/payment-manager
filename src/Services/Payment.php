@@ -15,8 +15,6 @@ class Payment
     public function createQuery($paymentSystem, \Closure $callback): QueryBuilder
     {
         return tap($this->getQueryBuilder($paymentSystem), function (QueryBuilder $builder) use ($callback) {
-            $builder->initConfigParams();
-
             $callback($builder);
         });
     }
