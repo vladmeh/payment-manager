@@ -156,11 +156,22 @@ class PscbQueryBuilder implements QueryBuilder
     }
 
     /**
+     * @return void
+     */
+    private function initConfigParams(): void
+    {
+        config('payment.pscb.paymentMethod') && $this->paymentMethod = config('payment.pscb.paymentMethod');
+        config('payment.pscb.successUrl') && $this->successUrl = config('payment.pscb.successUrl');
+        config('payment.pscb.failUrl') && $this->failUrl = config('payment.pscb.failUrl');
+        config('payment.pscb.displayLanguage') && $this->displayLanguage = config('payment.pscb.displayLanguage');
+    }
+
+    /**
      * Случайная строка для соблюдения уникальности каждого запроса к API.
      *
      * @return PscbQueryBuilder
      */
-    public function nonce(): PscbQueryBuilder
+    public function setNonce(): PscbQueryBuilder
     {
         $this->nonce = sha1(time() . Str::random(8));
 
@@ -342,17 +353,6 @@ class PscbQueryBuilder implements QueryBuilder
         return $this;
     }
 
-    /**
-     * @return void
-     */
-    private function initConfigParams(): void
-    {
-        config('payment.pscb.paymentMethod') && $this->paymentMethod = config('payment.pscb.paymentMethod');
-        config('payment.pscb.successUrl') && $this->successUrl = config('payment.pscb.successUrl');
-        config('payment.pscb.failUrl') && $this->failUrl = config('payment.pscb.failUrl');
-        config('payment.pscb.displayLanguage') && $this->displayLanguage = config('payment.pscb.displayLanguage');
-    }
-
     public function getPayUrl(string $marketPlace = ''): string
     {
         if (!isset($this->amount, $this->orderId)) {
@@ -390,14 +390,16 @@ class PscbQueryBuilder implements QueryBuilder
 
     /**
      * @param array $arguments
-     * @return void
+     * @return PscbQueryBuilder
      */
-    public function setParams(array $arguments)
+    public function setParams(array $arguments): PscbQueryBuilder
     {
         if (!empty($arguments)) {
             foreach ($arguments as $param => $argument) {
                 property_exists($this, $param) && $this->{$param} = $argument;
             }
         }
+
+        return $this;
     }
 }

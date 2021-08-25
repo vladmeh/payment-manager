@@ -12,6 +12,11 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
+    public static function assertIsUrl($actual, string $message = '')
+    {
+        static::assertTrue(!!filter_var($actual, FILTER_VALIDATE_URL), $message);
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
