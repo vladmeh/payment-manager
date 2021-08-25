@@ -10,9 +10,10 @@ title Purchases Manager
 actor Client
 box
 participant Purchase
+participant InvoiceFactory
 participant OrderFactory
 participant Order
-participant InvoiceFactory
+participant CustomerFactory
 participant Customer
 participant Invoice
 participant PaymentService
@@ -22,13 +23,13 @@ actor PaymentSystem
 
 Client --> Purchase: Создать счет
 activate Client
-Purchase -> OrderFactory: Создает заказ
+Purchase -> InvoiceFactory: Создает счет на оплату
+InvoiceFactory -> OrderFactory: Создает заказ
 create Order
 OrderFactory -> Order: <<create>>
-Purchase -> InvoiceFactory: Определяет покупателя
+InvoiceFactory -> CustomerFactory: Определяет покупателя
 create Customer
-InvoiceFactory -> Customer: <<set>>
-Purchase -> InvoiceFactory: Создает счет на оплату
+CustomerFactory -> Customer: <<define>>
 create Invoice
 InvoiceFactory -> Invoice: <<create>>
 Client <-- Purchase: Счет создан

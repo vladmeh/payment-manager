@@ -1,0 +1,35 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+header %date("dd MMMM YYYY")
+footer Page %page% of %lastpage%
+hide footbox
+
+title Payment Manager
+
+actor Client
+box
+participant Payment
+participant PaymentQuery
+participant QueryBuilder
+end box
+
+Client --> Payment: Оплатить счет
+note left: invoice_id, type_query, \n[payment_method, client_comment, details, ...]
+activate Client
+Payment --> PaymentQuery: getQueryBuilder($paymentSystem:string)
+activate Payment
+Payment -> PaymentQuery: createQuery(QueryBuilder)
+activate PaymentQuery
+PaymentQuery -> QueryBuilder: amount($amount:mixed)
+PaymentQuery -> QueryBuilder: orderId($order_id:string)
+PaymentQuery -> QueryBuilder: customer($attributes:array)
+PaymentQuery -> QueryBuilder: paymentMethod($paymentMethod:string)
+PaymentQuery -> QueryBuilder: successUrl($url:string)
+PaymentQuery -> QueryBuilder: data($data:array)
+deactivate PaymentQuery
+
+Payment -> QueryBuilder: getPayUrl()
+Payment --> Client: Url для оплаты
+deactivate Payment
+@enduml
