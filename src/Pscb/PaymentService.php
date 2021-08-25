@@ -12,10 +12,10 @@ use Illuminate\Support\Carbon;
 
 class PaymentService
 {
-    /** @var OrderPaymentRequest */
+    /** @var PaymentRequest */
     private $paymentRequest;
 
-    public function __construct(OrderPaymentRequest $paymentRequest)
+    public function __construct(PaymentRequest $paymentRequest)
     {
         $this->paymentRequest = $paymentRequest;
     }
@@ -66,7 +66,7 @@ class PaymentService
         $messageData = compact('orderId', 'marketPlace', 'requestCardData', 'requestFiscalData');
         $messageText = json_encode($messageData);
 
-        return $this->paymentRequest->sendMessage('checkPayment', $messageText);
+        return $this->paymentRequest->send('checkPayment', $messageText);
     }
 
     /**
@@ -78,11 +78,11 @@ class PaymentService
      *
      * @return Response
      */
-    public function getPayments(string $marketPlace = null,
+    public function getPayments(string   $marketPlace = null,
                                 DateTime $dateFrom = null,
                                 DateTime $dateTo = null,
-                                string $merchant = '',
-                                string $selectMode = 'paid'): Response
+                                string   $merchant = '',
+                                string   $selectMode = 'paid'): Response
     {
         $marketPlace = $marketPlace ?? config('payment.pscb.marketPlace');
         $dateFrom = $dateFrom ?? Carbon::now()->subMonth();
@@ -90,7 +90,7 @@ class PaymentService
         $messageData = compact('marketPlace', 'dateFrom', 'dateTo', 'merchant', 'selectMode');
         $messageText = json_encode(array_filter($messageData));
 
-        return $this->paymentRequest->sendMessage('getPayments', $messageText);
+        return $this->paymentRequest->send('getPayments', $messageText);
     }
 
     /**
@@ -108,7 +108,7 @@ class PaymentService
         $params = [
             'marketPlace' => $marketPlace ?? config('payment.pscb.marketPlace'),
             'message' => base64_encode($message),
-            'signature' => $this->paymentRequest->signature($message),
+            'signature' => PaymentRequest::signature($message),
         ];
 
         return url($request_url) . '?' . http_build_query($params);

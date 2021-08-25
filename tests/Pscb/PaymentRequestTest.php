@@ -4,7 +4,7 @@ namespace Fh\PaymentManager\Tests\Pscb;
 
 use Fh\PaymentManager\Models\PaymentCustomer;
 use Fh\PaymentManager\Models\PaymentOrder;
-use Fh\PaymentManager\Pscb\OrderPaymentRequest;
+use Fh\PaymentManager\Pscb\PaymentRequest;
 use Fh\PaymentManager\Pscb\PaymentService;
 use Fh\PaymentManager\Tests\TestCase;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,7 +14,7 @@ use Illuminate\Http\Client\Response;
 class PaymentRequestTest extends TestCase
 {
     /**
-     * @var OrderPaymentRequest
+     * @var PaymentRequest
      */
     private $paymentRequest;
     /**
@@ -47,7 +47,7 @@ class PaymentRequestTest extends TestCase
         $messageData = compact('orderId', 'marketPlace');
         $messageText = json_encode($messageData);
 
-        $response = $this->paymentRequest->sendMessage('checkPayment', $messageText);
+        $response = $this->paymentRequest->send('checkPayment', $messageText);
 
         $this->assertInstanceOf(Response::class, $response);
         $this->assertJson($response->body());
@@ -56,7 +56,7 @@ class PaymentRequestTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->paymentRequest = new OrderPaymentRequest;
+        $this->paymentRequest = new PaymentRequest;
         $this->paymentService = new PaymentService($this->paymentRequest);
         $this->order = factory(PaymentOrder::class)->make([
             'amount' => 200,

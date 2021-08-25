@@ -7,16 +7,16 @@ namespace Fh\PaymentManager\Pscb;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
-class OrderPaymentRequest
+class PaymentRequest
 {
     /**
      * @param string $url
      * @param string $messageText
      * @return Response
      */
-    public function sendMessage(string $url, string $messageText): Response
+    public function send(string $url, string $messageText): Response
     {
-        $signature = $this->signature($messageText);
+        $signature = self::signature($messageText);
 
         return Http::baseUrl(config('payment.pscb.merchantApiUrl'))
             ->withHeaders([
@@ -32,7 +32,7 @@ class OrderPaymentRequest
      * @param string $messageText JSON UTF8
      * @return string
      */
-    final public function signature(string $messageText): string
+    public static function signature(string $messageText): string
     {
         return hash('sha256', $messageText . config('payment.pscb.secretKey'));
     }

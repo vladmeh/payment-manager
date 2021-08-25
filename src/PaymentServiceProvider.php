@@ -2,7 +2,7 @@
 
 namespace Fh\PaymentManager;
 
-use Fh\PaymentManager\Pscb\OrderPaymentRequest;
+use Fh\PaymentManager\Pscb\PaymentRequest;
 use Fh\PaymentManager\Pscb\PaymentService;
 use Fh\PaymentManager\Requests\NotificationRequest;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -19,7 +19,7 @@ class PaymentServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(PaymentService::class, function ($app) {
-            return new PaymentService($app->make(OrderPaymentRequest::class));
+            return new PaymentService($app->make(PaymentRequest::class));
         });
     }
 
