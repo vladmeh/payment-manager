@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Fh\PaymentManager\Requests;
+namespace Fh\PaymentManager\Pscb;
 
 use Fh\PaymentManager\Events\ConfirmationOrderEvent;
 use Fh\PaymentManager\Models\PaymentOrder;
-use Fh\PaymentManager\Pscb\PaymentStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;

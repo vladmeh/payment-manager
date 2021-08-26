@@ -4,8 +4,8 @@ namespace Fh\PaymentManager\Tests\Requests;
 
 use Fh\PaymentManager\Models\PaymentCustomer;
 use Fh\PaymentManager\Models\PaymentOrder;
+use Fh\PaymentManager\Pscb\NotificationRequest;
 use Fh\PaymentManager\Pscb\PaymentStatus;
-use Fh\PaymentManager\Requests\NotificationRequest;
 use Fh\PaymentManager\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
