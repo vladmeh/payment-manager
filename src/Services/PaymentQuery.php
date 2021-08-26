@@ -9,13 +9,13 @@ class PaymentQuery
 {
     /**
      * @param $paymentSystem
-     * @param \Closure $callback
+     * @param \Closure|null $callback
      * @return QueryBuilder
      */
-    public function create($paymentSystem, \Closure $callback): QueryBuilder
+    public function create($paymentSystem, \Closure $callback = null): QueryBuilder
     {
         return tap($this->getQueryBuilder($paymentSystem), function (QueryBuilder $builder) use ($callback) {
-            $callback($builder);
+            $callback && $callback($builder);
         });
     }
 

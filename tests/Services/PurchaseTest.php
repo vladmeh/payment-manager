@@ -31,7 +31,7 @@ class PurchaseTest extends TestCase
         });
     }
 
-    public function testPayInvoice()
+    public function testPaymentQuery()
     {
         $customer = new People;
         $product = new Product;
@@ -40,7 +40,5 @@ class PurchaseTest extends TestCase
         $query = Purchase::paymentQuery('testType', $invoice);
 
         $this->assertInstanceOf(QueryBuilder::class, $query);
-
-        var_dump($query);
     }
 }

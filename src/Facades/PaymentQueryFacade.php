@@ -7,7 +7,7 @@ use Fh\PaymentManager\Services\PaymentQuery;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static QueryBuilder create(string $paymentSystem, \Closure $callback)
+ * @method static QueryBuilder create(string $paymentSystem, \Closure $callback = null)
  */
 class PaymentQueryFacade extends Facade
 {
