@@ -38,7 +38,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Fh\\PaymentManager\\PaymentServiceProvider"
+                "Fh\\PaymentManager\\PaymentServiceProvider",
+                "Fh\\PaymentManager\\Pscb\\PscbServiceProvider"
             ],
             "dont-discover": [
                 "*"

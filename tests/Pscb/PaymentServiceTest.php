@@ -4,8 +4,6 @@ namespace Fh\PaymentManager\Tests\Pscb;
 
 use Fh\PaymentManager\Models\PaymentCustomer;
 use Fh\PaymentManager\Models\PaymentOrder;
-use Fh\PaymentManager\Pscb\PaymentRequest;
-use Fh\PaymentManager\Pscb\PaymentService;
 use Fh\PaymentManager\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Response;
@@ -134,7 +132,7 @@ class PaymentServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->paymentService = new PaymentService(new PaymentRequest);
+        $this->paymentService = $this->app->get('payment.pscb');
 
         $this->order = factory(PaymentOrder::class)->create([
             'amount' => 200,

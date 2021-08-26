@@ -8,6 +8,7 @@ use Fh\PaymentManager\Facades\OrderFactoryFacade;
 use Fh\PaymentManager\Facades\PaymentQueryFacade;
 use Fh\PaymentManager\Facades\PurchaseFacade;
 use Fh\PaymentManager\PaymentServiceProvider;
+use Fh\PaymentManager\Pscb\PscbServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -27,6 +28,7 @@ abstract class TestCase extends BaseTestCase
     {
         return [
             PaymentServiceProvider::class,
+            PscbServiceProvider::class
         ];
     }
 
