@@ -2,48 +2,36 @@
 
 namespace Fh\PaymentManager;
 
-use Fh\PaymentManager\Pscb\PaymentRequest;
-use Fh\PaymentManager\Pscb\PaymentService;
-use Fh\PaymentManager\Requests\NotificationRequest;
+use Fh\PaymentManager\Payments\PaymentFactory;
+use Fh\PaymentManager\Payments\PaymentManager;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class PaymentServiceProvider extends ServiceProvider
 {
+    /**
+     * @throws BindingResolutionException
+     */
     public function register()
-    {
-        $this->mergeConfigFrom(
-            __DIR__ . '/../config/payment.php',
-            'payment'
-        );
-
-        $this->app->bind(PaymentService::class, function ($app) {
-            return new PaymentService($app->make(PaymentRequest::class));
-        });
-    }
-
-    public function boot()
     {
         $this->registerLogging();
         $this->registerMigrations();
         $this->registerPublishing();
 
-        $this->resolvingRequests();
+        $this->registerPaymentSystems();
     }
 
+    /**
+     * @throws BindingResolutionException
+     */
     private function registerLogging()
     {
-        try {
-            $this->app->make('config')->set('logging.channels.payment', [
-                'driver' => 'daily',
-                'path' => storage_path('logs/payment/payment.log'),
-                'level' => 'debug',
-                'days' => 14,
-            ]);
-        } catch (BindingResolutionException $e) {
-            Log::error($e->getMessage());
-        }
+        $this->app->make('config')->set('logging.channels.payment', [
+            'driver' => 'daily',
+            'path' => storage_path('logs/payment/payment.log'),
+            'level' => 'debug',
+            'days' => 14,
+        ]);
     }
 
     private function registerMigrations()
@@ -70,10 +58,26 @@ class PaymentServiceProvider extends ServiceProvider
         }
     }
 
-    private function resolvingRequests(): void
+    private function registerPaymentSystems()
     {
-        $this->app->resolving(NotificationRequest::class, function ($request, $app) {
-            NotificationRequest::createFrom($app['request'], $request);
+        $this->app->singleton('payment.factory', function ($app) {
+            return new PaymentFactory($app);
         });
+
+        $this->app->singleton('payment', function ($app) {
+            return new PaymentManager($app, $app['payment.factory']);
+        });
+
+        $this->app->bind('payment.system', function ($app) {
+            return $app['payment']->paymentSystem();
+        });
+    }
+
+    public function boot()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/payment.php',
+            'payment'
+        );
     }
 }

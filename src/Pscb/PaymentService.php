@@ -7,10 +7,11 @@ namespace Fh\PaymentManager\Pscb;
 use DateTime;
 use Fh\PaymentManager\Contracts\PayableCustomer;
 use Fh\PaymentManager\Contracts\PayableOrder;
+use Fh\PaymentManager\Payments\PaymentSystem;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Carbon;
 
-class PaymentService
+class PaymentService implements PaymentSystem
 {
     /** @var PaymentRequest */
     private $paymentRequest;

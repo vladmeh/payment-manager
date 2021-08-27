@@ -132,7 +132,7 @@ class PaymentServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->paymentService = $this->app->get('payment.pscb');
+        $this->paymentService = $this->app->get('payment.system.pscb');
 
         $this->order = factory(PaymentOrder::class)->create([
             'amount' => 200,
