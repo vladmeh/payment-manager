@@ -7,7 +7,9 @@ namespace Fh\PaymentManager\Pscb;
 use DateTime;
 use Fh\PaymentManager\Contracts\PayableCustomer;
 use Fh\PaymentManager\Contracts\PayableOrder;
+use Fh\PaymentManager\Payments\PaymentQuery;
 use Fh\PaymentManager\Payments\PaymentSystem;
+use Fh\PaymentManager\Payments\QueryBuilder;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Carbon;
 
@@ -113,5 +115,18 @@ class PaymentService implements PaymentSystem
         ];
 
         return url($request_url) . '?' . http_build_query($params);
+    }
+
+    public function getQuery(): PaymentQuery
+    {
+        return new PaymentQuery($this->getQueryBuilder());
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    private function getQueryBuilder(): QueryBuilder
+    {
+        return new PscbQueryBuilder();
     }
 }

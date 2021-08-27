@@ -2,20 +2,29 @@
 
 namespace Fh\PaymentManager\Facades;
 
+use Fh\PaymentManager\Payments\PaymentQuery;
 use Fh\PaymentManager\Payments\QueryBuilder;
-use Fh\PaymentManager\Services\PaymentQuery;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static QueryBuilder create(string $paymentSystem, \Closure $callback = null)
+ * @method static QueryBuilder create(\Closure $callback = null)
  */
 class PaymentQueryFacade extends Facade
 {
     /**
-     * @return string
+     * @param string $name
+     * @return PaymentQuery
      */
-    protected static function getFacadeAccessor(): string
+    public static function paymentSystem(string $name): PaymentQuery
     {
-        return PaymentQuery::class;
+        return static::$app['payment']->paymentSystem($name)->getQuery();
+    }
+
+    /**
+     * @return PaymentQuery
+     */
+    protected static function getFacadeAccessor(): PaymentQuery
+    {
+        return static::$app['payment']->paymentSystem()->getQuery();
     }
 }

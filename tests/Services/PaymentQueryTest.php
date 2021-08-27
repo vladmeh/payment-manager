@@ -14,8 +14,7 @@ class PaymentQueryTest extends TestCase
      */
     public function it_can_be_create_with_config_payment_system(): void
     {
-        $paymentSystem = config('payment.system');
-        $query = PaymentQuery::create($paymentSystem);
+        $query = PaymentQuery::create();
 
         $this->assertInstanceOf(QueryBuilder::class, $query);
     }
@@ -25,7 +24,7 @@ class PaymentQueryTest extends TestCase
      */
     public function it_can_be_create_with_name_payment_system(): void
     {
-        $query = PaymentQuery::create('pscb');
+        $query = PaymentQuery::paymentSystem('pscb')->create();
 
         $this->assertInstanceOf(QueryBuilder::class, $query);
         $this->assertInstanceOf(PscbQueryBuilder::class, $query);
@@ -37,6 +36,6 @@ class PaymentQueryTest extends TestCase
     public function it_can_be_create_with_name_payment_system_exception(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        PaymentQuery::create('invalid');
+        PaymentQuery::paymentSystem('invalid');
     }
 }

@@ -44,7 +44,7 @@ class Purchase
      */
     private function getPaymentQuery(string $paymentSystem, Invoice $invoice): QueryBuilder
     {
-        return PaymentQuery::create($paymentSystem, function (QueryBuilder $query) use ($invoice) {
+        return PaymentQuery::paymentSystem($paymentSystem)->create(function (QueryBuilder $query) use ($invoice) {
             $query->amount($invoice->getAmount());
             $query->orderId($invoice->getOrderId());
             $query->customer($invoice->customer->toArray());
