@@ -14,7 +14,7 @@ class PaymentRequest
      * @param string $messageText
      * @return Response
      */
-    public function send(string $url, string $messageText): Response
+    public static function send(string $url, string $messageText): Response
     {
         $signature = self::signature($messageText);
 

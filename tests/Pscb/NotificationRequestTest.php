@@ -1,6 +1,6 @@
 <?php
 
-namespace Fh\PaymentManager\Tests\Requests;
+namespace Fh\PaymentManager\Tests\Pscb;
 
 use Fh\PaymentManager\Models\PaymentCustomer;
 use Fh\PaymentManager\Models\PaymentOrder;

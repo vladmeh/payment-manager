@@ -15,14 +15,6 @@ use Illuminate\Support\Carbon;
 
 class PaymentService implements PaymentSystem
 {
-    /** @var PaymentRequest */
-    private $paymentRequest;
-
-    public function __construct(PaymentRequest $paymentRequest)
-    {
-        $this->paymentRequest = $paymentRequest;
-    }
-
     /**
      * Формирование сообщения для запроса создания платежа в ПСКБ.
      *
@@ -69,7 +61,7 @@ class PaymentService implements PaymentSystem
         $messageData = compact('orderId', 'marketPlace', 'requestCardData', 'requestFiscalData');
         $messageText = json_encode($messageData);
 
-        return $this->paymentRequest->send('checkPayment', $messageText);
+        return PaymentRequest::send('checkPayment', $messageText);
     }
 
     /**
@@ -93,7 +85,7 @@ class PaymentService implements PaymentSystem
         $messageData = compact('marketPlace', 'dateFrom', 'dateTo', 'merchant', 'selectMode');
         $messageText = json_encode(array_filter($messageData));
 
-        return $this->paymentRequest->send('getPayments', $messageText);
+        return PaymentRequest::send('getPayments', $messageText);
     }
 
     /**
