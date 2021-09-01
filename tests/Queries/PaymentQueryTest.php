@@ -1,6 +1,6 @@
 <?php
 
-namespace Fh\PaymentManager\Tests\Services;
+namespace Fh\PaymentManager\Tests\Queries;
 
 use Fh\PaymentManager\Contracts\QueryBuilder;
 use Fh\PaymentManager\Facades\PaymentQueryFacade as PaymentQuery;

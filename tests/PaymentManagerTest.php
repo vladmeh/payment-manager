@@ -1,10 +1,9 @@
 <?php
 
-namespace Fh\PaymentManager\Tests\Payments;
+namespace Fh\PaymentManager\Tests;
 
 use Fh\PaymentManager\Contracts\PaymentSystem;
 use Fh\PaymentManager\Pscb\PaymentService;
-use Fh\PaymentManager\Tests\TestCase;
 
 class PaymentManagerTest extends TestCase
 {

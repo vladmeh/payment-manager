@@ -1,6 +1,6 @@
 <?php
 
-namespace Fh\PaymentManager\Tests\Payments;
+namespace Fh\PaymentManager\Tests\Factories;
 
 use Fh\PaymentManager\Contracts\PaymentSystem;
 use Fh\PaymentManager\Factories\PaymentFactory;
