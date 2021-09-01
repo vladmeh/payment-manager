@@ -2,7 +2,7 @@
 
 namespace Fh\PaymentManager\Tests\Payments;
 
-use Fh\PaymentManager\Payments\PaymentSystem;
+use Fh\PaymentManager\Contracts\PaymentSystem;
 use Fh\PaymentManager\Pscb\PaymentService;
 use Fh\PaymentManager\Tests\TestCase;
 

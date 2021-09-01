@@ -1,7 +1,8 @@
 <?php
 
-namespace Fh\PaymentManager\Payments;
+namespace Fh\PaymentManager\Factories;
 
+use Fh\PaymentManager\Contracts\PaymentSystem;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Arr;

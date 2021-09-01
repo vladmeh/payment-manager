@@ -2,7 +2,7 @@
 
 namespace Fh\PaymentManager\Pscb;
 
-use Fh\PaymentManager\Payments\QueryBuilder;
+use Fh\PaymentManager\Contracts\QueryBuilder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 

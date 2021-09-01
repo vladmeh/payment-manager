@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Fh\PaymentManager\Pscb;
 
 use DateTime;
-use Fh\PaymentManager\Payments\PaymentQuery;
-use Fh\PaymentManager\Payments\PaymentSystem;
-use Fh\PaymentManager\Payments\QueryBuilder;
+use Fh\PaymentManager\Contracts\PaymentSystem;
+use Fh\PaymentManager\Contracts\QueryBuilder;
+use Fh\PaymentManager\Queries\PaymentQuery;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Carbon;
 

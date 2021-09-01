@@ -2,8 +2,8 @@
 
 namespace Fh\PaymentManager\Tests\Services;
 
+use Fh\PaymentManager\Contracts\QueryBuilder;
 use Fh\PaymentManager\Facades\PaymentQueryFacade as PaymentQuery;
-use Fh\PaymentManager\Payments\QueryBuilder;
 use Fh\PaymentManager\Pscb\PscbQueryBuilder;
 use Fh\PaymentManager\Tests\TestCase;
 

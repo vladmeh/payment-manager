@@ -1,6 +1,8 @@
 <?php
 
-namespace Fh\PaymentManager\Payments;
+namespace Fh\PaymentManager\Queries;
+
+use Fh\PaymentManager\Contracts\QueryBuilder;
 
 class PaymentQuery
 {

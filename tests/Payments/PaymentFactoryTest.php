@@ -2,8 +2,8 @@
 
 namespace Fh\PaymentManager\Tests\Payments;
 
-use Fh\PaymentManager\Payments\PaymentFactory;
-use Fh\PaymentManager\Payments\PaymentSystem;
+use Fh\PaymentManager\Contracts\PaymentSystem;
+use Fh\PaymentManager\Factories\PaymentFactory;
 use Fh\PaymentManager\Tests\TestCase;
 
 class PaymentFactoryTest extends TestCase
@@ -59,6 +59,4 @@ class PaymentFactoryTest extends TestCase
         $this->config = config('payment.pscb');
         $this->factory = new PaymentFactory($this->app);
     }
-
-
 }

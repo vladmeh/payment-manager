@@ -1,6 +1,6 @@
 <?php
 
-namespace Fh\PaymentManager\Payments;
+namespace Fh\PaymentManager\Contracts;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;

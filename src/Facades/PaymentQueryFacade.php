@@ -2,8 +2,8 @@
 
 namespace Fh\PaymentManager\Facades;
 
-use Fh\PaymentManager\Payments\PaymentQuery;
-use Fh\PaymentManager\Payments\QueryBuilder;
+use Fh\PaymentManager\Contracts\QueryBuilder;
+use Fh\PaymentManager\Queries\PaymentQuery;
 use Illuminate\Support\Facades\Facade;
 
 /**

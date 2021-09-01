@@ -2,8 +2,7 @@
 
 namespace Fh\PaymentManager;
 
-use Fh\PaymentManager\Payments\PaymentFactory;
-use Fh\PaymentManager\Payments\PaymentManager;
+use Fh\PaymentManager\Factories\PaymentFactory;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
 
