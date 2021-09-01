@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Fh\PaymentManager\Pscb;
 
 use DateTime;
-use Fh\PaymentManager\Contracts\PayableCustomer;
-use Fh\PaymentManager\Contracts\PayableOrder;
 use Fh\PaymentManager\Payments\PaymentQuery;
 use Fh\PaymentManager\Payments\PaymentSystem;
 use Fh\PaymentManager\Payments\QueryBuilder;
@@ -16,30 +14,16 @@ use Illuminate\Support\Carbon;
 class PaymentService implements PaymentSystem
 {
     /**
-     * Формирование сообщения для запроса создания платежа в ПСКБ.
-     *
-     * @param PayableOrder $order
-     * @param PayableCustomer $customer
-     * @param array $queryParameters
-     * @return MessageRequestBuilder
-     */
-    public function createMessageRequest(PayableOrder $order, PayableCustomer $customer, array $queryParameters = []): MessageRequestBuilder
-    {
-        return MessageRequestBuilder::make($order->getAmount(), $order->getOrderId(), $queryParameters)
-            ->setCustomerAccount($customer->getAccount())
-            ->setCustomerEmail($customer->getEmail())
-            ->setCustomerPhone($customer->getPhone())
-            ->setCustomerComment($customer->getComment());
-    }
-
-    /**
      * @param string $orderId Уникальный идентификатор платежа на стороне Мерчанта (магазина), для которого запрашивается действие.
      * @param \Closure $callback Функция обратного вызова, позволяющая динамически обрабатывать полученный ответ
      * @param mixed ...$arguments
      * @return mixed
      * @see checkPaymentOrder()
      */
-    public function checkPaymentOrderCallable(string $orderId, \Closure $callback, ...$arguments)
+    public function checkPaymentOrderCallable(string $orderId,
+                                              \Closure $callback,
+                                              ...$arguments
+    )
     {
         $response = $this->checkPaymentOrder($orderId, ...$arguments);
 
@@ -54,7 +38,11 @@ class PaymentService implements PaymentSystem
      *
      * @return Response
      */
-    public function checkPaymentOrder(string $orderId, string $marketPlace = null, bool $requestCardData = false, bool $requestFiscalData = false): Response
+    public function checkPaymentOrder(string $orderId,
+                                      string $marketPlace = null,
+                                      bool $requestCardData = false,
+                                      bool $requestFiscalData = false
+    ): Response
     {
         $marketPlace = $marketPlace ?? config('payment.pscb.marketPlace');
 
@@ -89,26 +77,8 @@ class PaymentService implements PaymentSystem
     }
 
     /**
-     * Формирование URL запроса создания платежа.
-     *
-     * @param MessageRequestBuilder $requestData Объект с данными для запроса создания платежа
-     * @param string|null $marketPlace Идентификатор Магазина
-     * @return string
+     * @return PaymentQuery
      */
-    public function payRequestUrl(MessageRequestBuilder $requestData, string $marketPlace = null): string
-    {
-        $request_url = config('payment.pscb.requestUrl');
-        $message = $requestData->toJson();
-
-        $params = [
-            'marketPlace' => $marketPlace ?? config('payment.pscb.marketPlace'),
-            'message' => base64_encode($message),
-            'signature' => PaymentRequest::signature($message),
-        ];
-
-        return url($request_url) . '?' . http_build_query($params);
-    }
-
     public function getQuery(): PaymentQuery
     {
         return new PaymentQuery($this->getQueryBuilder());

@@ -6,6 +6,10 @@ use Fh\PaymentManager\Payments\QueryBuilder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
+/**
+ * Формирует запрос для создания платежа в системе ПСКБ.
+ * @link https://docs.pscb.ru/oos/api.html#api-magazina-sozdanie-platezha-zapros
+ */
 class PscbQueryBuilder implements QueryBuilder
 {
     /**

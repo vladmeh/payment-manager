@@ -1,6 +1,5 @@
 {
     "name": "fitnesshouse/payment-manager",
-    "version": "dev-2.x",
     "description": "Payment system manager",
     "license": "MIT",
     "keywords": ["laravel", "Payment system"],
@@ -11,7 +10,6 @@
             "email": "mihailov.v@fhclub.ru"
         }
     ],
-    "minimum-stability": "stable",
     "require": {
         "php": "^7.3|^8.0",
         "ext-json": "*",
@@ -23,9 +21,6 @@
         "orchestra/testbench": "^5.0"
     },
     "autoload": {
-        "files": [
-            "src/Helpers/helpers.php"
-        ],
         "psr-4": {
             "Fh\\PaymentManager\\": "src/"
         }
@@ -44,6 +39,11 @@
             "dont-discover": [
                 "*"
             ]
+        },
+        "branch-alias": {
+            "dev-master": "1.x-dev"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

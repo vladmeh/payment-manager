@@ -2,72 +2,39 @@
 
 namespace Fh\PaymentManager\Tests\Pscb;
 
-use Fh\PaymentManager\Models\PaymentCustomer;
-use Fh\PaymentManager\Models\PaymentOrder;
 use Fh\PaymentManager\Pscb\PaymentRequest;
-use Fh\PaymentManager\Pscb\PaymentService;
+use Fh\PaymentManager\Pscb\PscbQueryBuilder;
 use Fh\PaymentManager\Tests\TestCase;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\Response;
 
 class PaymentRequestTest extends TestCase
 {
-    /**
-     * @var PaymentRequest
-     */
-    private $paymentRequest;
-    /**
-     * @var PaymentService
-     */
-    private $paymentService;
-    /**
-     * @var Collection|Model|mixed
-     */
-    private $order;
-    /**
-     * @var Collection|Model|mixed
-     */
-    private $customer;
+    const ORDER_ID = 'INVOICE-229396278';
+    const MARKET_PLACE = '47607';
+    const AMOUNT = 100.00;
 
     public function testSignature()
     {
-        $requestData = $this->paymentService->createMessageRequest($this->order, $this->customer);
-        $message = $requestData->toJson();
-        $signature = $this->paymentRequest->signature($message);
+        $query = (new PscbQueryBuilder)
+            ->amount(self::AMOUNT)
+            ->orderId(self::ORDER_ID);
+        $message = $query->toJson();
+        $signature = PaymentRequest::signature($message);
 
         $this->assertIsString($signature);
     }
 
-    public function testSendMessage()
+    public function testSend()
     {
-        $orderId = 'INVOICE-229396278';
-        $marketPlace = '47607';
+        $orderId = self::ORDER_ID;
+        $marketPlace = self::MARKET_PLACE;
 
         $messageData = compact('orderId', 'marketPlace');
         $messageText = json_encode($messageData);
 
-        $response = $this->paymentRequest->send('checkPayment', $messageText);
+        $response = PaymentRequest::send('checkPayment', $messageText);
 
         $this->assertInstanceOf(Response::class, $response);
         $this->assertJson($response->body());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->paymentRequest = new PaymentRequest;
-        $this->paymentService = new PaymentService($this->paymentRequest);
-        $this->order = factory(PaymentOrder::class)->make([
-            'amount' => 200,
-            'details' => 'Тестовая услуга'
-        ]);
-
-        $this->customer = factory(PaymentCustomer::class)->make([
-            'account' => '1234567890',
-            'email' => 'customer@mail.test',
-            'phone' => '+7(123)456-78-90',
-            'comment' => 'Comment'
-        ]);
     }
 }

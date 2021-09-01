@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Fh\PaymentManager\Pscb;
 
-use Fh\PaymentManager\Events\ConfirmationOrderEvent;
-use Fh\PaymentManager\Models\PaymentOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -51,19 +49,19 @@ class NotificationRequest extends Request
      */
     private function confirmPayment(array $paymentData): string
     {
-        if (!$order = PaymentOrder::findById($paymentData['orderId'])) {
-            Log::channel('payment')->info('Платеж отвергнут: ' . json_encode($paymentData, JSON_UNESCAPED_UNICODE) . ' Не найден заказ.');
-
-            return PaymentStatus::ACTION_REJECT;
-        }
-
-        if (!$order->hasCustomerAccount($paymentData['account'])) {
-            Log::channel('payment')->info('Платеж отвергнут: ' . json_encode($paymentData, JSON_UNESCAPED_UNICODE) . ' Не найден клиент.');
-
-            return PaymentStatus::ACTION_REJECT;
-        }
-
-        event(new ConfirmationOrderEvent($order, $paymentData));
+//        if (!$order = PaymentOrder::findById($paymentData['orderId'])) {
+//            Log::channel('payment')->info('Платеж отвергнут: ' . json_encode($paymentData, JSON_UNESCAPED_UNICODE) . ' Не найден заказ.');
+//
+//            return PaymentStatus::ACTION_REJECT;
+//        }
+//
+//        if (!$order->hasCustomerAccount($paymentData['account'])) {
+//            Log::channel('payment')->info('Платеж отвергнут: ' . json_encode($paymentData, JSON_UNESCAPED_UNICODE) . ' Не найден клиент.');
+//
+//            return PaymentStatus::ACTION_REJECT;
+//        }
+//
+//        event(new ConfirmationOrderEvent($order, $paymentData));
 
         return PaymentStatus::ACTION_CONFIRM;
     }

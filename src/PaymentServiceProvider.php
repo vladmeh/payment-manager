@@ -15,7 +15,6 @@ class PaymentServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerLogging();
-        $this->registerMigrations();
         $this->registerPublishing();
 
         $this->registerPaymentSystems();
@@ -34,27 +33,12 @@ class PaymentServiceProvider extends ServiceProvider
         ]);
     }
 
-    private function registerMigrations()
-    {
-        if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        }
-    }
-
     private function registerPublishing()
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../config/payment.php' => config_path('payment.php'),
             ], 'payment-config');
-
-            $this->publishes([
-                __DIR__ . '/../database/migrations' => database_path('migrations'),
-            ], 'payment-migrations');
-
-            $this->publishes([
-                __DIR__ . '/../database/factories' => database_path('factories'),
-            ], 'payment-factories');
         }
     }
 
