@@ -38,6 +38,12 @@ interface QueryBuilder extends Arrayable, Jsonable
     public function successUrl(string $successUrl);
 
     /**
+     * @param string $description
+     * @return mixed
+     */
+    public function description(string $description);
+
+    /**
      * @return string
      */
     public function getPayUrl(): string;

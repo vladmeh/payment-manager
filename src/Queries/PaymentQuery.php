@@ -3,8 +3,10 @@
 namespace Fh\PaymentManager\Queries;
 
 use Fh\PaymentManager\Contracts\QueryBuilder;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 
-class PaymentQuery
+class PaymentQuery implements Arrayable, Jsonable
 {
     /**
      * @var QueryBuilder
@@ -18,20 +20,49 @@ class PaymentQuery
 
     /**
      * @param \Closure|null $callback
-     * @return QueryBuilder
+     * @return PaymentQuery
      */
-    public function create(\Closure $callback = null): QueryBuilder
+    public function create(\Closure $callback = null): PaymentQuery
     {
-        return tap($this->getQueryBuilder(), function (QueryBuilder $builder) use ($callback) {
+        return $this->build(tap($this->queryBuilder(), function (QueryBuilder $builder) use ($callback) {
             $callback && $callback($builder);
-        });
+        }));
+    }
+
+    /**
+     * @param QueryBuilder $builder
+     * @return PaymentQuery
+     */
+    private function build(QueryBuilder $builder): PaymentQuery
+    {
+        $this->queryBuilder = $builder;
+
+        return $this;
     }
 
     /**
      * @return QueryBuilder
      */
-    private function getQueryBuilder(): QueryBuilder
+    public function queryBuilder(): QueryBuilder
     {
         return $this->queryBuilder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPayUrl(): string
+    {
+        return $this->queryBuilder->getPayUrl();
+    }
+
+    public function toArray(): array
+    {
+        return $this->queryBuilder->toArray();
+    }
+
+    public function toJson($options = 0): string
+    {
+        return $this->queryBuilder->toJson($options);
     }
 }

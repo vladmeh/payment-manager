@@ -7,5 +7,5 @@ use Fh\PaymentManager\Queries\PaymentQuery;
 
 interface PaymentSystem
 {
-    public function getQuery(): PaymentQuery;
+    public function createQuery(): PaymentQuery;
 }

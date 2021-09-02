@@ -20,9 +20,9 @@ class PaymentService implements PaymentSystem
      * @return mixed
      * @see checkPaymentOrder()
      */
-    public function checkPaymentOrderCallable(string $orderId,
+    public function checkPaymentOrderCallable(string   $orderId,
                                               \Closure $callback,
-                                              ...$arguments
+                                                       ...$arguments
     )
     {
         $response = $this->checkPaymentOrder($orderId, ...$arguments);
@@ -40,8 +40,8 @@ class PaymentService implements PaymentSystem
      */
     public function checkPaymentOrder(string $orderId,
                                       string $marketPlace = null,
-                                      bool $requestCardData = false,
-                                      bool $requestFiscalData = false
+                                      bool   $requestCardData = false,
+                                      bool   $requestFiscalData = false
     ): Response
     {
         $marketPlace = $marketPlace ?? config('payment.pscb.marketPlace');
@@ -79,7 +79,7 @@ class PaymentService implements PaymentSystem
     /**
      * @return PaymentQuery
      */
-    public function getQuery(): PaymentQuery
+    public function createQuery(): PaymentQuery
     {
         return new PaymentQuery($this->getQueryBuilder());
     }

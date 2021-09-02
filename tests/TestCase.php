@@ -2,7 +2,7 @@
 
 namespace Fh\PaymentManager\Tests;
 
-use Fh\PaymentManager\Facades\PaymentQueryFacade;
+use Fh\PaymentManager\Facades\Query;
 use Fh\PaymentManager\PaymentServiceProvider;
 use Fh\PaymentManager\Pscb\PscbServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -25,7 +25,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageAliases($app): array
     {
         return [
-            'PaymentFacade' => PaymentQueryFacade::class,
+            'PaymentFacade' => Query::class,
         ];
     }
 }
