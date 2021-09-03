@@ -6,7 +6,7 @@ use Fh\PaymentManager\Requests\PaymentRequestHandler;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static RequestHandler create(string $url, string[] $params = [])
+ * @method static PaymentRequestHandler create(string $url, string[] $params = [])
  */
 class RequestHandler extends Facade
 {

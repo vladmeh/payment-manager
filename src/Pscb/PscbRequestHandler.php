@@ -6,12 +6,18 @@ namespace Fh\PaymentManager\Pscb;
 
 use Fh\PaymentManager\Contracts\RequestHandler;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 
 class PscbRequestHandler implements RequestHandler
 {
     use Signature;
+
+    /**
+     * @var string
+     */
+    private $marketPlace;
 
     /**
      * @var string
@@ -28,14 +34,37 @@ class PscbRequestHandler implements RequestHandler
      */
     public function send(): Response
     {
-        $signature = $this->signature(json_encode($this->requestParams));
+        $this->validateRequestParams();
 
         return Http::baseUrl(config('payment.pscb.merchantApiUrl'))
             ->withHeaders([
-                'signature' => $signature
+                'signature' => $this->signature(json_encode($this->requestParams))
             ])
             ->withBody(json_encode($this->requestParams), 'application/json')
             ->post($this->url);
+    }
+
+    private function validateRequestParams()
+    {
+        if (!Arr::has($this->requestParams, 'marketPlace')) {
+            $this->requestParams['marketPlace'] = $this->getMarketPlace();
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getMarketPlace(): string
+    {
+        return $this->marketPlace ?? config('payment.pscb.marketPlace');
+    }
+
+    /**
+     * @param string|null $marketPlace
+     */
+    public function setMarketPlace(?string $marketPlace): void
+    {
+        $this->marketPlace = $marketPlace ?? config('payment.pscb.marketPlace');
     }
 
     /**
@@ -53,8 +82,7 @@ class PscbRequestHandler implements RequestHandler
                                 string    $merchant = '',
                                 string    $selectMode = 'paid'): PscbRequestHandler
     {
-        $marketPlace = $this->getMarketPlace($marketPlace);
-
+        $this->setMarketPlace($marketPlace);
         $dateFrom = $dateFrom ?? Carbon::now()->subMonth()->toDateString();
 
         return $this->createRequest('getPayments',
@@ -65,15 +93,6 @@ class PscbRequestHandler implements RequestHandler
                 'merchant',
                 'selectMode'
             )));
-    }
-
-    /**
-     * @param string|null $marketPlace
-     * @return string
-     */
-    private function getMarketPlace(?string $marketPlace): string
-    {
-        return $marketPlace ?? config('payment.pscb.marketPlace');
     }
 
     /**
@@ -102,7 +121,7 @@ class PscbRequestHandler implements RequestHandler
                                  bool   $requestCardData = false,
                                  bool   $requestFiscalData = false): PscbRequestHandler
     {
-        $marketPlace = $this->getMarketPlace($marketPlace);
+        $this->setMarketPlace($marketPlace);
 
         return $this->createRequest('checkPayment',
             array_filter(compact(
@@ -112,5 +131,4 @@ class PscbRequestHandler implements RequestHandler
                 'requestFiscalData'
             )));
     }
-
 }

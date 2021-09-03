@@ -5,6 +5,7 @@ namespace Fh\PaymentManager\Tests\Pscb;
 use Fh\PaymentManager\Pscb\PscbRequestHandler;
 use Fh\PaymentManager\Tests\TestCase;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 
@@ -34,8 +35,9 @@ class PscbRequestHandlerTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
 
         Http::assertSent(function ($request) use ($url, $requestParams) {
+
             return $request->url() === config('payment.pscb.merchantApiUrl') . $url &&
-                $request->body() === json_encode($requestParams);
+                $request->body() === json_encode(Arr::set($requestParams, 'marketPlace', config('payment.pscb.marketPlace')));
         });
     }
 
@@ -51,9 +53,9 @@ class PscbRequestHandlerTest extends TestCase
         Http::assertSent(function ($request) {
             return $request->url() === config('payment.pscb.merchantApiUrl') . 'getPayments' &&
                 $request->body() === json_encode([
-                    "marketPlace" => config('payment.pscb.marketPlace'),
                     "dateFrom" => Carbon::now()->subMonth()->toDateString(),
-                    "selectMode" => "paid"
+                    "selectMode" => "paid",
+                    "marketPlace" => config('payment.pscb.marketPlace'),
                 ]);
         });
     }

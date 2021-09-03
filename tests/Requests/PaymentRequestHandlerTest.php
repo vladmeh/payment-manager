@@ -63,7 +63,7 @@ class PaymentRequestHandlerTest extends TestCase
         $requestHandler->send();
 
         Http::assertSent(function ($request) {
-            return $request->body() === json_encode(['param' => 'test']);
+            return $request->body() === json_encode(['param' => 'test', 'marketPlace' => config('payment.pscb.marketPlace')]);
         });
     }
 }
