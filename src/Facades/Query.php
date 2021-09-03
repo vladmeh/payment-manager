@@ -24,6 +24,6 @@ class Query extends Facade
      */
     protected static function getFacadeAccessor(): PaymentQuery
     {
-        return static::$app['payment']->paymentSystem()->createQuery();
+        return static::$app['payment.system']->createQuery();
     }
 }

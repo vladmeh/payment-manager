@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
  */
 class PscbQueryBuilder implements QueryBuilder
 {
+    use Signature;
+
     /**
      * Сумма платежа в рублях. Разделитель целой и дробной части – точка.
      * min: 1.00.
@@ -369,7 +371,7 @@ class PscbQueryBuilder implements QueryBuilder
         $params = [
             'marketPlace' => config('payment.pscb.marketPlace'),
             'message' => base64_encode($message),
-            'signature' => PaymentRequest::signature($message),
+            'signature' => $this->signature($message),
         ];
 
         return url($request_url) . '?' . http_build_query($params);

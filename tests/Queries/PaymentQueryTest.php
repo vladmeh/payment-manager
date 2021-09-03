@@ -60,7 +60,18 @@ class PaymentQueryTest extends TestCase
         $query = Query::paymentSystem('pscb')->create();
 
         $this->assertInstanceOf(PaymentQuery::class, $query);
+        $this->assertInstanceOf(QueryBuilder::class, $query->queryBuilder());
         $this->assertInstanceOf(PscbQueryBuilder::class, $query->queryBuilder());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_get_query_builder(): void
+    {
+        $builder = Query::queryBuilder();
+
+        $this->assertInstanceOf(QueryBuilder::class, $builder);
     }
 
     /**

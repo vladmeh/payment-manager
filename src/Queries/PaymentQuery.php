@@ -56,11 +56,18 @@ class PaymentQuery implements Arrayable, Jsonable
         return $this->queryBuilder->getPayUrl();
     }
 
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         return $this->queryBuilder->toArray();
     }
 
+    /**
+     * @param int $options
+     * @return string
+     */
     public function toJson($options = 0): string
     {
         return $this->queryBuilder->toJson($options);
