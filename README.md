@@ -83,7 +83,7 @@ return [
 ### Создание платежа
 #### Запрос (Query)
 
-В методе класса контроллера с помощью функции `Query::create(\Closure $callback)` создайте тело запроса для ссылки в платежную систему:
+Создать запрос:
 ```php
 $query = Query::create(function (QueryBuilder $builder) {
     $builder->orderId('TEST_123');
@@ -111,12 +111,12 @@ $query = Query::paymentSystem('pscb')->create(function (QueryBuilder $builder) {
 
 > См. [документацию к платежной системе](#payment-systems).
 
-Получите сформированную ссылку: 
+Получить сформированную ссылку: 
 ```php
 $payUrl = $query->getPayUrl();
 ```
 
-И перенаправьте клиента в платежную систему для оплаты:
+Перенаправить клиента в платежную систему для оплаты:
 ```php
 redirect($payUrl);
 ```
@@ -124,21 +124,20 @@ redirect($payUrl);
 ### Взаимодействие с платежной системой
 #### Обработчик запросов (RequestHandler)
 
-Для взаимодействия с платежной системой (request/response)
-используйте класс `RequestHandler`
+Для взаимодействия с платежной системой (request/response) используется класс `RequestHandler`
 
 Создать запрос:
 ```php
 $requestHandler = RequestHandler::create('checkPayment', ['orderId' => 'TEST_123']);
 ```
 
-Отправить запрос и получить ответ:
-```php
-$response = $requestHandler->send();
-```
-
 Создать запрос для определенной платежной системы:
 ```php
 $requestHandler = RequestHandler::paymentSystem('pscb')
                         ->create('checkPayment', ['orderId' => 'TEST_123']);
+```
+
+Отправить запрос и получить ответ:
+```php
+$response = $requestHandler->send();
 ```

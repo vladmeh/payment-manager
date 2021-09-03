@@ -1,7 +1,8 @@
-# ПСКБ
+## ПСКБ
 https://docs.pscb.ru/oos/index.html
 
-### config\payment.php
+### Configure
+#### config\payment.php
 
 ```php
 return [
@@ -67,7 +68,7 @@ return [
 ]
 ```
 
-### .env
+#### .env
 Обязательные параметры:
 ```dotenv
 # ID магазина, использовать значение из Кабинета мерчанта
@@ -125,10 +126,4 @@ $requestHandler = RequestHandler::create('checkPayment', ['orderId' => 'TEST_123
 Отправить запрос и получить ответ:
 ```php
 $response = $requestHandler->send();
-```
-
-Создать запрос для определенной платежной системы:
-```php
-$requestHandler = RequestHandler::paymentSystem('pscb')
-                        ->create('checkPayment', ['orderId' => 'TEST_123']);
 ```

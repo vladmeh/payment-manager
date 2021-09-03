@@ -52,7 +52,8 @@ class PscbQueryBuilder implements QueryBuilder
      * допустимые значения параметра:
      *  ''              - выбор метода оплаты предоставляется пользователю
      *  'ac'            - банковские карты
-     *  'ym'            - Яндекс-деньги
+     *  'sbp'           – QR-код (СБП)
+     *  'ym'            - ЮMoney
      *  'qiwi'          - QIWI-кошелек
      *  'wm'            - WebMoney (WMR)
      *  'alfa'          - Альфа-клик
