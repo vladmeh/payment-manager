@@ -1,38 +1,19 @@
-[comment]: <> ([![Build Status]&#40;https://travis-ci.com/vladmeh/payment-manager.svg?branch=master&#41;]&#40;https://travis-ci.com/vladmeh/payment-manager&#41;)
-[comment]: <> ([![StyleCI]&#40;https://github.styleci.io/repos/334944839/shield?branch=master&#41;]&#40;https://github.styleci.io/repos/334944839?branch=master&#41;)
-[comment]: <> ([![Codacy Badge]&#40;https://app.codacy.com/project/badge/Grade/654b16db2d794a3fabe5f5f832ca7283&#41;]&#40;https://www.codacy.com/gh/vladmeh/payment-manager/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=vladmeh/payment-manager&amp;utm_campaign=Badge_Grade&#41;)
-[comment]: <> ([![Latest Stable Version]&#40;https://poser.pugx.org/vladmeh/payment-manager/v&#41;]&#40;//packagist.org/packages/vladmeh/payment-manager&#41; )
-[comment]: <> ([![Daily Downloads]&#40;https://poser.pugx.org/vladmeh/payment-manager/d/daily&#41;]&#40;//packagist.org/packages/vladmeh/payment-manager&#41;)
-[comment]: <> ([![License]&#40;https://poser.pugx.org/vladmeh/payment-manager/license&#41;]&#40;//packagist.org/packages/vladmeh/payment-manager&#41;)
-
 # payment-manager
 
 ## Introduction
 
 **Laravel Payment system manager.**
 
-Упрощенная (начальная) версия взаимодействия web интерфейса с платежными системами для фреймворка Laravel
+Менеджер подключения платежных систем для web приложений Laravel.
 
-_Реализовано:_
-* Платежная система - [ПСКБ](https://docs.pscb.ru/oos/api.html)
-* Базовый интерфейс для создания платежа
-* Запрос параметров платежа
-* Запрос списка платежей
-* Оповещение web ресурса от платежной системы об изменении статуса платежей
-
-_Планируется:_
-* Подключение нескольких платежных систем
-* Создание, подтверждение и отмена двухстадийных платежей (холдирование)
-* Создание и отмена рекуррентных платежей (автоплатёж)
-* REST API для администратора 
-* Базовая административная панель
+### Payment systems
+* [ПСКБ](https://docs.pscb.ru/oos/api.html) ([doc](src/Pscb/README.md))
 
 ## Features
-* php v7.3+
+* php ^7.3|^8.0
 * [Laravel v7.*](https://laravel.com/docs/7.x)
 
 ## Installation
-
 ### Composer
 
 ```shell script
@@ -44,48 +25,34 @@ or add the following to your requirement part within the composer.json:
 ```json
 {
     "require": {
-        "fitnesshouse/payment-manager": "^1.*"
+        "fitnesshouse/payment-manager": "^2.*"
     }
 }
 ```
+and run command
+```shell script
+composer install
+```
+
 ## Configure
 
-Для базовой конфигурации в ```.env``` файле нужно определить следующие параметры:
+Для базовой конфигурации в ```.env``` файле определите следующие обязательные параметры для платежной системы установленной по умолчанию (ПСКБ):
 
 ```dotenv
-# ID магазина, использовать значение из Кабинета мерчанта
 PSCB_MERCHANT_ID=123456789
-
-#Ключ API, спользовать значение из Кабинета мерчанта
 PSCB_MERCHANT_KEY=111111
 ```
 
-Необязательные параметры:
-
+А так же переопределите необязательные параметры.
 ```dotenv
-# Адрес запроса плетежей
-# по умолчанию https://oosdemo.pscb.ru/pay/
 PSCB_REQUEST_URL=https://oos.pscb.ru/pay/
-
-# Адрес запроса для дополнительных возможностей
-# Адрес запроса зависит от вызываемого метода API.
-# по умолчанию https://oosdemo.pscb.ru/merchantApi/
 PSCB_MERCHANT_API_URL=https://oos.pscb.ru/merchantApi/
-
-# Адрес возврата в случае успешной оплаты
-# покупатель будет перенаправлен по нему после успешной оплаты
-# если адреса отсутствуют в запросе, они берутся из соответствующих настроек Кабинета мерчанта
-# если адреса не указаны и в Кабинете, плательщик останется на странице успеха/неуспеха на
-# стороне Банка       
 PSCB_SUCCESS_URL=https://youmarket.com/success
-
-# Адрес возврата в случае неуспешной оплаты
-# покупатель будет перенаправлен по нему после неуспешной оплаты
-# если адреса отсутствуют в запросе, они берутся из соответствующих настроек Кабинета мерчанта
-# если адреса не указаны и в Кабинете, плательщик останется на странице успеха/неуспеха на
-# стороне Банка       
 PSCB_FAIL_URL=https://youmarket.com/fail
+PSCB_DISPLAY_LANGUAGE=RU
 ```
+
+> См. [документацию к платежной системе](#payment-systems).
 
 Если вам нужны расширенные свойства конфигурации, запустите:
 
@@ -95,6 +62,83 @@ $ php artisan vendor:publish --tag=payment-config
 
 Эта команда создаст файл конфигурации ```\config\payment.php```
 
-## Integration
+Платежная система по умолчанию установлена в файле конфигурации:
 
-См. [PaymentServiceTest.php](tests/Pscb/PaymentServiceTest.php)
+```php
+// \config\payment.php
+return [
+    'system' => env('PAYMENT_SYSTEM', 'pscb'),
+    
+    /*
+     * Настройки для ПСКБ
+     * https://docs.pscb.ru/oos/index.html
+     */
+    'pscb' => [
+        ...
+    ]
+]
+```
+
+## Integration
+### Создание платежа
+#### Запрос (Query)
+
+В методе класса контроллера с помощью функции `Query::create(\Closure $callback)` создайте тело запроса для ссылки в платежную систему:
+```php
+$query = Query::create(function (QueryBuilder $builder) {
+    $builder->orderId('TEST_123');
+    $builder->amount(100.00);
+    $builder->description('Тестовый платеж');
+    $builder->customer([
+        'phone' => '+7(123)-456-78-90',
+        'email' => 'test@test.tt'
+    ]);
+    $builder->successUrl('https://youmarket.com/success');
+    $builder->paymentMethod('ac');
+});
+```
+
+Создать запрос для определенной платежной системы:
+```php
+$query = Query::paymentSystem('pscb')->create(function (QueryBuilder $builder) {
+    $builder->orderId('TEST_123');
+    $builder->amount(100.00);
+    ...
+});
+```
+
+Для каждой платежной системы реализуется свой класс интерфейса `QueryBuilder` со своими методами, необходимыми для создания запроса.
+
+> См. [документацию к платежной системе](#payment-systems).
+
+Получите сформированную ссылку: 
+```php
+$payUrl = $query->getPayUrl();
+```
+
+И перенаправьте клиента в платежную систему для оплаты:
+```php
+redirect($payUrl);
+```
+
+### Взаимодействие с платежной системой
+#### Обработчик запросов (RequestHandler)
+
+Для взаимодействия с платежной системой (request/response)
+используйте класс `RequestHandler`
+
+Создать запрос:
+```php
+$requestHandler = RequestHandler::create('checkPayment', ['orderId' => 'TEST_123']);
+```
+
+Отправить запрос и получить ответ:
+```php
+$response = $requestHandler->send();
+```
+
+Создать запрос для определенной платежной системы:
+```php
+$requestHandler = RequestHandler::paymentSystem('pscb')
+                        ->create('checkPayment', ['orderId' => 'TEST_123']);
+```
