@@ -10,12 +10,12 @@ use Fh\PaymentManager\Contracts\RequestHandler;
 use Fh\PaymentManager\Queries\PaymentQuery;
 use Fh\PaymentManager\Requests\PaymentRequestHandler;
 
-class PaymentService implements PaymentSystem
+class PscbPaymentSystem implements PaymentSystem
 {
     /**
      * @return PaymentRequestHandler
      */
-    public function createRequestHandler(): PaymentRequestHandler
+    public function requestHandler(): PaymentRequestHandler
     {
         return new PaymentRequestHandler($this->getRequestHandler());
     }

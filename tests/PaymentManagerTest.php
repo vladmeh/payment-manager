@@ -3,7 +3,7 @@
 namespace Fh\PaymentManager\Tests;
 
 use Fh\PaymentManager\Contracts\PaymentSystem;
-use Fh\PaymentManager\Pscb\PaymentService;
+use Fh\PaymentManager\Pscb\PscbPaymentSystem;
 
 class PaymentManagerTest extends TestCase
 {
@@ -30,7 +30,7 @@ class PaymentManagerTest extends TestCase
         $system = $this->app['payment']->paymentSystem('pscb');
 
         $this->assertInstanceOf(PaymentSystem::class, $system);
-        $this->assertInstanceOf(PaymentService::class, $system);
+        $this->assertInstanceOf(PscbPaymentSystem::class, $system);
     }
 
     /**

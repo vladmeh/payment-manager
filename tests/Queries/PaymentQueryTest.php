@@ -3,7 +3,7 @@
 namespace Fh\PaymentManager\Tests\Queries;
 
 use Fh\PaymentManager\Contracts\QueryBuilder;
-use Fh\PaymentManager\Facades\Query;
+use Fh\PaymentManager\Facades\Payment;
 use Fh\PaymentManager\Pscb\PscbQueryBuilder;
 use Fh\PaymentManager\Queries\PaymentQuery;
 use Fh\PaymentManager\Tests\TestCase;
@@ -15,7 +15,7 @@ class PaymentQueryTest extends TestCase
      */
     public function it_can_be_create_with_config_payment_system(): void
     {
-        $query = Query::create();
+        $query = Payment::query()->create();
 
         $this->assertInstanceOf(PaymentQuery::class, $query);
         $this->assertInstanceOf(QueryBuilder::class, $query->queryBuilder());
@@ -26,7 +26,7 @@ class PaymentQueryTest extends TestCase
      */
     public function it_can_be_create_with_params(): void
     {
-        $query = Query::create(function (QueryBuilder $builder) {
+        $query = Payment::query()->create(function (QueryBuilder $builder) {
             $builder->amount(100.00);
             $builder->orderId('123');
         });
@@ -43,7 +43,7 @@ class PaymentQueryTest extends TestCase
      */
     public function it_can_be_get_pay_url(): void
     {
-        $url = Query::create(function (QueryBuilder $builder) {
+        $url = Payment::query()->create(function (QueryBuilder $builder) {
             $builder->amount(100.00);
             $builder->orderId('123');
         })->getPayUrl();
@@ -57,7 +57,7 @@ class PaymentQueryTest extends TestCase
      */
     public function it_can_be_create_with_name_payment_system(): void
     {
-        $query = Query::paymentSystem('pscb')->create();
+        $query = Payment::system('pscb')->createQuery();
 
         $this->assertInstanceOf(PaymentQuery::class, $query);
         $this->assertInstanceOf(QueryBuilder::class, $query->queryBuilder());
@@ -69,17 +69,8 @@ class PaymentQueryTest extends TestCase
      */
     public function it_can_be_get_query_builder(): void
     {
-        $builder = Query::queryBuilder();
+        $builder = Payment::query()->queryBuilder();
 
         $this->assertInstanceOf(QueryBuilder::class, $builder);
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_be_create_with_name_payment_system_exception(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        Query::paymentSystem('invalid');
     }
 }

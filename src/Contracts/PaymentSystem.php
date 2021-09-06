@@ -15,5 +15,5 @@ interface PaymentSystem
     /**
      * @return PaymentRequestHandler
      */
-    public function createRequestHandler(): PaymentRequestHandler;
+    public function requestHandler(): PaymentRequestHandler;
 }

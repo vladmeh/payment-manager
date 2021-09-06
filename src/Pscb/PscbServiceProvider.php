@@ -14,7 +14,7 @@ class PscbServiceProvider extends ServiceProvider
     private function registerPscbService(): void
     {
         $this->app->bind('payment.system.pscb', function () {
-            return new PaymentService();
+            return new PscbPaymentSystem();
         });
     }
 }

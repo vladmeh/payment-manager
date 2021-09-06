@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static PaymentRequestHandler create(string $url, string[] $params = [])
+ *
+ * @deprecated
+ * @see Payment
  */
 class RequestHandler extends Facade
 {
@@ -16,7 +19,7 @@ class RequestHandler extends Facade
      */
     public static function paymentSystem(string $name): PaymentRequestHandler
     {
-        return static::$app['payment']->paymentSystem($name)->createRequestHandler();
+        return static::$app['payment']->paymentSystem($name)->requestHandler();
     }
 
     /**
@@ -24,6 +27,6 @@ class RequestHandler extends Facade
      */
     protected static function getFacadeAccessor(): PaymentRequestHandler
     {
-        return static::$app['payment.system']->createRequestHandler();
+        return static::$app['payment.system']->requestHandler();
     }
 }

@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static PaymentQuery create(\Closure $callback = null)
+ *
+ * @deprecated
+ * @see Payment
  */
 class Query extends Facade
 {
