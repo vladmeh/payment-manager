@@ -80,12 +80,37 @@ return [
 ```
 
 ## Integration
+### Основное использование
+```php
+use \Fh\PaymentManager\Facades\Payment;
+
+// Платежная система по умолчанию
+$system = Payment::system();
+
+// Платежная система не установленная по умолчанию
+$system = Payment::system('pscb');
+
+// Создать запрос и перенаправить клиента в платежную систему для оплаты
+$query = $system->createQuery(function (QueryBuilder $builder) {
+    $builder->orderId('TEST_123');
+    $builder->amount(100.00);
+    // ... Другие параметры запроса
+});
+redirect($query->getPayUrl())
+
+// Запросить параметры платежа
+$request = $system->requestHandler()->create('checkPayment', ['orderId' => 'TEST_123'])
+$response = $request->send();
+```
+
 ### Создание платежа
-#### Запрос (Query)
+#### Запрос (QueryBuilder)
 
 Создать запрос:
 ```php
-$query = Query::create(function (QueryBuilder $builder) {
+use \Fh\PaymentManager\Facades\Payment;
+
+$query = Payment::query()->create(function (QueryBuilder $builder) {
     $builder->orderId('TEST_123');
     $builder->amount(100.00);
     $builder->description('Тестовый платеж');
@@ -98,42 +123,44 @@ $query = Query::create(function (QueryBuilder $builder) {
 });
 ```
 
+Для каждой платежной системы реализуется свой класс интерфейса `QueryBuilder` со своими методами, необходимыми для создания запроса.
+
+> См. [документацию к платежной системе](#payment-systems).
+
 Создать запрос для определенной платежной системы:
 ```php
-$query = Query::paymentSystem('pscb')->create(function (QueryBuilder $builder) {
+use \Fh\PaymentManager\Facades\Payment;
+
+$query = Payment::system('pscb')->createQuery(function (QueryBuilder $builder) {
     $builder->orderId('TEST_123');
     $builder->amount(100.00);
     ...
 });
 ```
 
-Для каждой платежной системы реализуется свой класс интерфейса `QueryBuilder` со своими методами, необходимыми для создания запроса.
-
-> См. [документацию к платежной системе](#payment-systems).
-
-Получить сформированную ссылку: 
+Получить сформированную ссылку и перенаправить клиента в платежную систему для оплаты: 
 ```php
 $payUrl = $query->getPayUrl();
-```
-
-Перенаправить клиента в платежную систему для оплаты:
-```php
 redirect($payUrl);
 ```
 
 ### Взаимодействие с платежной системой
 #### Обработчик запросов (RequestHandler)
 
-Для взаимодействия с платежной системой (request/response) используется класс `RequestHandler`
+Взаимодействие с платежной системой (request/response)
 
 Создать запрос:
 ```php
-$requestHandler = RequestHandler::create('checkPayment', ['orderId' => 'TEST_123']);
+use \Fh\PaymentManager\Facades\Payment;
+
+$requestHandler = Payment::requestHandler()->create('checkPayment', ['orderId' => 'TEST_123']);
 ```
 
 Создать запрос для определенной платежной системы:
 ```php
-$requestHandler = RequestHandler::paymentSystem('pscb')
+use \Fh\PaymentManager\Facades\Payment;
+
+$requestHandler = Payment::system('pscb')->requestHandler()
                         ->create('checkPayment', ['orderId' => 'TEST_123']);
 ```
 

@@ -10,14 +10,6 @@ use Illuminate\Support\Facades\Facade;
 class Payment extends Facade
 {
     /**
-     * @return PaymentSystem
-     */
-    protected static function getFacadeAccessor(): PaymentSystem
-    {
-        return static::$app['payment.system'];
-    }
-
-    /**
      * @param string $name
      * @return PaymentSystem
      */
@@ -27,6 +19,14 @@ class Payment extends Facade
             return static::$app['payment']->paymentSystem($name);
         }
 
+        return self::getFacadeAccessor();
+    }
+
+    /**
+     * @return PaymentSystem
+     */
+    protected static function getFacadeAccessor(): PaymentSystem
+    {
         return static::$app['payment.system'];
     }
 

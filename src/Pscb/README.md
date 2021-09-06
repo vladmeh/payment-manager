@@ -1,5 +1,5 @@
 ## ПСКБ
-https://docs.pscb.ru/oos/index.html
+[https://docs.pscb.ru/oos/index.html]()
 
 ### Configure
 #### config\payment.php
@@ -114,13 +114,140 @@ PSCB_DISPLAY_LANGUAGE=RU
 
 ### Запрос (QueryBuilder)
 
-См. [PscbQueryBuilder](PscbQueryBuilder.php)
+
+Если ПСКБ установлена как платежная система по умолчанию:
+```php
+use \Fh\PaymentManager\Facades\Payment;
+
+$query = Payment::query(function (QueryBuilder $builder) {
+    $builder->orderId('TEST_123');
+    $builder->amount(100.00);
+    ...
+});
+
+$query->getPayUrl();
+```
+
+Иначе:
+```php
+use \Fh\PaymentManager\Facades\Payment;
+
+$query = Payment::system('pscb')->createQuery(function (QueryBuilder $builder) {
+    $builder->orderId('TEST_123');
+    $builder->amount(100.00);
+    ...
+});
+
+$query->getPayUrl();
+```
+
+Доступные методы для создания запроса:
+См. [https://docs.pscb.ru/oos/api.html#api-magazina-sozdanie-platezha-zapros]()
+```php
+// Обязательный. Сумма платежа в рублях. Разделитель целой и дробной части – точка.
+public function amount($amount);
+
+// Обязательный. Уникальный идентификатор платежа на стороне Мерчанта.
+public function orderId(string $orderId);
+
+// Необязательные
+// Идентификатор платежа, отображаемый Плательщику.
+public function showOrderId(string $showOrderId);
+
+// Детали платежа. Используется для передачи любых дополнительных параметров.
+// Краткое общее описание (например "Пополнение счета").
+public function description(string $description);
+
+// Платежный метод, с использованием которого будет совершен платёж.
+public function paymentMethod(string $paymentMethod);
+
+// URL для перенаправления Плательщика при успешной оплате.
+public function successUrl(string $successUrl);
+
+// URL для перенаправления Плательщика в случае неуспешной оплаты.
+public function failUrl(string $failUrl);
+
+// Язык платёжных страниц
+public function displayLanguage(string $displayLanguage);
+
+// Массив параметров для плательщика.
+// $attributes = [
+//     'account' => '1234567890',
+//     'phone' => '+7(123)456-78-90',
+//     'email' => 'test@test.tt'
+//  ]
+public function customer(string[] $attributes);
+
+// Уникальный идентификатор Плательщика.
+public function customerAccount(string $customerAccount);
+
+// Комментарий Плательщика.
+public function customerComment(string $customerComment);
+
+// Контактный e-mail Плательщика.
+public function customerEmail(string $customerEmail);
+
+// Контактный телефон Плательщика
+public function customerPhone(string $customerPhone);
+
+// Массив дополнительных параметров.
+public function data(array $data);
+
+// Случайная строка для соблюдения уникальности каждого запроса к API.
+public function setNonce();
+```
+
+Создание запроса с параметрами указанными в конфигурации платежной системы:
+```php
+use \Fh\PaymentManager\Facades\Payment;
+
+$query = Payment::query()->create();
+
+// или
+$query = Payment::system('pscb')->createQuery();
+```
+
+Получить сформированную ссылку и перенаправить клиента в платежную систему для оплаты:
+```php
+$payUrl = $query->getPayUrl();
+redirect($payUrl);
+```
 
 ### Обработчик запросов (RequestHandler)
 
+См. [https://docs.pscb.ru/oos/api.html#api-dopolnitelnyh-vozmozhnostej-shema-vzaimodejstviya-zapros](https://docs.pscb.ru/oos/api.html#api-dopolnitelnyh-vozmozhnostej-shema-vzaimodejstviya-zapros)
+
 Создать запрос:
 ```php
-$requestHandler = RequestHandler::create('checkPayment', ['orderId' => 'TEST_123']);
+use \Fh\PaymentManager\Facades\Payment;
+
+// Произвольный запрос если ПСКБ установлена по умолчанию
+$requestHandler = Payment::requestHandler()->create('checkPayment', ['orderId' => 'TEST_123']);
+
+// Произвольный запрос если ПСКБ не установлена по умолчанию
+$requestHandler = Payment::system('pscb')->requestHandler()->create('checkPayment', ['orderId' => 'TEST_123']);
+```
+
+[Запрос параметров платежа:](https://docs.pscb.ru/oos/api.html#api-dopolnitelnyh-vozmozhnostej-zapros-parametrov-platezha)
+```php
+use \Fh\PaymentManager\Facades\Payment;
+
+// Если ПСКБ установлена по умолчанию
+$requestHandler = Payment::requestHandler()->checkPayment();
+
+// Если ПСКБ не установлена по умолчанию
+$requestHandler = Payment::system('pscb')->requestHandler()->checkPayment();
+```
+
+[Запрос списка платежей:](https://docs.pscb.ru/oos/api.html#api-dopolnitelnyh-vozmozhnostej-zapros-spiska-platezhej)
+```php
+use \Fh\PaymentManager\Facades\Payment;
+
+// Если ПСКБ установлена по умолчанию
+$requestHandler = Payment::requestHandler()->getPayments();
+
+// Если ПСКБ не установлена по умолчанию
+$requestHandler = Payment::system('pscb')->requestHandler()->getPayments();
 ```
 
 Отправить запрос и получить ответ:
