@@ -19,6 +19,7 @@ class PscbQueryBuilderTest extends TestCase
     const CUSTOMER_PHONE = '+7(123)456-78-90';
     const CUSTOMER_COMMENT = 'comment';
     const DISPLAY_LANGUAGE = 'RU';
+    const RECURRENTABLE = true;
     const DATA = ['debug' => true];
 
 
@@ -45,6 +46,7 @@ class PscbQueryBuilderTest extends TestCase
             ->customerPhone(self::CUSTOMER_PHONE)
             ->customerComment(self::CUSTOMER_COMMENT)
             ->displayLanguage(self::DISPLAY_LANGUAGE)
+            ->recurrentable(self::RECURRENTABLE)
             ->data(self::DATA)
             ->setNonce();
 
@@ -65,6 +67,7 @@ class PscbQueryBuilderTest extends TestCase
         $this->assertArrayHasKey('nonce', $message);
         $this->assertArrayHasKey('data', $message);
         $this->assertArrayHasKey('debug', $message['data']);
+        $this->assertArrayHasKey('recurrentable', $message);
     }
 
     /**
@@ -85,6 +88,7 @@ class PscbQueryBuilderTest extends TestCase
             ->customerPhone(self::CUSTOMER_PHONE)
             ->customerComment(self::CUSTOMER_COMMENT)
             ->displayLanguage(self::DISPLAY_LANGUAGE)
+            ->recurrentable(self::RECURRENTABLE)
             ->data(self::DATA)
             ->setNonce();
 

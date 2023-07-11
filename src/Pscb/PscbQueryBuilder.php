@@ -135,6 +135,13 @@ class PscbQueryBuilder implements QueryBuilder
     private $displayLanguage = '';
 
     /**
+     * Признак родительского платежа для рекуррентных платежей.
+     *
+     * @var bool
+     */
+    private $recurrentable = false;
+
+    /**
      * Случайная строка для соблюдения уникальности каждого запроса к API (противодействует атаке полного повтора запроса).
      *
      * @var string
@@ -260,6 +267,17 @@ class PscbQueryBuilder implements QueryBuilder
     public function displayLanguage(string $displayLanguage): PscbQueryBuilder
     {
         $this->displayLanguage = $displayLanguage;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $recurrentable
+     * @return PscbQueryBuilder
+     */
+    public function recurrentable(bool $recurrentable): PscbQueryBuilder
+    {
+        $this->recurrentable = $recurrentable;
 
         return $this;
     }
