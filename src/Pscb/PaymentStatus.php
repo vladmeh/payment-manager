@@ -52,6 +52,7 @@ class PaymentStatus
      */
     public static function isFinalState(string $state): bool
     {
-        return in_array($state, self::FINAL_STATE);
+        return in_array($state, self::FINAL_STATE)
+            || in_array(self::status($state), self::FINAL_STATE);
     }
 }
