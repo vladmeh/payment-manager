@@ -378,7 +378,7 @@ class PscbQueryBuilder implements QueryBuilder
         return $this;
     }
 
-    public function getPayUrl(string $marketPlace = ''): string
+    public function getPayUrl(?string $marketPlace = null): string
     {
         if (!isset($this->amount, $this->orderId)) {
             throw new \InvalidArgumentException("Необходимо установить 'amount' и 'orderId'");
@@ -388,7 +388,7 @@ class PscbQueryBuilder implements QueryBuilder
         $message = $this->toJson();
 
         $params = [
-            'marketPlace' => config('payment.pscb.marketPlace'),
+            'marketPlace' => $marketPlace ?? config('payment.pscb.marketPlace'),
             'message' => base64_encode($message),
             'signature' => $this->signature($message),
         ];

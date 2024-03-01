@@ -46,5 +46,5 @@ interface QueryBuilder extends Arrayable, Jsonable
     /**
      * @return string
      */
-    public function getPayUrl(): string;
+    public function getPayUrl(?string $marketPlace = null): string;
 }

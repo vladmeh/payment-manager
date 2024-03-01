@@ -55,6 +55,22 @@ class PaymentQueryTest extends TestCase
     /**
      * @test
      */
+    public function it_can_be_get_pay_url_with_market_place(): void
+    {
+        $marketPlace = '1234567890';
+
+        $url = Payment::query()->create(function (QueryBuilder $builder) {
+            $builder->amount(100.00);
+            $builder->orderId('123');
+        })->getPayUrl($marketPlace);
+
+        $this->assertIsString($url);
+        $this->assertIsUrl($url);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_be_create_with_name_payment_system(): void
     {
         $query = Payment::system('pscb')->createQuery();

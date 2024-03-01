@@ -51,9 +51,9 @@ class PaymentQuery implements Arrayable, Jsonable
     /**
      * @return string
      */
-    public function getPayUrl(): string
+    public function getPayUrl(?string $marketPlace = null): string
     {
-        return $this->queryBuilder->getPayUrl();
+        return $this->queryBuilder->getPayUrl($marketPlace);
     }
 
     /**
