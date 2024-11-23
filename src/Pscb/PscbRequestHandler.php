@@ -73,17 +73,25 @@ class PscbRequestHandler implements RequestHandler
      * @param \DateTime|null $dateTo Верхняя граница выборки (исключительно).
      * @param string $merchant ID Мерчанта. Если параметр передан, будет запрошен список платежей по всем Магазинам Мерчанта.
      * @param string $selectMode Тип выборки. Возможные значения: paid – завершённые платежи (значение по умолчанию), created – созданные платежи.
+     * @param string $paymentType Условие выборки по типу платежа. Возможные значения: payment - все платежи, исключая счета, invoice - только счета. Если не передан или пустой, вернутся все платежи, включая счета.
+     * @param bool $requestFiscalData Флаг запроса информации о фискальных документах.
+     * @param bool $requestClearingData Флаг запроса информации для сверки.
      *
      * @return PscbRequestHandler
      */
-    public function getPayments(string    $marketPlace = null,
-                                \DateTime $dateFrom = null,
-                                \DateTime $dateTo = null,
-                                string    $merchant = '',
-                                string    $selectMode = 'paid'): PscbRequestHandler
+    public function getPayments(
+        string    $marketPlace = null,
+        \DateTime $dateFrom = null,
+        \DateTime $dateTo = null,
+        string    $merchant = '',
+        string    $selectMode = 'paid',
+        string    $paymentType = '',
+        bool      $requestFiscalData = false,
+        bool      $requestClearingData = false
+    ): PscbRequestHandler
     {
         $this->setMarketPlace($marketPlace);
-        $dateFrom = $dateFrom ?? Carbon::now()->subMonth()->toDateString();
+        $dateFrom = $dateFrom ?? Carbon::now()->subMonth();
 
         return $this->createRequest('getPayments',
             array_filter(compact(
@@ -91,7 +99,10 @@ class PscbRequestHandler implements RequestHandler
                 'dateFrom',
                 'dateTo',
                 'merchant',
-                'selectMode'
+                'selectMode',
+                'paymentType',
+                'requestFiscalData',
+                'requestClearingData'
             )));
     }
 

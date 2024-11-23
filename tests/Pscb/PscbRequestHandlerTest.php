@@ -45,15 +45,16 @@ class PscbRequestHandlerTest extends TestCase
     {
         Http::fake();
 
-        $requestHandler = (new PscbRequestHandler)->getPayments();
+        $dateFrom = Carbon::now()->subMonth();
+        $requestHandler = (new PscbRequestHandler)->getPayments(null, $dateFrom);
         $response = $requestHandler->send();
 
         $this->assertInstanceOf(Response::class, $response);
 
-        Http::assertSent(function ($request) {
+        Http::assertSent(function ($request) use ($dateFrom) {
             return $request->url() === config('payment.pscb.merchantApiUrl') . 'getPayments' &&
                 $request->body() === json_encode([
-                    "dateFrom" => Carbon::now()->subMonth()->toDateString(),
+                    "dateFrom" => $dateFrom,
                     "selectMode" => "paid",
                     "marketPlace" => config('payment.pscb.marketPlace'),
                 ]);
