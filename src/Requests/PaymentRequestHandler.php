@@ -50,8 +50,8 @@ class PaymentRequestHandler
     /**
      * @return mixed
      */
-    public function send()
+    public function send(array $options = [])
     {
-        return $this->requestHandler()->send();
+        return $this->requestHandler()->send($options);
     }
 }

@@ -7,7 +7,7 @@ interface RequestHandler
     /**
      * @return mixed
      */
-    public function send();
+    public function send(array $options = []);
 
     /**
      * @return mixed
