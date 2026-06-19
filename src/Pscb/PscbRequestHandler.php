@@ -32,16 +32,21 @@ class PscbRequestHandler implements RequestHandler
     /**
      * @return Response
      */
-    public function send(): Response
+    public function send(array $options = []): Response
     {
         $this->validateRequestParams();
 
-        return Http::baseUrl(config('payment.pscb.merchantApiUrl'))
+        $client = Http::baseUrl(config('payment.pscb.merchantApiUrl'))
             ->withHeaders([
                 'signature' => $this->signature(json_encode($this->requestParams))
             ])
-            ->withBody(json_encode($this->requestParams), 'application/json')
-            ->post($this->url);
+            ->withBody(json_encode($this->requestParams), 'application/json');
+
+        if (!empty($options)) {
+            $client->withOptions($options);
+        }
+
+        return $client->post($this->url);
     }
 
     private function validateRequestParams()
